@@ -12,3 +12,4 @@ void *ft_memset(void *s, int c, unsigned int n)
 	}
 	return(s);
 }
+//for문 보다 빠를수 있기에 사용됨.
