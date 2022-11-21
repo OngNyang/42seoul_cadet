@@ -1,17 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 13:17:58 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 13:19:10 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/21 13:29:26 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/21 13:51:47 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
+#include "libft.h"
 
-int ft_isalpha(int c);
-int ft_isdigit(int c);
+void	ft_putendl_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write(1, s + i, 1);
+		i++;
+	}
+	write(1, "\n", 1);
+}

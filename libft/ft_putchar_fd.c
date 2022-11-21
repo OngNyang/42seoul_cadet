@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 13:17:58 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 13:19:10 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/21 13:16:42 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/21 13:20:50 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
+#include "libft.h"
 
-int ft_isalpha(int c);
-int ft_isdigit(int c);
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
