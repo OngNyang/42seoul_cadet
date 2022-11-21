@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 11:38:03 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/21 11:38:18 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int	memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t	i;
+	size_t			i;
 	unsigned char	*temp1;
 	unsigned char	*temp2;
 
@@ -18,6 +30,5 @@ int	memcmp(const void *s1, const void *s2, size_t n)
 		i++;
 	}
 	return (0);
-
 }
 //두개의 메모리 단위를 비교

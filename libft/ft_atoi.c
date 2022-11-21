@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 11:31:13 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/21 11:35:59 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int	atoi(const char *nptr)
@@ -9,9 +21,9 @@ int	atoi(const char *nptr)
 	res = 0;
 	sign = 1;
 	i = 0;
-	if (*nptr = '\0')
+	if (*nptr == '\0')
 		return (0);
-	if (*nptr = '-')
+	if (*nptr == '-')
 		sign = -1;
 	while (*(nptr + i) != '\0')
 	{
@@ -21,9 +33,10 @@ int	atoi(const char *nptr)
 		}
 		else
 		{
-			break;
+			break ;
 		}
 		i++;
 	}
-	return (int)(res * sign);
+	res = sign * res;
+	return ((int)res);
 }

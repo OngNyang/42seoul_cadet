@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 11:40:34 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/21 11:40:46 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 	int		s1_len;
@@ -25,5 +37,5 @@ char *ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	str[i] = '\0';
-	return (str);ß
+	return (str);
 }
