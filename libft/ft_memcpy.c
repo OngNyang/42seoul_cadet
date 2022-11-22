@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:38:24 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 15:52:20 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/22 12:28:20 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	size_t	i;
-	char	*temp_d;
-	char	*temp_s;
+	size_t				i;
+	unsigned char		*temp_d;
+	const unsigned char	*temp_s;
 
+	if (dest == NULL && src == NULL)
+		return (dest);
 	i = 0;
-	temp_d = (char *)dest;
-	temp_d = (char *)src;
+	temp_d = (unsigned char *)dest;
+	temp_d = (unsigned char *)src;
 	i = 0;
 	while (i < n)
 	{

@@ -6,14 +6,14 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:36:49 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 11:37:16 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/22 12:14:30 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isalpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1024);
+		return (1);
 	else
 		return (0);
 }

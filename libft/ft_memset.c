@@ -6,13 +6,15 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:38:54 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 11:39:04 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/22 12:30:07 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *s, int c, unsigned int n)
+#include "libft.h"
+
+void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned int	i;
+	size_t			i;
 	unsigned char	*temp;
 
 	temp = (unsigned char *)s;

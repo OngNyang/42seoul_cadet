@@ -6,17 +6,19 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:36:08 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 11:36:18 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/22 12:24:47 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_bzero(void *s, unsigned int n)
+#include "libft.h"
+
+void	*ft_bzero(void *s, size_t n)
 {
-	unsigned int	i;
-	int				*temp;
+	size_t			i;
+	unsigned char	*temp;
 
 	i = 0;
-	temp = (int *)s;
+	temp = (unsigned char *)s;
 	while (i < n)
 	{
 		temp[i] = 0;
