@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:39:17 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 14:52:53 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/22 16:03:15 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/22 16:39:44 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*strchr(const char *s, int c)
+#include "libft.h"
+
+char	*strnstr(const char *haystack, const char *needle, size_t len)
 {
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c)
-			return (s + i);
-		i++;
-	}
-	return (0);
 }
-//문자열 내에 일치하는 문자가 있는지 검사하는 함수
-//처음 만나는 지점의 포인터 리턴
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	const char *str = "hello";
-// 	int n = 111;
-// 	printf("%d", strchr(str, n));
-// }
+//주어진 문자열 안에서 정해진 길이 안에서 문자열을 찾는것

@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:39:17 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 14:52:53 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/22 14:57:22 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/22 16:39:33 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*strchr(const char *s, int c)
-{
-	int	i;
+#include "libft.h"
 
+void	*memchr(const void *s, int c, size_t n)
+{
+	unsigned char	val;
+	unsigned char	*str;
+	size_t			i;
+
+	val = (unsigned char)c;
+	str = (unsigned char *)s;
 	i = 0;
-	while (s[i] != '\0')
+	while (i < n)
 	{
-		if (s[i] == c)
-			return (s + i);
+		if (str[i] == val)
+			return ((void *)str);
 		i++;
 	}
 	return (0);
 }
-//문자열 내에 일치하는 문자가 있는지 검사하는 함수
-//처음 만나는 지점의 포인터 리턴
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	const char *str = "hello";
-// 	int n = 111;
-// 	printf("%d", strchr(str, n));
-// }
+//메모리에서 문자를 찾음.

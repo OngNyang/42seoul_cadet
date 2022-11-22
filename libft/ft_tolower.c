@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:39:17 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 14:52:53 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/22 14:34:57 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/22 14:36:13 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*strchr(const char *s, int c)
+#include "libft.h"
+
+int	tolower(int c)
 {
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
+	if (c >= 'A' && c <= 'Z')
 	{
-		if (s[i] == c)
-			return (s + i);
-		i++;
+		c = c + 'a' - 'A';
 	}
-	return (0);
+	return (c);
 }
-//문자열 내에 일치하는 문자가 있는지 검사하는 함수
-//처음 만나는 지점의 포인터 리턴
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	const char *str = "hello";
-// 	int n = 111;
-// 	printf("%d", strchr(str, n));
-// }

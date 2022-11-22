@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:39:17 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 14:52:53 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/22 16:38:36 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/22 16:49:56 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*strchr(const char *s, int c)
+#include "libft.h"
+
+void	*calloc(size_t nmemb, size_t size)
 {
-	int	i;
+	unsigned char	*temp;
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c)
-			return (s + i);
-		i++;
-	}
-	return (0);
+	temp = malloc(nmemb * size);
+	if (!temp)
+		return (0);
+	ft_memset(temp, 0, nmemb * size);
+	return (temp);
 }
-//문자열 내에 일치하는 문자가 있는지 검사하는 함수
-//처음 만나는 지점의 포인터 리턴
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	const char *str = "hello";
-// 	int n = 111;
-// 	printf("%d", strchr(str, n));
-// }
+//size크기의 변수를 nmemb개 만큼 저장할수 있는 메모리 공간 할당
+//0으로 세팅

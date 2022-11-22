@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:39:17 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 14:52:53 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/22 14:36:52 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/22 14:56:28 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*strchr(const char *s, int c)
-{
-	int	i;
+#include "libft.h"
 
-	i = 0;
-	while (s[i] != '\0')
+char	*strrchr(const char *s, int c)
+{
+	int	len;
+
+	len = ft_strlen(s) - 1;
+	while (len >= 0)
 	{
-		if (s[i] == c)
-			return (s + i);
-		i++;
+		if (s[len] == c)
+			return (s + len);
+		len--;
 	}
 	return (0);
 }
-//문자열 내에 일치하는 문자가 있는지 검사하는 함수
-//처음 만나는 지점의 포인터 리턴
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	const char *str = "hello";
-// 	int n = 111;
-// 	printf("%d", strchr(str, n));
-// }
+//문자열 내에서 마지막으로 만나는 지점의 포인터 리턴
