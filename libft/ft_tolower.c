@@ -6,13 +6,13 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:34:57 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 14:36:13 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:32:55 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	tolower(int c)
+int	ft_tolower(int c)
 {
 	if (c >= 'A' && c <= 'Z')
 	{

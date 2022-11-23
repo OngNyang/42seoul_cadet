@@ -6,13 +6,13 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:40:20 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 11:40:22 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:35:02 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 

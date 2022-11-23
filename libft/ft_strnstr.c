@@ -6,13 +6,13 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 16:03:15 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 16:39:44 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:37:54 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 }
 //주어진 문자열 안에서 정해진 길이 안에서 문자열을 찾는것

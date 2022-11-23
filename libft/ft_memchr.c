@@ -6,13 +6,13 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:57:22 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 16:39:33 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:37:57 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*memchr(const void *s, int c, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
 	unsigned char	val;
 	unsigned char	*str;

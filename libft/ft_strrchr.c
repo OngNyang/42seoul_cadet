@@ -6,13 +6,13 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:36:52 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 14:56:28 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:33:54 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
 	int	len;
 

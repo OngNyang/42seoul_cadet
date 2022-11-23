@@ -6,13 +6,13 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:39:40 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 11:39:51 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:39:49 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
 	int		i;
 	int		s_len;
