@@ -6,7 +6,7 @@
 #    By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/21 15:37:42 by hyejeong          #+#    #+#              #
-#    Updated: 2022/11/23 16:04:23 by hyejeong         ###   ########.fr        #
+#    Updated: 2022/11/23 16:28:53 by hyejeong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRCS_1	= ft_strlen.c		\
 		  ft_strrchr.c		\
 		  ft_memset.c		\
 		  ft_memcpy.c		\
-		  ft_memccpy.c		\
 		  ft_memmove.c		\
 		  ft_memchr.c		\
 		  ft_memcmp.c		\

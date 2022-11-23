@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 12:36:18 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 12:57:35 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:01:12 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 			*(temp_d + len) = *(temp_s + len);
 		}
 	}
+	return (dst);
 }

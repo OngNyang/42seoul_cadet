@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:57:22 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 13:37:57 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 23:39:28 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	while (i < n)
 	{
 		if (str[i] == val)
-			return ((void *)str);
+			return ((void *)(str + i));
 		i++;
 	}
 	return (0);

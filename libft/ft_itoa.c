@@ -6,11 +6,15 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 01:31:00 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 02:06:36 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:03:18 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	get_size(long long num);
+static void	fill_mem(char *res, int n);
+char		*ft_itoa(int n);
 
 static void	fill_mem(char *res, int n)
 {
