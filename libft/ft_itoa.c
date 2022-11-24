@@ -6,22 +6,23 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 01:31:00 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 17:03:18 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:18:58 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static int	get_size(long long num);
-static void	fill_mem(char *res, int n);
+static char	*fill_mem(char *res, int n);
 char		*ft_itoa(int n);
 
-static void	fill_mem(char *res, int n)
+static char	*fill_mem(char *res, int n)
 {
 	long long	num;
 	int			i;
 	int			size;
 
+	i = 0;
 	num = (long long)n;
 	if (num < 0)
 	{
@@ -33,10 +34,11 @@ static void	fill_mem(char *res, int n)
 	res[i + size] = '\0';
 	while (num != 0)
 	{
-		res[i + size - 1] = num % 10;
+		res[i + size - 1] = num % 10 + '0';
 		size--;
 		num = num / 10;
 	}
+	return (res);
 }
 
 static int	get_size(long long num)
@@ -58,6 +60,13 @@ char	*ft_itoa(int n)
 	long long	sign;
 	char		*res;
 
+	if (n == 0)
+	{
+		res = (char *)malloc(sizeof(char) * 2);
+		*res = '0';
+		*(res + 1) = '\0';
+		return (res);
+	}
 	num = (long long)n;
 	if (num < 0)
 	{
@@ -69,6 +78,14 @@ char	*ft_itoa(int n)
 		res = (char *)malloc(sizeof(char) * (get_size(num) + 1));
 	if (!res)
 		return (0);
-	fill_mem(res, n);
+	res = fill_mem(res, n);
 	return (res);
 }
+// #include <stdio.h>
+
+// int main(void)
+// {
+// 	int n = -1024;
+// 	printf("hello");
+// 	printf("%s", ft_itoa(n));
+// }

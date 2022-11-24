@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:31:13 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/24 17:32:50 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/24 20:08:12 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,20 @@ static size_t	check_pre(char *nptr)
 	return (i);
 }
 
+static int	check_sign(char *nptr)
+{
+	int	i;
+
+	i = 1;
+	if (*nptr == '+' || *nptr == '-')
+	{
+		nptr++;
+		if (*nptr == '+' || *nptr == '-')
+			return (0);
+	}
+	return (i);
+}
+
 int	ft_atoi(const char *nptr)
 {
 	long long	sign;
@@ -41,10 +55,11 @@ int	ft_atoi(const char *nptr)
 
 	res = 0;
 	sign = 1;
-	i = 0;
 	if (*nptr == '\0')
 		return (0);
 	i = check_pre((char *)nptr);
+	if (check_sign(nptr) == 0)
+		return (0);
 	if (*(nptr + i) == '-')
 	{
 		sign = -1;
@@ -58,8 +73,7 @@ int	ft_atoi(const char *nptr)
 			break ;
 		i++;
 	}
-	res = sign * res;
-	return ((int)res);
+	return ((int)res * (int)sign);
 }
 //
 // int main(void)
