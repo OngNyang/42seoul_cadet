@@ -6,11 +6,32 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:31:13 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 13:38:31 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:32:50 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static size_t	check_pre(char *nptr)
+{
+	size_t	i;
+
+	i = 0;
+	while (1)
+	{
+		if (*nptr == '\t' || *nptr == '\v' || *nptr == '\f' || \
+		*nptr == '\r' || *nptr == '\n' || *nptr == ' ')
+		{
+			nptr++;
+			i++;
+		}
+		else
+			break ;
+	}
+	if (*nptr == '+')
+		i++;
+	return (i);
+}
 
 int	ft_atoi(const char *nptr)
 {
@@ -23,20 +44,26 @@ int	ft_atoi(const char *nptr)
 	i = 0;
 	if (*nptr == '\0')
 		return (0);
-	if (*nptr == '-')
+	i = check_pre((char *)nptr);
+	if (*(nptr + i) == '-')
+	{
 		sign = -1;
+		i++;
+	}
 	while (*(nptr + i) != '\0')
 	{
 		if (*(nptr + i) >= '0' && *(nptr + i) <= '9')
-		{
 			res = res * 10 + *(nptr + i) - '0';
-		}
 		else
-		{
 			break ;
-		}
 		i++;
 	}
 	res = sign * res;
 	return ((int)res);
 }
+//
+// int main(void)
+// {
+// 	char *n = "\t\v\f\r\n \f-06050";
+// 	printf("%d", ft_atoi(n));
+// }

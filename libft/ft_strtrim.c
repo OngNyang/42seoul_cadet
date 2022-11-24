@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 00:15:02 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 01:29:32 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:03:22 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 			break ;
 		start++;
 	}
-	while (end != 0)
+	while (end >= 0)
 	{
 		if (filtering(s1[end], set) == 0)
 			break ;
@@ -48,6 +48,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	}
 	if (start > end)
 		return (ft_strdup(""));
-	res = ft_substr(s1, start, end - start);
+	res = ft_substr(s1, start, end - start + 1);
 	return (res);
 }

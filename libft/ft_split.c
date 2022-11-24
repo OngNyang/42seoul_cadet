@@ -6,27 +6,23 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:45:50 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 12:20:02 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:30:41 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_delimiter(char c, char *charset)
+//static int	is_delimiter(char c, char *charset)
+static int	is_delimiter(char c, char charset)
 {
-	int	i;
-
-	i = 0;
-	while (charset[i] != '\0')
-	{
-		if (c == charset[i])
-			return (1);
-		i++;
-	}
-	return (0);
+	if (c == charset)
+		return (1);
+	else
+		return (0);
 }
 
-static int	cnt_str(char *str, char *charset)
+//static int	cnt_str(char *str, char *charset)
+static int	cnt_str(char *str, char charset)
 {
 	int	i;
 	int	cnt;
@@ -45,7 +41,8 @@ static int	cnt_str(char *str, char *charset)
 	return (cnt);
 }
 
-static char	*get_word(char *str, char *charset)
+//static char	*get_word(char *str, char *charset)
+static char	*get_word(char *str, char charset)
 {
 	int		len;
 	int		i;
@@ -73,23 +70,25 @@ char	**ft_split(char const *s, char c)
 {
 	int		i;
 	int		j;
+	char	*str;
 	char	**arr;
 
-	arr = (char **)malloc(sizeof(char *) * (cnt_str(s, c) + 1));
+	str = (char *)s;
+	arr = (char **)malloc(sizeof(char *) * (cnt_str(str, c) + 1));
 	if (!arr)
 		return (0);
 	i = 0;
 	j = 0;
-	while (s[j] != '\0')
+	while (str[j] != '\0')
 	{
-		while (s[j] != '\0' && is_delimiter(s[j], c) == 1)
+		while (str[j] != '\0' && is_delimiter(str[j], c) == 1)
 			j++;
-		if (s[j] != '\0')
+		if (str[j] != '\0')
 		{
-			arr[i] = get_word(s + j, c);
+			arr[i] = get_word(str + j, c);
 			i++;
 		}
-		while (s[j] != '\0' && is_delimiter(s[j], c) == 0)
+		while (str[j] != '\0' && is_delimiter(str[j], c) == 0)
 			j++;
 	}
 	arr[i] = 0;
