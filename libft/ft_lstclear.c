@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:36:08 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/25 13:31:31 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/25 13:36:53 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/25 16:53:26 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_bzero(void *s, size_t n)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	size_t			i;
-	unsigned char	*temp;
+	t_list	*present_lst;
+	t_list	*temp_lst;
 
-	i = 0;
-	temp = (unsigned char *)s;
-	while (i < n)
+	if (!lst || !del)
+		return ;
+	present_lst = *lst;
+	while (present_lst != NULL)
 	{
-		temp[i] = 0;
-		i++;
+		temp_lst = present_lst;
+		present_lst = present_lst -> next;
+		ft_lstdelone(temp_lst, del);
 	}
-	return (s);
+	*lst = (t_list *) NULL;
 }
-//fill 0 from pointed address

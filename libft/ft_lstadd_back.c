@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:36:08 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/25 13:31:31 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/25 13:36:09 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/25 14:36:48 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_bzero(void *s, size_t n)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	size_t			i;
-	unsigned char	*temp;
+	t_list	*temp;
 
-	i = 0;
-	temp = (unsigned char *)s;
-	while (i < n)
+	if (!lst || !new)
+		return ;
+	if (!(*lst))
 	{
-		temp[i] = 0;
-		i++;
+		*lst = new;
+		return ;
 	}
-	return (s);
+	temp = ft_lstlast(*lst);
+	temp -> next = new;
+	new -> next = (t_list *) NULL;
 }
-//fill 0 from pointed address

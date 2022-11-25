@@ -6,7 +6,7 @@
 #    By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/21 15:37:42 by hyejeong          #+#    #+#              #
-#    Updated: 2022/11/23 16:28:53 by hyejeong         ###   ########.fr        #
+#    Updated: 2022/11/25 15:09:43 by hyejeong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,11 +49,24 @@ SRCS_2	= ft_substr.c		\
 		  ft_putstr_fd.c	\
 		  ft_putendl_fd.c	\
 		  ft_putnbr_fd.c	\
+		  ft_striteri.c
+
+SRCS_BNS = ft_lstnew.c		\
+		  ft_lstsize.c		\
+		  ft_lstadd_front.c	\
+		  ft_lstadd_back.c	\
+		  ft_lstclear.c	\
+		  ft_lstlast.c		\
+		  ft_lstiter.c		\
+		  ft_lstmap.c		\
+		  ft_lstdelone.c	\
 
 SRCS	= $(SRCS_1)	\
 		  $(SRCS_2)
 
 OBJS = $(SRCS:.c=.o)
+
+OBJS_BONUS = $(SRCS_BNS:.c=.o)
 
 all:	$(NAME)
 
@@ -61,7 +74,7 @@ all:	$(NAME)
 	gcc $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
 	rm -f $(NAME)
@@ -70,5 +83,8 @@ re: fclean all
 
 $(NAME):	$(OBJS)
 	ar -rcs $(NAME) $(OBJS)
+
+bonus : $(OBJS) $(OBJS_BONUS)
+	ar -rcs $(NAME) $^
 
 .PHONY: all clean fclean re

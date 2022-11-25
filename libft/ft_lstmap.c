@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:36:08 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/25 13:31:31 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/25 13:37:41 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/25 17:22:41 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_bzero(void *s, size_t n)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	size_t			i;
-	unsigned char	*temp;
+	t_list	*init_lst;
+	t_list	*new_lst;
+	t_list	*next_lst;
 
-	i = 0;
-	temp = (unsigned char *)s;
-	while (i < n)
+	ft_lstiter(lst, f);
+	new_lst = ft_lstnew(lst -> content);
+	init_lst = new_lst;
+	while (lst != NULL)
 	{
-		temp[i] = 0;
-		i++;
+		next_lst = ft_lstnew(lst -> next -> content);
+		new_lst -> next = next_lst;
+		new_lst = new_lst -> next;
+		lst = lst -> next;
 	}
-	return (s);
+	new_lst = NULL;
+	return (init_lst);
 }
-//fill 0 from pointed address

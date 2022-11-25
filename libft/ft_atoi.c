@@ -6,13 +6,13 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:31:13 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/24 20:08:12 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:14:23 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	check_pre(char *nptr)
+static size_t	check_pre(const char *nptr)
 {
 	size_t	i;
 
@@ -33,7 +33,7 @@ static size_t	check_pre(char *nptr)
 	return (i);
 }
 
-static int	check_sign(char *nptr)
+static int	check_sign(const char *nptr)
 {
 	int	i;
 
