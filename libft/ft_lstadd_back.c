@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:36:09 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/25 14:36:48 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/27 12:26:03 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 	if (!lst || !new)
 		return ;
-	if (!(*lst))
+	else
 	{
-		*lst = new;
-		return ;
+		if (*lst)
+		{
+			temp = ft_lstlast(*lst);
+			temp -> next = new;
+		}
+		else
+			*lst = new;
 	}
-	temp = ft_lstlast(*lst);
-	temp -> next = new;
-	new -> next = (t_list *) NULL;
 }
