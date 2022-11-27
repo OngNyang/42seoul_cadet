@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:36:09 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/27 12:26:03 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/27 17:08:16 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	t_list	*temp;
 
 	if (!lst || !new)
-		return ;
+		return ((void) NULL);
 	else
 	{
 		if (*lst)

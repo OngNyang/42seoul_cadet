@@ -6,7 +6,7 @@
 #    By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/21 15:37:42 by hyejeong          #+#    #+#              #
-#    Updated: 2022/11/25 15:09:43 by hyejeong         ###   ########.fr        #
+#    Updated: 2022/11/27 13:28:23 by hyejeong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,12 @@ OBJS = $(SRCS:.c=.o)
 
 OBJS_BONUS = $(SRCS_BNS:.c=.o)
 
+ifdef bonus
+	TOTAL_OBJS = $(OBJS) $(OBJS_BONUS)
+else
+	TOTAL_OBJS = $(OBJS)
+endif
+
 all:	$(NAME)
 
 %.o:	%.c
@@ -81,10 +87,10 @@ fclean: clean
 
 re: fclean all
 
-$(NAME):	$(OBJS)
-	ar -rcs $(NAME) $(OBJS)
+$(NAME):	$(TOTAL_OBJS)
+	ar -rcs $(NAME) $(TOTAL_OBJS)
 
 bonus : $(OBJS) $(OBJS_BONUS)
 	ar -rcs $(NAME) $^
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

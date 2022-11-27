@@ -6,13 +6,12 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:45:50 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/24 18:30:41 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/27 19:48:07 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//static int	is_delimiter(char c, char *charset)
 static int	is_delimiter(char c, char charset)
 {
 	if (c == charset)
@@ -21,7 +20,6 @@ static int	is_delimiter(char c, char charset)
 		return (0);
 }
 
-//static int	cnt_str(char *str, char *charset)
 static int	cnt_str(char *str, char charset)
 {
 	int	i;
@@ -41,7 +39,6 @@ static int	cnt_str(char *str, char charset)
 	return (cnt);
 }
 
-//static char	*get_word(char *str, char *charset)
 static char	*get_word(char *str, char charset)
 {
 	int		len;
@@ -49,13 +46,16 @@ static char	*get_word(char *str, char charset)
 	char	*word;
 
 	len = 0;
-	while (*(str + len) != '\0' && is_delimiter(*(str + len), charset) == 0)
+	while (str[len] != '\0' && is_delimiter(str[len], charset) == 0)
 	{
 		len++;
 	}
 	word = (char *)malloc(sizeof(char) * (len + 1));
 	if (!word)
-		return (0);
+	{
+		free(word);
+		return (NULL);
+	}
 	word[len] = '\0';
 	i = 0;
 	while (i < len)
@@ -86,6 +86,11 @@ char	**ft_split(char const *s, char c)
 		if (str[j] != '\0')
 		{
 			arr[i] = get_word(str + j, c);
+			if (!arr[i])
+			{
+				while (i--)
+					free(arr[i]);
+			}
 			i++;
 		}
 		while (str[j] != '\0' && is_delimiter(str[j], c) == 0)
