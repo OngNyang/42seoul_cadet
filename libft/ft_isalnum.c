@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:36:35 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 12:14:48 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:31:29 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,3 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
-// #include <stdio.h>
-// int main(void)
-// {
-// 	int c = '3';
-// 	printf("%d", ft_isalnum(c));
-// }

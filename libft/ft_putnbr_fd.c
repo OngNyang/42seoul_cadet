@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:40:14 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/24 20:52:55 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:34:57 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,3 @@ void	ft_putnbr_fd(int n, int fd)
 			ft_putchar_fd('0' + n, fd);
 	}
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	//ft_putnbr_fd(1234, 1);
-// 	printf("hello");
-// }

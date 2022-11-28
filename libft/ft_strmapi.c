@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 12:52:16 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/21 13:05:46 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:35:25 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	str[i] = '\0';
 	return (str);
 }
-
-// 문자열의 길이 얻기.
-// malloc
-// 새로움 문자열 리턴

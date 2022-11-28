@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:36:53 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/27 17:26:46 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:37:27 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list	*present_lst;
-	t_list	*temp_lst;
+	t_list	*nxt_lst;
 
-	if (!lst || !del)
-		return ;
-	present_lst = *lst;
-	while (present_lst != NULL)
+	while (*lst != NULL)
 	{
-		temp_lst = present_lst;
-		present_lst = present_lst -> next;
-		ft_lstdelone(temp_lst, del);
+		nxt_lst = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = nxt_lst;
 	}
-	*lst = (t_list *) NULL;
+	*lst = NULL;
 }

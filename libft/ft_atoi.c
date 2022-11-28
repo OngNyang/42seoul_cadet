@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:31:13 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/25 15:14:23 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:30:31 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,3 @@ int	ft_atoi(const char *nptr)
 	}
 	return ((int)res * (int)sign);
 }
-//
-// int main(void)
-// {
-// 	char *n = "\t\v\f\r\n \f-06050";
-// 	printf("%d", ft_atoi(n));
-// }

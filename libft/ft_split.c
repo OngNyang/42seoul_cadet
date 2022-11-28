@@ -1,101 +1,90 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 11:45:50 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/27 19:48:07 by hyejeong         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   ft_split.c										 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: hyejeong <hyejeong@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2022/11/21 11:45:50 by hyejeong		  #+#	#+#			 */
+/*   Updated: 2022/11/28 11:27:08 by hyejeong		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_delimiter(char c, char charset)
+static char	*get_word(const char *s, char charset)
 {
-	if (c == charset)
-		return (1);
-	else
-		return (0);
+	size_t			len;
+	char			*word;
+
+	len = 0;
+	while (s[len] && s[len] != charset)
+		len++;
+	word = (char *)ft_calloc(len + 1, sizeof(char));
+	if (!word)
+		return (NULL);
+	ft_strlcpy(word, s, len + 1);
+	return (word);
 }
 
-static int	cnt_str(char *str, char charset)
+static char	**freeing(char **s)
 {
-	int	i;
-	int	cnt;
+	unsigned int	i;
+
+	i = 0;
+	while (s[i] != NULL)
+	{
+		free(s[i]);
+		i++;
+	}
+	free(s);
+	return (NULL);
+}
+
+static size_t	cnt_word(const char *s, char charset)
+{
+	size_t			cnt;
+	size_t			i;
 
 	cnt = 0;
 	i = 0;
-	while (str[i] != '\0')
+	while (s[i])
 	{
-		while (str[i] != '\0' && is_delimiter(str[i], charset) == 1)
-			i++;
-		if (str[i] != '\0')
+		if (s[i] != charset)
+		{
 			cnt++;
-		while (str[i] != '\0' && is_delimiter(str[i], charset) == 0)
+			while (s[i] && s[i] != charset)
+				i++;
+		}
+		else
 			i++;
 	}
 	return (cnt);
 }
 
-static char	*get_word(char *str, char charset)
-{
-	int		len;
-	int		i;
-	char	*word;
-
-	len = 0;
-	while (str[len] != '\0' && is_delimiter(str[len], charset) == 0)
-	{
-		len++;
-	}
-	word = (char *)malloc(sizeof(char) * (len + 1));
-	if (!word)
-	{
-		free(word);
-		return (NULL);
-	}
-	word[len] = '\0';
-	i = 0;
-	while (i < len)
-	{
-		word[i] = str[i];
-		i++;
-	}
-	return (word);
-}
-
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	int		j;
-	char	*str;
 	char	**arr;
+	size_t	i;
+	size_t	j;
+	size_t	temp;
 
-	str = (char *)s;
-	arr = (char **)malloc(sizeof(char *) * (cnt_str(str, c) + 1));
-	if (!arr)
-		return (0);
 	i = 0;
 	j = 0;
-	while (str[j] != '\0')
+	arr = (char **)malloc(sizeof(char *) * (cnt_word(s, c) + 1));
+	if (!arr)
+		return (NULL);
+	while (i < cnt_word(s, c) && s[j] != '\0')
 	{
-		while (str[j] != '\0' && is_delimiter(str[j], c) == 1)
+		while (s[j] == c)
 			j++;
-		if (str[j] != '\0')
-		{
-			arr[i] = get_word(str + j, c);
-			if (!arr[i])
-			{
-				while (i--)
-					free(arr[i]);
-			}
-			i++;
-		}
-		while (str[j] != '\0' && is_delimiter(str[j], c) == 0)
+		temp = j;
+		while (s[j] != c && s[j] != '\0')
 			j++;
+		arr[i] = get_word(&s[temp], c);
+		if (arr[i++] == 0)
+			return (freeing(arr));
 	}
-	arr[i] = 0;
+	arr[i] = NULL;
 	return (arr);
 }

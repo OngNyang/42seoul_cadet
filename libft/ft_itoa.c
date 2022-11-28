@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 01:31:00 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/24 19:18:58 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:13:00 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	get_size(long long num);
 static char	*fill_mem(char *res, int n);
 char		*ft_itoa(int n);
+static char	*fill_zero(char *res);
 
 static char	*fill_mem(char *res, int n)
 {
@@ -54,6 +55,16 @@ static int	get_size(long long num)
 	return (i);
 }
 
+static char	*fill_zero(char *res)
+{
+	res = (char *)malloc(sizeof(char) * 2);
+	if (!res)
+		return (0);
+	res[0] = '0';
+	res[1] = '\0';
+	return (res);
+}
+
 char	*ft_itoa(int n)
 {
 	long long	num;
@@ -62,9 +73,7 @@ char	*ft_itoa(int n)
 
 	if (n == 0)
 	{
-		res = (char *)malloc(sizeof(char) * 2);
-		*res = '0';
-		*(res + 1) = '\0';
+		res = fill_zero(res);
 		return (res);
 	}
 	num = (long long)n;
@@ -81,11 +90,3 @@ char	*ft_itoa(int n)
 	res = fill_mem(res, n);
 	return (res);
 }
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	int n = -1024;
-// 	printf("hello");
-// 	printf("%s", ft_itoa(n));
-// }

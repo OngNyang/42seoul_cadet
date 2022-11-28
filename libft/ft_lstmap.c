@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 13:37:41 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/27 15:55:20 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:34:08 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*new_lst;
 	t_list	*present_lst;
+	void	*ptr;
 
-	new_lst = NULL;
 	if (!lst || !f || !del)
 		return ((t_list *) NULL);
+	new_lst = NULL;
 	while (lst)
 	{
-		present_lst = ft_lstnew(f(lst -> content));
+		ptr = f(lst -> content);
+		present_lst = ft_lstnew(ptr);
 		if (!present_lst)
 		{
+			del(ptr);
 			ft_lstclear(&new_lst, del);
 			return ((t_list *) NULL);
 		}
