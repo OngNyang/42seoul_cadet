@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 01:31:00 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/28 16:13:00 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:10:48 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*ft_itoa(int n)
 	long long	sign;
 	char		*res;
 
+	res = NULL;
 	if (n == 0)
 	{
 		res = fill_zero(res);
