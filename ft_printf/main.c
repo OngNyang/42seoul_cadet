@@ -1,24 +1,24 @@
-#include <stdarg.h>
+#include "ft_printf.h"
 #include <stdio.h>
 
-double avg(double value, ...)
-{
-	double	sum = 0;
-	int		num = 0;
-	va_list	ap;
-	va_start(ap, value);
-	while (value != 0.0)
-	{
-		sum  += value;
-		num++;
-		value = va_arg(ap, double);
-	}
-	va_end(ap);
-	return (sum / num);
-}
+// int main (void)
+// {
+// 	int n;
+// 	n = ft_putnbr_base_fd(43981, 1, 'i');
+// 	printf("\n%d\n", n);
+// }
 
-int main (void)
+int main(void)
 {
-	printf("result : %.31f", avg(1.01, 34.02, 7.45, 0.0));
-	return (0);
+	int		n = 43981;
+	char	c = 'a';
+	char	*str = "world";
+
+	ft_printf("%d hello\n", n);
+	ft_printf("%c hello\n", c);
+	ft_printf("%s hello\n", str);
+	ft_printf("%x hello\n", n);
+	ft_printf("%X hello\n", n);
+	ft_printf("%c %d %s hello\n", c, n, str);
+	ft_printf("%c %d hello\n", c, n);
 }
