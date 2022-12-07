@@ -1,0 +1,29 @@
+주의사항
+	- 원본의 버퍼관리는 구현하지 말기
+	- cspdiuxX% 처리할수 있어야함
+	- makefile에서 ar 커맨드 사용
+
+공부해야할 개념
+	- va_list
+		: 가변인자. 변수가 몇개 들어올지 모를때 사용할수 있다.
+		- va_list 라는 데이터타입을 사용.
+		- ... 키워드 사용
+		- stdarg.h에 정의 되어있다.
+		- va_start, va_arg, va_copy등의 함수가 있다.
+		관련 함수
+			- va_start
+				: va_list 를 초기화
+				#define va_start(ap, v) ( (ap) = (va_list)_ADDRESSOF(v) + _INTSIZEOF(v))
+				//va_list 변수 ap의 주소 값에다가 고정파라미터(가변 파라미터 이외에 최소 1개의 고정 파라미터가 필요하다) 크기를 더한 위치로 ap를 초기화
+			- va_arg
+				: ap포인터가 위치한 부분의 데이터를 읽어 반환. 그 후 포인터 증가 시킴.
+				- va_arg(변수, 데이터타입);
+				#define va_arg(ap, t) (*(t*))((ap += _INTSIZEOF(t)) - _INTSIZEOF(t))
+			- va_end
+				:va_list 타입의 변수를 NULL로 초기화.
+
+printf()
+	- 첫번째 매개변수로 문자열
+	- 그후 가변인자로 n개의 매개변수를 받음.
+	- return value
+		출력된 문자열의 수(최후의 널문자까지 포함)
