@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 13:37:41 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/28 15:34:08 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/25 13:35:28 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/29 23:28:59 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_list	*ft_lstlast(t_list *lst)
 {
-	t_list	*new_lst;
-	t_list	*present_lst;
-	void	*ptr;
-
-	if (!lst || !f || !del)
+	if (lst == NULL)
 		return ((t_list *) NULL);
-	new_lst = NULL;
-	while (lst)
+	while (1)
 	{
-		ptr = f(lst -> content);
-		present_lst = ft_lstnew(ptr);
-		if (!present_lst)
-		{
-			del(ptr);
-			ft_lstclear(&new_lst, del);
-			return ((t_list *) NULL);
-		}
-		ft_lstadd_back(&new_lst, present_lst);
-		lst = lst -> next;
+		if (lst -> next != NULL)
+			lst = lst -> next;
+		else
+			break ;
 	}
-	return (new_lst);
+	return (lst);
 }

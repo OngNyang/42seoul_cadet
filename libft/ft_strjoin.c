@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 23:34:38 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 23:42:39 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:37:21 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
-	int		s1_len;
-	int		s2_len;
-	int		i;
-	int		j;
+	size_t	s1_len;
+	size_t	s2_len;
+	size_t	i;
+	size_t	j;
 
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);

@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:09:54 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 18:04:52 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:35:54 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	else
 		return (s_len + size);
 }
-//두 문자열을 이어 붙임

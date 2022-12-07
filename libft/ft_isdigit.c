@@ -6,9 +6,11 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:37:38 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/22 12:14:36 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:22:11 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_isdigit(int c)
 {

@@ -6,7 +6,7 @@
 #    By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/21 15:37:42 by hyejeong          #+#    #+#              #
-#    Updated: 2022/11/29 18:24:19 by hyejeong         ###   ########.fr        #
+#    Updated: 2022/11/29 23:30:35 by hyejeong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,15 +46,15 @@ SRCS = ft_isalpha.c \
 		ft_putendl_fd.c \
 		ft_putnbr_fd.c
 OBJS = $(SRCS:.c=.o)
-SRCS_B = ft_lstnew.c \
-		ft_lstadd_front.c \
-		ft_lstsize.c \
-		ft_lstlast.c \
-		ft_lstadd_back.c \
-		ft_lstdelone.c \
-		ft_lstclear.c \
-		ft_lstiter.c \
-		ft_lstmap.c
+SRCS_B = ft_lstnew_bonus.c \
+		ft_lstadd_front_bonus.c \
+		ft_lstsize_bonus.c \
+		ft_lstlast_bonus.c \
+		ft_lstadd_back_bonus.c \
+		ft_lstdelone_bonus.c \
+		ft_lstclear_bonus.c \
+		ft_lstiter_bonus.c \
+		ft_lstmap_bonus.c
 OBJS_B = $(SRCS_B:.c=.o)
 CFLAGS = -Wall -Wextra -Wall
 CC = cc

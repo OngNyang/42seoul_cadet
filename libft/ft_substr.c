@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:40:34 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/27 19:47:34 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:30:55 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*temp;
-	unsigned int	s_len;
-	unsigned int	i;
+	char	*temp;
+	size_t	s_len;
+	size_t	i;
 
 	s_len = ft_strlen(s);
 	if (start > s_len)
@@ -40,7 +40,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	temp[i] = '\0';
 	return (temp);
 }
-/*
-주어진 문자열의 특정 인덱스(start)부터 특정 사이즈(len) 만큼의 문자들을 동적할당된 메모리에 저장합니다.
-주의할점은 메모리 낭비를 방지하기 위해 여러가지 케이스로 나누어 메모리 할당량을 정확히 계산해 내는것입니다.
-*/
+//두개의 메모리 단위를 비교
+//문자열끼리 비교가 아니라 메모리 블럭끼리의 비교이기 때문에
+//마지막에 \0 한개로 끝나리라는 보장이 없고 \0은 몇개든 나올수 있다.
+//따라서 \0을 만나면 비교를 멈추는 패턴은 시용하면 안된다.

@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:36:52 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 23:12:03 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:43:53 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*str;
-	int		len;
+	char		*str;
+	long long	len;
 
 	str = (char *)s;
 	len = ft_strlen(s);
@@ -27,4 +27,3 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return (0);
 }
-//문자열 내에서 마지막으로 만나는 지점의 포인터 리턴

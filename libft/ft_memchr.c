@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:57:22 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/23 23:39:28 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:35:19 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (0);
 }
-//메모리에서 문자를 찾음.

@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 16:03:15 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/24 16:33:37 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:40:14 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,3 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	}
 	return (0);
 }
-//주어진 문자열 안에서 정해진 길이 안에서 문자열을 찾는것
-//찾았다면, 찾은 지점의 포인터 반환
-//못찾았다면, null 반환
-//needle이 빈 문자열 이라면 haystack의 첫번째 주소를 리턴

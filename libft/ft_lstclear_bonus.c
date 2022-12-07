@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 13:35:28 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/11/25 14:22:36 by hyejeong         ###   ########.fr       */
+/*   Created: 2022/11/25 13:36:53 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/11/29 23:28:56 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	if (lst == NULL)
-		return ((t_list *) NULL);
-	while (1)
+	t_list	*nxt_lst;
+
+	while (*lst != NULL)
 	{
-		if (lst -> next != NULL)
-			lst = lst -> next;
-		else
-			break ;
+		nxt_lst = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = nxt_lst;
 	}
-	return (lst);
+	*lst = NULL;
 }
