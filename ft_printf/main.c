@@ -11,12 +11,17 @@ int main(void)
 	int		a = -123;
 
 	n += 10;
-	ft_printf("%d hello\n", a);
-	ft_printf("%d hello\n", n);
-	ft_printf("%d hello\n", a + 1000);
+	// ft_printf("%d hello\n", a);
+	// ft_printf("%d hello\n", n);
+	// ft_printf("%d hello\n", a + 1000);
+	// printf("%d hello\n", n);
 
-	printf("%d hello\n", n);
-
+	int	*ptr;
+	ptr = &a;
+	printf("%p\n", ptr);
+	printf("%zu\n", ptr);
+	ft_putp(ptr);
+	
 
 	// ft_printf("%c hello\n", c);
 	// ft_printf("%s hello\n", str);
