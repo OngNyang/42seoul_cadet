@@ -1,11 +1,11 @@
 #include "ft_printf.h"
 
-static void			printing(long long num, int fd, char base);
-static long long	check_nbr(long long num, int fd, char base, int *base_n);
+static void			printing(int num, int fd, char base);
+static long long	check_nbr(int num, int fd, char base, int *base_n);
 int					ft_putnbr_base_fd(int n, int fd, char base);
 
 
-static long long	check_nbr(long long num, int fd, char base, int *base_n)
+static long long	check_nbr(int num, int fd, char base, int *base_n)
 {
 	*base_n = 10;
 	if (base == 'd' || base == 'i')
@@ -22,7 +22,7 @@ static long long	check_nbr(long long num, int fd, char base, int *base_n)
 }
 //check base where number is printed.
 
-static void	printing(long long num, int fd, char base)
+static void	printing(int num, int fd, char base)
 {
 	int	base_n;
 
@@ -44,11 +44,11 @@ static void	printing(long long num, int fd, char base)
 }
 //divide. get remainder and share. print 
 
-int	ft_putnbr_base_fd(int n, int fd, char base)
+int	ft_putnbr_base_fd(int num, int fd, char base)
 {
 	int			res;
 	int			base_n;
-	long long	num;
+	//long long	num;
 
 	base_n = 10;
 	if (base == 'd' || base == 'i')
@@ -56,7 +56,7 @@ int	ft_putnbr_base_fd(int n, int fd, char base)
 	else if (base == 'x' || base == 'X')
 		base_n = 16;
 
-	num = (long long)n;
+	//num = (long long)n;
 	printing(num, fd, base);
 	res = 0;
 	if (num < 0)

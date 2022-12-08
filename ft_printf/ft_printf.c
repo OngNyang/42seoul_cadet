@@ -19,7 +19,7 @@ static int	check_option(va_list *ap, char c)
 		res += ft_putunbr_fd(va_arg(*ap, unsigned int), 1);
 	else if (c == 'x' || c == 'X')
 		res += ft_putnbr_base_fd(va_arg(*ap, int), 1, c);
-	else if (c == 'p')
+	//else if (c == 'p')
 		//
 	return (res);
 }
