@@ -3,18 +3,13 @@ NAME = libftprintf.a
 SRCS = ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_putnbr_base_fd.c \
-		ft_printf.c
+		ft_printf.c \
+		ft_putunbr_fd.c
 
 OBJS = $(SRCS:.c=.o)
 
 CFLAGS = -Wall -Wextra -Wall
 CC = cc
-
-# ifdef BONUS
-# 	TOTAL_OBJS = $(OBJS) $(OBJS_B)
-# else
-# 	TOTAL_OBJS = $(OBJS)
-# endif
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}

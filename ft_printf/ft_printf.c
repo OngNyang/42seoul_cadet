@@ -1,11 +1,11 @@
 #include "ft_printf.h"
 
-static int	helper1(va_list *ap, char c)
+static int	check_option(va_list *ap, char c)
 {
 	int res;
 
 	res = 0;
-	if (!(c == '%' || c == 'c' || c == 's' || c == 'd' || c == 'i' || c == 'x' || c == 'X'))
+	if (!(c == '%' || c == 'u' || c == 'p' ||c == 'c' || c == 's' || c == 'd' || c == 'i' || c == 'x' || c == 'X'))
 		return (-1);
 	else if (c == '%')
 		res += ft_putchar_fd('%', 1);
@@ -15,14 +15,16 @@ static int	helper1(va_list *ap, char c)
 		res += ft_putstr_fd(va_arg(*ap, char *), 1);
 	else if (c == 'd' || c == 'i')
 		res += ft_putnbr_base_fd(va_arg(*ap, int), 1, c);
-//	else if (c == 'u')
-
+	else if (c == 'u')
+		res += ft_putunbr_fd(va_arg(*ap, unsigned int), 1);
 	else if (c == 'x' || c == 'X')
 		res += ft_putnbr_base_fd(va_arg(*ap, int), 1, c);
+	else if (c == 'p')
+		//
 	return (res);
 }
 
-static int	helper0(va_list *ap, char *format)
+static int	check_str(va_list *ap, char *format)
 {
 	int	res;
 
@@ -34,8 +36,8 @@ static int	helper0(va_list *ap, char *format)
 			format++;
 			if (*format == '\0')
 				break ;
-			if (*format == '%' || *format == 'c' || *format == 's' || *format == 'd' || *format == 'i' || *format == 'x' || *format == 'X')
-				res += helper1(ap, *format);
+			if (*format == '%' || *format == 'p' || *format == 'u' || *format == 'c' || *format == 's' || *format == 'd' || *format == 'i' || *format == 'x' || *format == 'X')
+				res += check_option(ap, *format);
 			else
 			{
 				res += ft_putchar_fd('%', 1);
@@ -56,7 +58,7 @@ int	ft_printf(const char *format, ...)
 
 	res = 0;
 	va_start(ap, format);
-	res = helper0(&ap, (char *)format);
+	res = check_str(&ap, (char *)format);
 	va_end(ap);
 	return (res);
 }
