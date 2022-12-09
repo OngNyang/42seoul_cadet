@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:42:58 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/12/09 15:46:33 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:01:23 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,14 @@ static void			printing(long long num, int fd, char base);
 static long long	check_nbr(long long num, int fd, char base, int *base_n);
 int					ft_putnbr_base_fd(int n, int fd, char base);
 
-
 static long long	check_nbr(long long num, int fd, char base, int *base_n)
 {
-	//*base_n = 10;
 	if (base == 'd' || base == 'i')
 		*base_n = 10;
-	// else if (base == 'x' || base == 'X')
-	// 	*base_n = 16;
 	if (num < 0)
 	{
 		ft_putchar_fd('-', fd);
 		num *= -1;
-		//printing(num, fd, base);
 	}
 	return (num);
 }
@@ -44,14 +39,9 @@ static void	printing(long long num, int fd, char base)
 		printing((int)(num / base_n), fd, base);
 		printing((int)(num % base_n), fd, base);
 	}
-	else 
+	else
 	{
-		// if (num >= 10 && base == 'X')
-		// 	ft_putchar_fd('A' + num - 10, fd);
-		// else if (num >= 10 && base == 'x')
-		// 	ft_putchar_fd('a' + num - 10, fd);
-		// else
-			ft_putchar_fd('0' + num, fd);
+		ft_putchar_fd('0' + num, fd);
 	}
 }
 //divide. get remainder and share. print 
@@ -63,11 +53,6 @@ int	ft_putnbr_base_fd(int n, int fd, char base)
 	long long	num;
 
 	base_n = 10;
-	// if (base == 'd' || base == 'i')
-	// 	base_n = 10;
-	// else if (base == 'x' || base == 'X')
-	// 	base_n = 16;
-
 	num = (long long)n;
 	printing(num, fd, base);
 	res = 0;
@@ -81,10 +66,8 @@ int	ft_putnbr_base_fd(int n, int fd, char base)
 		num /= base_n;
 		res++;
 	}
-	//----
 	if (res == 0)
 		res = 1;
 	return (res);
-	//----
 }
 //ft_putnbr_base_fd -> count letters which is printed.

@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:42:40 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/12/09 15:36:50 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/12/09 15:59:54 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static int	check_option(va_list *ap, char c)
 {
-	int res;
+	int	res;
 
 	res = 0;
-	if (!(c == '%' || c == 'u' || c == 'p' ||c == 'c' || c == 's' \
-	|| c == 'd' || c == 'i' || c == 'x' || c == 'X'))
+	if (!(c == '%' || c == 'u' || c == 'p' || c == 'c' || c == 's' || \
+	c == 'd' || c == 'i' || c == 'x' || c == 'X'))
 		return (-1);
 	else if (c == '%')
 		res += ft_putchar_fd('%', 1);
@@ -32,7 +32,6 @@ static int	check_option(va_list *ap, char c)
 		res += ft_putunbr_fd(va_arg(*ap, unsigned int), 1);
 	else if (c == 'x' || c == 'X')
 		res += ft_puthexnbr_fd(va_arg(*ap, long long), 1, c);
-		//res += ft_putnbr_base_fd(va_arg(*ap, int), 1, c);
 	else if (c == 'p')
 		res += ft_putp(va_arg(*ap, void *));
 	return (res);

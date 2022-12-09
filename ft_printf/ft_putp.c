@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:43:03 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/12/09 14:28:43 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:00:31 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,17 @@ static void	printing(size_t n)
 		printing(n / 16);
 		printing(n % 16);
 	}
-
 }
 
 int	ft_putp(void *ptr)
 {
 	size_t	n;
 	int		res;
-	
+
 	res = 0;
 	n = (size_t)ptr;
 	res += ft_putstr_fd("0x", 1);
 	printing(n);
-
 	while (n != 0)
 	{
 		n /= 16;

@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:22:12 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/12/09 15:41:26 by hyejeong         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:01:44 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void			printing(long long num, int fd, char base);
 static long long	check_nbr(long long num, int fd, int *base_n);
 int					ft_putnbr_base_fd(int n, int fd, char base);
 
-
 static long long	check_nbr(long long num, int fd, int *base_n)
 {
 	*base_n = 16;
@@ -24,7 +23,6 @@ static long long	check_nbr(long long num, int fd, int *base_n)
 	{
 		ft_putchar_fd('-', fd);
 		num *= -1;
-		//printing(num, fd, base);
 	}
 	return (num);
 }
@@ -40,7 +38,7 @@ static void	printing(long long num, int fd, char base)
 		printing((int)(num / base_n), fd, base);
 		printing((int)(num % base_n), fd, base);
 	}
-	else 
+	else
 	{
 		if (num >= 10 && base == 'X')
 			ft_putchar_fd('A' + num - 10, fd);
