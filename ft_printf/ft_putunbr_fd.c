@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putunbr_fd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/09 13:43:11 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/12/09 14:42:00 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static void	printing(unsigned num, int fd)
@@ -27,5 +39,7 @@ int	ft_putunbr_fd(unsigned int n, int fd)
 		n /= base_n;
 		res++;
 	}
+	if (res == 0)
+		res = 1;
 	return (res);
 }

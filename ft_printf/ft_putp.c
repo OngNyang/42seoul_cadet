@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putp.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/09 13:43:03 by hyejeong          #+#    #+#             */
+/*   Updated: 2022/12/09 14:28:43 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static void	printing(size_t n)
@@ -21,7 +33,7 @@ int	ft_putp(void *ptr)
 	
 	res = 0;
 	n = (size_t)ptr;
-	ft_putstr_fd("0x", 1);
+	res += ft_putstr_fd("0x", 1);
 	printing(n);
 
 	while (n != 0)
@@ -29,8 +41,9 @@ int	ft_putp(void *ptr)
 		n /= 16;
 		res++;
 	}
-
-	return (0);
+	if (ptr == NULL)
+		res = 3;
+	return (res);
 }
 //receive address.
 //print hexa address
