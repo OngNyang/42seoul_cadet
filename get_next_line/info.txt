@@ -14,5 +14,35 @@ get_next_line.
 	- read()함수가 파일의 끝에 닿지 못한 반면, Fd로부터 가리켜진 파일이 마지막 호출 이래로 바뀌면, 정의되지 않은 행동을 갖는것을 고려하라
 	- 바이너리 파일을 읽을때 정의되지 않은 행동을 하는것을 고려하라
 
-공부해야할 개념.
+주의사항
+	- 읽을게 없으면, NULL 반환하기.
+	- \n으로 끝나야하는것이 보장되야함.
 
+공부해야할 개념.
+	- static variables
+	- ssize_t
+		- size_t는 32bit 환경에서 unsingned int이지만, ssize_t는 signed int이다. 이는 반환값으로 실패여부를 알려주기 위함이다.
+	- read()
+		- unistd.h 라이브러리 이용
+		- ssize_t read (int fd, void *buf, size_t nbytes)
+		- 반환 
+			-1 : 실패
+			0초과 : 읽어들인 바이트 수
+		- 작동
+			- 버퍼의 크기만큼 읽을 수 있다면 모두 읽어 들입니다. 그러므로 read()에서 사용할 버퍼의 크기가 파일 크기보다  크다면, 파일의 모든 내용을 읽어 들인다.
+			- 만일 파일 내용보다 버퍼 크기가 작다면, 여러번 읽기를 시도할 수 있습니다.
+		-예제
+			int main()
+			{
+				char	buff[BUFF_SIZE];
+				int		fd;
+
+				if ( 0 < (fd = open( "./test.txt", O_RDONLY)))
+				{
+					read(fd, buff, BUFF_SIZE);
+					puts(buff);
+					close(fd);
+				}
+				else
+					printf("fail\n");
+			}
