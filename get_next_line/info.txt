@@ -17,9 +17,18 @@ get_next_line.
 주의사항
 	- 읽을게 없으면, NULL 반환하기.
 	- \n으로 끝나야하는것이 보장되야함.
+	- 유효한 fd인지 검증
+	- 널가드
 
 공부해야할 개념.
-	- static variables
+	- static
+		- static variables
+			- - 함수 호출 사이에 값을 잃지 않음.
+		- static global variables
+			- 정의된 c파일 외부에서 볼 수 없음.
+		- static function
+			- 정의된 c파일 외부에서 볼수 없음.
+		- static 은 명시적으로 초기화하지 않은 경우 0으로 초기화 됨.
 	- ssize_t
 		- size_t는 32bit 환경에서 unsingned int이지만, ssize_t는 signed int이다. 이는 반환값으로 실패여부를 알려주기 위함이다.
 	- read()
@@ -46,3 +55,10 @@ get_next_line.
 				else
 					printf("fail\n");
 			}
+	- fd
+		: file disciptor.
+		- 0, 1, 2으ㄴ 각각 stdin, stdout, stderr로 예약되어 있음.
+		- 프로세스 내에서 열린 파일을 고유하게 나타내는 값. 
+	- 댕글링 포인터
+		: 포인터가 여전히 해제된 메모리 영역을 가리키고 있을때
+		- 세그폴트, 잠재적 보안위혐, 예측불가한 동작등 문제졈이 있다.
