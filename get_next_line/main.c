@@ -15,20 +15,17 @@
 // 	return (0);
 // }
 
-int	main(void)
+int main(void)
 {
-	int		temp;
-	int		fd;
-	char	*line;
+	int		fpointer;
+	char	*singleLine = malloc(1 * sizeof(char));
 
-	fd = open("test.txt", O_RDONLY);
-	while ((temp = (get_next_line(fd, &line)) > 0))
+	fpointer = open("./test.txt", 256);
+	while (singleLine != NULL)
 	{
-		printf("%s\n", line);
-		free(line);
+		free(singleLine);
+		singleLine = get_next_line(fpointer);
+		printf("%s", singleLine);
 	}
-	printf("%s\n", line);
-	free(line);
-	close(fd);
 	return (0);
 }
