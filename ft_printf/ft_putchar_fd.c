@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:42:54 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/12/09 16:02:33 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/01/04 15:53:09 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
-	return (1);
+	int	n;
+
+	n = write(fd, &c, 1);
+	if (n == -1)
+		return (-1);
+	else
+		return (1);
 }

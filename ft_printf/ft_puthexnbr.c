@@ -6,70 +6,42 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:22:12 by hyejeong          #+#    #+#             */
-/*   Updated: 2022/12/09 16:01:44 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:10:35 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void			printing(long long num, int fd, char base);
-static long long	check_nbr(long long num, int fd, int *base_n);
-int					ft_putnbr_base_fd(int n, int fd, char base);
-
-static long long	check_nbr(long long num, int fd, int *base_n)
+static void	printing(unsigned int num, char base)
 {
-	*base_n = 16;
-	if (num < 0)
+	if (num >= 16)
 	{
-		ft_putchar_fd('-', fd);
-		num *= -1;
-	}
-	return (num);
-}
-//check base where number is printed.
-
-static void	printing(long long num, int fd, char base)
-{
-	int	base_n;
-
-	num = check_nbr(num, fd, &base_n);
-	if (num >= base_n)
-	{
-		printing((int)(num / base_n), fd, base);
-		printing((int)(num % base_n), fd, base);
+		printing(num / 16, base);
+		printing(num % 16, base);
 	}
 	else
 	{
 		if (num >= 10 && base == 'X')
-			ft_putchar_fd('A' + num - 10, fd);
+			ft_putchar_fd('A' + num - 10, 1);
 		else if (num >= 10 && base == 'x')
-			ft_putchar_fd('a' + num - 10, fd);
+			ft_putchar_fd('a' + num - 10, 1);
 		else
-			ft_putchar_fd('0' + num, fd);
+			ft_putchar_fd('0' + num, 1);
 	}
 }
-//divide. get remainder and share. print 
 
-int	ft_puthexnbr_fd(long long num, int fd, char base)
+int	ft_put_hex_nbr(unsigned int num, char base)
 {
-	int			res;
-	int			base_n;
+	int	res;
 
-	base_n = 16;
-	printing(num, fd, base);
+	printing(num, base);
 	res = 0;
-	if (num < 0)
-	{
-		num *= -1;
-		res++;
-	}
 	while (num != 0)
 	{
-		num /= base_n;
+		num /= 16;
 		res++;
 	}
 	if (res == 0)
 		res = 1;
 	return (res);
 }
-//ft_putnbr_base_fd -> count letters which is printed.
