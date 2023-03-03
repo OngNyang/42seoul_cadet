@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:12:53 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/03/03 14:45:45 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:13:02 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@
 # define KEY_W			13
 # define KEY_ESC		53
 
-typedef struct	s_vector
+typedef struct s_vector
 {
 	int	i;
-	int j;
+	int	j;
 }				t_vector;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*player;
 	void	*collectible;
@@ -44,7 +44,7 @@ typedef struct	s_img
 	void	*wall;
 }				t_img;
 
-typedef struct	s_game
+typedef struct s_game
 {
 	void	*mlx;
 	void	*win;
@@ -63,6 +63,12 @@ errors.c
 int		esc_game(t_game *game);
 void	print_error(char *message, t_game *game);
 void	p_error(char *message);
+
+/*
+image.c
+*/
+void	render_img(t_game *game);
+void	draw_img(t_game *game, int i, int j);
 
 /*
 init.c
@@ -91,14 +97,8 @@ map_valid_path.c
 */
 int			contrast(t_game *game, int **visited);
 void		dfs(t_game *game, int **visited, int current_i, int current_j);
-t_vector	start_pos(t_game *game);
 int			valid_path(t_game *game);
-
-/*
-image.c
-*/
-void	render_img(t_game *game);
-void	draw_img(t_game *game, int i, int j);
+t_vector	start_pos(t_game *game);
 
 /*
 move.c

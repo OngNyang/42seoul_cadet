@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 15:26:39 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/02/24 00:05:10 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:09:42 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ char	*gnl_ft_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * (gnl_ft_strlen(s1) + gnl_ft_strlen(s2) + 1));
+	str = (char *)malloc(sizeof(char) * \
+	(gnl_ft_strlen(s1) + gnl_ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	i = 0;

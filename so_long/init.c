@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:25:25 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/03/03 14:50:20 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:14:47 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,16 @@ t_img	init_img(void *mlx)
 	int		width;
 	int		height;
 
-	img.player = mlx_xpm_file_to_image(mlx, "./images/player.xpm", &width, &height);
-	img.collectible = mlx_xpm_file_to_image(mlx, "./images/collectible.xpm", &width, &height);
-	img.background = mlx_xpm_file_to_image(mlx, "./images/background.xpm", &width, &height);
-	img.exit = mlx_xpm_file_to_image(mlx, "./images/exit.xpm", &width, &height);
-	img.wall = mlx_xpm_file_to_image(mlx, "./images/wall.xpm", &width, &height);
+	img.player = mlx_xpm_file_to_image(mlx, "./images/player.xpm", \
+	&width, &height);
+	img.collectible = mlx_xpm_file_to_image(mlx, "./images/collectible.xpm", \
+	&width, &height);
+	img.background = mlx_xpm_file_to_image(mlx, "./images/background.xpm", \
+	&width, &height);
+	img.exit = mlx_xpm_file_to_image(mlx, "./images/exit.xpm", \
+	&width, &height);
+	img.wall = mlx_xpm_file_to_image(mlx, "./images/wall.xpm", \
+	&width, &height);
 	return (img);
 }
 
