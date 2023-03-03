@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:25:25 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/02/28 01:43:06 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/03/03 14:50:20 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void	init_map(t_game *game, char *filename)
 {
+	check_map_extension(filename);
 	gnl_ber_to_array(filename, game);
 	check_map_rect(game);
 	check_map_wall(game);
 	check_map_components(game);
-	// valid_path()
+	if (valid_path(game) < 0)
+		p_error("Map does not have a valid path.\n");
 }
 /*
 	유효경로있는지 확인

@@ -11,6 +11,7 @@ SRCS		= main.c \
 			  image.c \
 			  init.c \
 			  map_check.c \
+			  map_valid_path.c \
 			  map.c \
 			  move.c
 			  
