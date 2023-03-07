@@ -84,3 +84,20 @@ void	check_map_components(t_game *game)
 	if ((num_exit != 1) || (num_player != 1) || (game->total_coll < 1))
 		p_error("wrong components.\n");
 }
+
+void	check_map_char(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < game->height)
+	{
+		j = 0;
+		while (j < game->width)
+		{
+			if (game->map[i][j] != '0' && game->map[i][j] != '1' && game->map[i][j] != 'E' && game->map[i][j] != 'C' && game->map[i][j] != 'P')
+				p_error("wrong character.\n");
+		}
+	}
+}

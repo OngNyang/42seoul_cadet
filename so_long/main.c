@@ -1,21 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/03 15:15:19 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/03/03 15:15:33 by hyejeong         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "so_long.h"
 
 int	main(int argc, char *argv[])
 {
-	t_game	*game;
+	t_game	*game;	//t_game의 변수가 아니라 포인터 변수를 선언했기에 이후 malloc해줘야함.
 
+	game = malloc(sizeof(t_game));
 	if (argc != 2)
 	{
 		ft_putstr_fd("Error: Wrong argument.\n", 1);

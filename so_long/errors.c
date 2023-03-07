@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:51:45 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/03/03 15:06:53 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/02/28 04:53:04 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,15 @@
 
 int	esc_game(t_game *game)
 {
+	int	i;
+
 	mlx_destroy_window(game->mlx, game->win);
-	free(game);
-	game = NULL;
+	i = 0;
+	while (i < game->height)
+	{
+		free(game->map[i]);
+		i++;
+	}
 	exit(1);
 }
 
