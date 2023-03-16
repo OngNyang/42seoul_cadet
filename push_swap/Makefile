@@ -3,14 +3,17 @@ LIBFT	= libft
 SRCS	= main.c \
 		argv_check_utils.c \
 		argv_check.c \
-		commands.c \
 		error.c \
 		get_next_line_utils.c \
 		get_next_line.c \
-		operation.c \
+		cmd_ps.c \
+		cmd_rrr.c \
+		cmd_operation.c \
 		sort.c \
-		stack_pop_push.c \
-		stack.c
+		sort_quick_merge.c \
+		sort_utils.c \
+		stack_create.c \
+		stack_pop_push.c
 
 OBJS	= $(SRCS:%.c=%.o)
 CC		= cc

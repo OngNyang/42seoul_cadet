@@ -75,9 +75,19 @@ sort.c
 */
 t_bool	is_sorted(t_deque *stack);
 int		choose_pivot(t_deque *stack, int size);
-// void	a_to_b(int size, t_deque *stack_a, t_deque *stack_b);
-// void	b_to_a(int size, t_deque *stack_a, t_deque *stack_b);
+void	a_to_b(int size, t_deque *stack_a, t_deque *stack_b);
+void	b_to_a(int size, t_deque *stack_a, t_deque *stack_b);
 void	push_swap_quick_sort(t_deque *stack_a, t_deque *stack_b);
+void	sort_3(t_deque *stack);
+void	sort_5(t_deque *stack_a, t_deque *stack_b);
+void	print_stack(t_deque *s_a, t_deque *s_b);
+
+/*sort_utils.c*/
+t_bool	is_sorted(t_deque *stack);
+int		find_min_num(t_deque *stack);
+int		find_max_num(t_deque *stack);
+int		choose_pivot(t_deque *stack, int size);
+void	bubbleSort(long long *arr, int n);
 
 /*
 commands.c

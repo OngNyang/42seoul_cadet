@@ -136,3 +136,39 @@ void	push_swap_quick_sort(t_deque *stack_a, t_deque *stack_b)
 	a_to_b(size, stack_a, stack_b);
 	// b_to_a(size, stack_a, stack_b);
 }
+
+// void	ft_swap(long long *arr, int idx, int l_idx)
+// {
+// 	int	tmp;
+
+// 	tmp = arr[idx];
+// 	arr[idx] = arr[l_idx];
+// 	arr[l_idx] = tmp;
+// }
+
+// void	sort_arr(long long *arr, int cnt)
+// {
+// 	int idx;
+// 	int	jdx;
+// 	int least;
+// 	int	least_idx;
+
+// 	idx = 0;
+// 	while (idx < cnt - 1)
+// 	{
+// 		least = arr[idx];
+// 		least_idx = idx;
+// 		jdx = idx + 1;
+// 		while (jdx < cnt)
+// 		{
+// 			if (least > arr[jdx])
+// 			{
+// 				least = arr[jdx];
+// 				least_idx = jdx;
+// 			}
+// 			jdx++;
+// 		}
+// 		ft_swap(arr, idx, least_idx);
+// 		idx++;
+// 	}
+// }
