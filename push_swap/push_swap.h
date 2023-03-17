@@ -6,9 +6,10 @@
 # include <stdio.h>
 
 // #define NULL 0
-
+//---------------------------------------------
 int	cnt_a_b;
 int	cnt_b_a;
+//---------------------------------------------
 
 typedef enum	e_bool
 {

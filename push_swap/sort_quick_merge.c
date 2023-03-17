@@ -1,6 +1,8 @@
 #include "push_swap.h"
 
 
+
+
 void	a_to_b(int size, t_deque *stack_a, t_deque *stack_b)
 {
 	int	pivot;
@@ -10,7 +12,8 @@ void	a_to_b(int size, t_deque *stack_a, t_deque *stack_b)
 
 //--------------------------------------------------
 	cnt_a_b++;
-	printf("-----a_to_b--| %d |---\n", cnt_a_b);
+	printf("\n-----a_to_b--| %d |---\n", cnt_a_b);
+	printf("size : %d\n", size);
 //--------------------------------------------------
 	if (size == 1 || size == 0)
 	{
@@ -29,6 +32,7 @@ void	a_to_b(int size, t_deque *stack_a, t_deque *stack_b)
 	ra_num = 0;
 	pb_num = 0;
 	pivot = choose_pivot(stack_a, size);
+	printf("\npivot_a :%d\n", pivot);
 	i = 0;
 	while (i < size)
 	{
@@ -45,12 +49,11 @@ void	a_to_b(int size, t_deque *stack_a, t_deque *stack_b)
 		i++;
 	}
 	i = 0;
-	while (i < ra_num)
-	{
+	while (i++ < ra_num)
 		rra_rb(stack_a, 'a');		//rra
-		i++;
-	}
 	print_stack(stack_a, stack_b);
+	printf("a_to_b(%d)\n", ra_num);
+	printf("b_to_a(%d)\n", pb_num);
 	a_to_b(ra_num, stack_a, stack_b);
 	b_to_a(pb_num, stack_a, stack_b);
 }
@@ -62,8 +65,11 @@ void	b_to_a(int size, t_deque *stack_a, t_deque *stack_b)
 	int	rb_num;
 	int	pa_num;
 
+//------------------------------------------------
 	cnt_b_a++;
-	printf("-----b_to_a--| %d |---\n", cnt_b_a);
+	printf("\n-----b_to_a--| %d |---\n", cnt_b_a);
+	printf("size : %d\n", size);
+//------------------------------------------------
 	if (size == 1)
 	{
 		pa_pb(stack_b, stack_a, 'a');			//pa
@@ -75,6 +81,7 @@ void	b_to_a(int size, t_deque *stack_a, t_deque *stack_b)
 	rb_num = 0;
 	pa_num = 0;
 	pivot = choose_pivot(stack_b, size);
+	printf("\npivot_b :%d\n", pivot);
 	i = 0;
 	while (i < size)
 	{
@@ -91,12 +98,11 @@ void	b_to_a(int size, t_deque *stack_a, t_deque *stack_b)
 		i++;
 	}
 	i = 0;
-	while (i < rb_num)
-	{
+	while (i++ < rb_num)
 		rra_rb(stack_b, 'b');				//rrb
-		i++;
-	}
 	print_stack(stack_a, stack_b);
+	printf("a_to_b(%d)\n", pa_num);
+	printf("b_to_a(%d)\n", rb_num);
 	a_to_b(pa_num, stack_a, stack_b);
 	b_to_a(rb_num, stack_a, stack_b);
 }
