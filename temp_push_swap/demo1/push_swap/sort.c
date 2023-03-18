@@ -68,6 +68,35 @@ void	sort_3(t_deque *stack, char c)
 	}
 }
 
+// void	sort_3(t_deque *stack, char c)
+// {
+// 	int	min_num_idx;
+
+// 	if (is_sorted(stack, 3) == TRUE)
+// 		return ;
+// 	min_num_idx = find_min_num_idx(stack, 3);
+// 	if (min_num_idx == 0)
+// 	{
+// 		ra_rb(stack, c);
+// 		sa_sb(stack, c);
+// 		rra_rb(stack, c);
+// 	}
+// 	else if (min_num_idx == 1)
+// 	{
+// 		if (stack->front->data > stack->front->next->next->data)
+// 			ra_rb(stack, c);
+// 		else
+// 			sa_sb(stack, c);
+// 	}
+// 	else if (min_num_idx == 2)
+// 	{
+// 		if (stack->front->data < stack->front->next->data)
+// 			rra_rb(stack, c);
+// 		else
+// 			sort_3_srr(stack, c);
+// 	}
+// }
+
 void	sort_5(t_deque *stack_a, t_deque *stack_b, char c)
 {
 	int	max_num;
@@ -96,6 +125,14 @@ void	sort_5(t_deque *stack_a, t_deque *stack_b, char c)
 	if (stack_a->front->data < stack_a->front->next->data)
 		sa_sb(stack_a, 'a');
 	ra_rb(stack_a, 'a');
+}
+
+void	push_swap(t_deque *stack_a, t_deque *stack_b, int size)
+{
+	if (is_sorted(stack_a, size) == TRUE)
+		exit(0);
+	else
+		divide(size, stack_a, stack_b);
 }
 
 // void	push_swap_quick_sort(t_deque *stack_a, t_deque *stack_b)

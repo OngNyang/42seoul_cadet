@@ -54,5 +54,14 @@ int	find_min_num_idx(t_deque *stack, int n)
 		node = node->next;
 		i++;
 	}
+	i = 0;
+	node = stack->front;
+	while (i < n)
+	{
+		if (node->data == res)
+			break ;
+		node= node->next;
+		i++;
+	}
 	return (i);
 }

@@ -4,6 +4,10 @@
 # include "libft/libft.h"
 # include "./get_next_line.h"
 
+//---------------------------------
+# include <stdio.h>
+//---------------------------------
+
 typedef enum	e_bool
 {
 	FALSE = 0,
@@ -88,6 +92,7 @@ void	sort_2(t_deque *stack, char c);
 void	sort_3_srr(t_deque *stack, char c);
 void	sort_3(t_deque *stack, char c);
 void	sort_5(t_deque *stack_a, t_deque *stack_b, char c);
+void	push_swap(t_deque *stack_a, t_deque *stack_b, int size);
 // void	push_swap_quick_sort(t_deque *stack_a, t_deque *stack_b);
 
 /*sort_utils2.c*/

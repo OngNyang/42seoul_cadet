@@ -1,5 +1,6 @@
 #include "push_swap.h"
 
+
 t_num	sort_stack_a(int size, t_deque *stack_a, t_deque *stack_b, int pivot)
 {
 	int	i;
@@ -8,7 +9,7 @@ t_num	sort_stack_a(int size, t_deque *stack_a, t_deque *stack_b, int pivot)
 	numset.r_num = 0;
 	numset.p_num = 0;
 	i = 0;
-	while (i < size)
+	while (i++ < size)
 	{
 		if (stack_a->front->data > pivot)
 		{
@@ -20,8 +21,9 @@ t_num	sort_stack_a(int size, t_deque *stack_a, t_deque *stack_b, int pivot)
 			pa_pb(stack_a, stack_b, 'b');		//pb
 			numset.p_num++;
 		}
-		i++;
 	}
+	if (deque_size(stack_a) == numset.r_num)
+		return (numset);
 	i = 0;
 	while (i++ < numset.r_num)
 		rra_rb(stack_a, 'a');		//rra
@@ -36,11 +38,20 @@ void	divide(int size, t_deque *stack_a, t_deque *stack_b)
 	if (size == 1 || size == 0)
 		return ;
 	else if (size == 2)
+	{
 		sort_2(stack_a, 'a');
-	else if (size == 3)
+		return ;
+	}
+	else if (size == 3 && deque_size(stack_a) == 3)
+	{
 		sort_3(stack_a, 'a');
-	else if (size == 5)
+		return ;
+	}
+	else if (size == 5 && deque_size(stack_a) == 5)
+	{
 		sort_5(stack_a, stack_b, 'a');
+		return ;
+	}
 	pivot = choose_pivot(stack_a, size);
 	numset = sort_stack_a(size, stack_a, stack_b, pivot);
 	divide(numset.r_num, stack_a, stack_b);
