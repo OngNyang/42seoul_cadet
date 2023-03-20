@@ -1,20 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   argv_check.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/18 20:52:59 by hyejeong          #+#    #+#             */
+/*   Updated: 2023/03/18 20:53:01 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
-
-/*
-- 정수가 아니거나
-	부호가 두개
-	문자 안됨
-	숫자 사이에 이상한게 있으면 안됨.
-	0은 그냥 부호 불허
-	부호만 있어도 안됨
-- 정수 범위 밖이거나
-- 중복이 있거나 
-	얘는 그냥 스택에 담고 체크하는게 낫나?
-
-atoi가 +-1 이런애들 그냥 0으로 반환하네
-
-*/
-
 
 t_bool	check_digit(char *str)
 {
@@ -42,7 +38,7 @@ t_bool	check_limit_value(char *str)
 	sign = 1;
 	res = 0;
 	i = 0;
-	if (is_sign(str[i]) == TRUE)	//부호 넘기고
+	if (is_sign(str[i]) == TRUE)
 	{
 		if (str[i] == '-')
 			sign = -1;
@@ -58,17 +54,8 @@ t_bool	check_limit_value(char *str)
 	return (FALSE);
 }
 
-
 t_bool	zero_exception(char *str)
 {
-	/*
-	부호 다음 0 안됨
-		+0
-		-0
-	제일 앞에 0 연달아 오는것 안됨
-		+000123
-		 000123
-	*/
 	int	i;
 
 	i = 0;
@@ -88,16 +75,16 @@ void	check_argv(char **argv)
 	while (argv[i])
 	{
 		if (zero_exception(argv[i]) == FALSE)
-			p_error("wrong use of zero");
+			p_error();
 		if (check_digit(argv[i]) == FALSE)
-			p_error("wrong digit");
+			p_error();
 		if (check_limit_value(argv[i]) == FALSE)
-			p_error("int limit");
+			p_error();
 		j = 1;
 		while (j < i)
 		{
 			if (cmp_argv(argv[i], argv[j]) == TRUE)
-				p_error("duplicates");
+				p_error();
 			j++;
 		}
 		i++;

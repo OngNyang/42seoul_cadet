@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_ps.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/18 20:53:12 by hyejeong          #+#    #+#             */
+/*   Updated: 2023/03/18 20:53:14 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	sa_sb(t_deque	*stack, char c)
@@ -24,4 +36,3 @@ void	pa_pb(t_deque *deque_from, t_deque *deque_to, char c)
 	else if (c == 'b')
 		ft_putstr_fd("pb\n", 1);
 }
-

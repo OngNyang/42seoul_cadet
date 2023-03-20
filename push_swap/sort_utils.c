@@ -1,66 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/18 20:53:36 by hyejeong          #+#    #+#             */
+/*   Updated: 2023/03/18 20:53:37 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
-
-int	find_max_num(t_deque *stack, int n)
-{
-	int	res;
-	t_node	*node;
-	int	i;
-
-	i = 0;
-	node = stack->front;
-	res = node->data;
-	while (node && i < n)
-	{
-		if (node->data > res)
-			res = node->data;
-		node = node->next;
-		i++;
-	}
-	return (res);
-}
-
-int	find_min_num(t_deque *stack, int n)
-{
-	int	res;
-	t_node	*node;
-	int	i;
-
-	i = 0;
-	node = stack->front;
-	res = node->data;
-	while (node && i < n)
-	{
-		if (node->data < res)
-			res = node->data;
-		node = node->next;
-		i++;
-	}
-	return (res);
-}
-
-int	find_min_num_idx(t_deque *stack, int n)
-{
-	int	res;
-	t_node	*node;
-	int	i;
-
-	i = 0;
-	node = stack->front;
-	res = node->data;
-	while (node && i < n)
-	{
-		if (node->data < res)
-			res = node->data;
-		node = node->next;
-		i++;
-	}
-	return (i);
-}
 
 t_bool	is_sorted(t_deque *stack, int n)
 {
 	t_node	*node;
-	int	i;
+	int		i;
 
 	i = 0;
 	node = stack->front->next;
@@ -74,14 +29,15 @@ t_bool	is_sorted(t_deque *stack, int n)
 	return (TRUE);
 }
 
-void	bubbleSort(long long *arr, int n)
+void	bubble_sort(long long *arr, int n)
 {
 	int	i;
 	int	j;
 	int	temp;
 
 	i = 0;
-	while (i < n - 1) {
+	while (i < n - 1)
+	{
 		j = 0;
 		while (j < n - i - 1)
 		{
@@ -112,7 +68,7 @@ int	choose_pivot(t_deque *stack, int size)
 		arr[i++] = temp->data;
 		temp = temp->next;
 	}
-	bubbleSort(arr, size);
+	bubble_sort(arr, size);
 	res = arr[size / 2];
 	free(arr);
 	return (res);

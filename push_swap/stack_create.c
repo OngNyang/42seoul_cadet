@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_create.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/18 20:53:46 by hyejeong          #+#    #+#             */
+/*   Updated: 2023/03/18 20:53:48 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 t_node	*new_node(int data)
 {
-	t_node	*node = (t_node*)malloc(sizeof(t_node));
+	t_node	*node;
+
+	node = (t_node *)malloc(sizeof(t_node));
 	node->data = data;
 	node->prev = NULL;
 	node->next = NULL;
@@ -11,7 +25,9 @@ t_node	*new_node(int data)
 
 t_deque	*new_deque(void)
 {
-	t_deque	*deque = (t_deque*)malloc(sizeof(t_deque));
+	t_deque	*deque;
+
+	deque = (t_deque *)malloc(sizeof(t_deque));
 	deque->front = NULL;
 	deque->rear = NULL;
 	return (deque);

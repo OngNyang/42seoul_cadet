@@ -1,17 +1,30 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/03/18 20:53:57 by hyejeong          #+#    #+#              #
+#    Updated: 2023/03/18 20:54:26 by hyejeong         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	= push_swap
 LIBFT	= libft
 SRCS	= main.c \
 		argv_check_utils.c \
 		argv_check.c \
+		cmd_operation.c \
+		cmd_ps.c \
+		cmd_rrr.c \
 		error.c \
 		get_next_line_utils.c \
 		get_next_line.c \
-		cmd_ps.c \
-		cmd_rrr.c \
-		cmd_operation.c \
-		sort.c \
-		sort_quick_merge.c \
+		sort_divide_merge.c \
 		sort_utils.c \
+		sort_utils2.c \
+		sort.c \
 		stack_create.c \
 		stack_pop_push.c
 
