@@ -1,9 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "pipex.h"
-#include <fcntl.h>
-
-
 
 void	ft_p_error(char *str)
 {
@@ -70,14 +65,7 @@ char	*find_command_path(char *cmd, char **envp)
 	return (buffer);
 }
 
-//----------------------------------------------------------------------
-
-void	check_leaks(void)
-{
-	system("leaks pipex");
-}
-
-void	exec(char *cmd_with_option, char **envp)
+void	exec_cmd(char *cmd_with_option, char **envp)
 {
 /*
 2차원 배열 {명령어(경로포함), 옵션, ..., NULL}
@@ -94,15 +82,3 @@ void	exec(char *cmd_with_option, char **envp)
 		ft_p_error("Error: failure in execve()");
 	}
 }
-
-int	main(int argc, char **argv, char **envp)
-{
-	atexit(check_leaks);
-	system("leaks pipex");
-	exec(argv[1], envp);
-	ft_printf("hello");
-	return (0);
-}
-
-
-

@@ -36,4 +36,13 @@ typedef enum e_argv
 	FILE2 = 4
 }			t_argv;
 
+void	ft_p_error(char *str);
+void	free_2d_array(char **arr);
+char	*find_env_path(char **envp);
+char	*find_command_path(char *cmd, char **envp);
+void	exec_cmd(char *cmd_with_option, char **envp);
+
+void	child_process(int *pipe_fd, char **argv, char **envp);
+void	parent_process(int *pipe_fd, char **argv, char **envp);
+
 #endif
