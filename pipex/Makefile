@@ -6,9 +6,7 @@ RM			= rm -f
 
 
 OBJS		= 	$(SRCS:%.c=%.o)
-SRCS		= 	pipex.c \
-				pipex_utils.c \
-				main.c
+SRCS		= 	pipex.c
 
 all :		$(NAME)
 
