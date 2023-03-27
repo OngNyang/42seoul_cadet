@@ -1,0 +1,20 @@
+total 264
+drwxr-xr-x  19 jeonghyeonjong  staff    608  3 27 00:25 .
+drwxr-xr-x   4 jeonghyeonjong  staff    128  3 23 14:52 ..
+-rw-r--r--@  1 jeonghyeonjong  staff   8196  3 26 13:30 .DS_Store
+drwxr-xr-x   3 jeonghyeonjong  staff     96  3 24 15:09 .vscode
+-rw-r--r--   1 jeonghyeonjong  staff    464  3 27 00:20 Makefile
+-rwxr-xr-x   1 jeonghyeonjong  staff  33986  3 24 19:34 a.out
+-rw-r--r--   1 jeonghyeonjong  staff   1791  3 26 23:57 demo_exec.c
+-rw-r--r--   1 jeonghyeonjong  staff   2568  3 26 23:53 demo_exec.o
+-rw-r--r--   1 jeonghyeonjong  staff   2047  3 26 22:37 demo_find_cmd_path.c
+-rw-r--r--   1 jeonghyeonjong  staff   2256  3 26 23:07 demo_find_cmd_path.o
+-rw-r--r--   1 jeonghyeonjong  staff   1609  3 24 18:59 gpt_find_cmd_path.c
+-rw-r--r--   1 jeonghyeonjong  staff     12  3 24 14:48 infile
+drwxr-xr-x  89 jeonghyeonjong  staff   2848  3 27 00:25 libft
+-rw-r--r--   1 jeonghyeonjong  staff   3252  3 24 15:03 main.c
+-rw-r--r--   1 jeonghyeonjong  staff      0  3 27 01:04 outfile
+-rwxr-xr-x   1 jeonghyeonjong  staff  35314  3 27 00:25 pipex
+-rw-r--r--   1 jeonghyeonjong  staff   3204  3 27 00:25 pipex.c
+-rw-r--r--   1 jeonghyeonjong  staff    398  3 24 15:09 pipex.h
+-rw-r--r--   1 jeonghyeonjong  staff   4168  3 27 00:25 pipex.o
