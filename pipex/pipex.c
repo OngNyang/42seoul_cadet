@@ -42,6 +42,12 @@ char	*find_env_path(char **envp)
 	return (NULL);
 }
 
+char	*free_and_return(char **token_env_path, char *buffer)
+{
+	free_2d_array(token_env_path);
+	return (buffer);
+}
+
 char	*find_command_path(char *cmd, char **envp)
 {
 	char	*env_path;
@@ -59,15 +65,15 @@ char	*find_command_path(char *cmd, char **envp)
 		temp = buffer;
 		buffer = ft_strjoin(temp, cmd);
 		free(temp);
-		// printf("buffer : %s\n", buffer);
 		if (access(buffer, F_OK | X_OK) == 0)
-			break ;
+			return (free_and_return(token_env_path, buffer));
 		else
 			free(buffer);
 		j++;
 	}
-	free_2d_array(token_env_path);
-	return (buffer);
+	ft_putstr_fd("command not found\n", 2);
+	exit(1);
+	return (NULL);
 }
 
 

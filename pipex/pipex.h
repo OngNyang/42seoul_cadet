@@ -36,4 +36,7 @@ typedef enum e_argv
 	FILE2 = 4
 }			t_argv;
 
+char	*free_and_return(char **token_env_path, char *buffer);
+
+
 #endif
