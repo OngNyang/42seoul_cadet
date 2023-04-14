@@ -37,6 +37,13 @@ typedef enum e_argv
 }			t_argv;
 
 char	*free_and_return(char **token_env_path, char *buffer);
+char	*find_env_path(char **envp);
+char	*find_command_path(char *cmd, char **envp);
+char	**tokenize(char **envp);
+void	split_exec(char *cmd_with_option, char **envp);
+void	free_2d_array(char **arr);
+void	ft_p_error(char *str);
+
 
 
 #endif

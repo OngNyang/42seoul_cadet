@@ -82,3 +82,125 @@ int	main(int argc, char **argv, char **envp)
 	dup2(fd_out, 1);
 	exec(-----);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+#define NUM_PIPES 3
+
+int main()
+{
+    int pipes[NUM_PIPES][2];
+    pid_t pid;
+
+    // Create the pipes
+    for(int i=0; i<NUM_PIPES; i++)
+    {
+        if(pipe(pipes[i]) == -1)
+        {
+            perror("pipe");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    // Create the child processes
+    for(int i=0; i<NUM_PIPES+1; i++)
+    {
+        pid = fork();
+        if(pid == -1)
+        {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+        else if(pid == 0) // child process
+        {
+            // Close unused pipes
+            if(i == 0)
+            {
+                close(pipes[0][0]);
+                close(pipes[NUM_PIPES-1][1]);
+                for(int j=1; j<NUM_PIPES; j++)
+                {
+                    close(pipes[j][0]);
+                    close(pipes[j][1]);
+                }
+            }
+            else if(i == NUM_PIPES)
+            {
+                close(pipes[NUM_PIPES-1][1]);
+                close(pipes[0][0]);
+                for(int j=0; j<NUM_PIPES-1; j++)
+                {
+                    close(pipes[j][0]);
+                    close(pipes[j][1]);
+                }
+            }
+            else
+            {
+                close(pipes[i-1][1]);
+                close(pipes[i][0]);
+                for(int j=0; j<NUM_PIPES; j++)
+                {
+                    if(j != i-1 && j != i)
+                    {
+                        close(pipes[j][0]);
+                        close(pipes[j][1]);
+                    }
+                }
+            }
+
+            // Redirect stdin and stdout to the appropriate pipes
+            if(i == 0)
+            {
+                dup2(pipes[0][1], STDOUT_FILENO);
+            }
+            else if(i == NUM_PIPES)
+            {
+                dup2(pipes[NUM_PIPES-1][0], STDIN_FILENO);
+            }
+            else
+            {
+                dup2(pipes[i-1][0], STDIN_FILENO);
+                dup2(pipes[i][1], STDOUT_FILENO);
+            }
+
+            // Execute the command
+            execlp("ls", "ls", NULL);
+            exit(EXIT_SUCCESS);
+        }
+    }
+
+    // Close all pipes in the parent process
+    for(int i=0; i<NUM_PIPES; i++)
+    {
+        close(pipes[i][0]);
+        close(pipes[i][1]);
+    }
+
+    // Wait for all child processes to exit
+    for(int i=0; i<NUM_PIPES+1; i++)
+    {
+        wait(NULL);
+    }
+
+    return 0;
+}
