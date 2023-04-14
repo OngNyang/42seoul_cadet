@@ -420,7 +420,7 @@ int	main(int argc, char **argv, char **envp)
 				}
 				dup2(pipes[i][1], STDOUT);
 				dup2(pipes[i-1][0], STDIN);
-				split_exec(argv[3], envp);
+				split_exec(argv[i + 2], envp);
 			}
 		}
 	}
