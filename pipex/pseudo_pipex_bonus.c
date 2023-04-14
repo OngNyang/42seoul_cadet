@@ -28,6 +28,8 @@ void	fork_process(char *argv, char **envp)
 	pid_t	pid;
 	int		pipe_fd[2];
 
+	if (pipe(fd) == -1)
+		exit(1);
 	pid = fork();
 	if (pid < 0)
 		exit(1);
@@ -44,6 +46,8 @@ void	fork_process(char *argv, char **envp)
 		waitpid(pid, NULL, 0);
 	}
 }
+
+
 
 int	main(int argc, char **argv, char **envp)
 {

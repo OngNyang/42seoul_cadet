@@ -1,12 +1,1 @@
-Makefile
-a.out
-gpt_multi_pipe.c
-infile
-libft
-libft.a
-outfile
-passed_ver
-pipex.c
-pipex.h
-pipex_bonus0.c
-pseudo_pipex_bonus.c
+       1

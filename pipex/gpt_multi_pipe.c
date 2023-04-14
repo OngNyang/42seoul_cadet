@@ -372,15 +372,16 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (i == 0)
 			{
-				close(pipes[0][READ]);
-				// for (int j=0; j<num_pipes; j++)
-				// {
-				// 	for (int k=0; k<2; j++)
-				// 	{
-				// 		if (!(j == 0 && k == 1))
-				// 			close(pipes[j][k]);
-				// 	}
-				// }
+				// close(pipes[0][READ]);
+
+				for (int j=0; j<num_pipes; j++)
+				{
+					for (int k=0; k<2; k++)
+					{
+						if (!(j == 0 && k == 1))
+							close(pipes[j][k]);
+					}
+				}
 
 
 				int	fd_in = open(argv[1], O_RDONLY);
@@ -390,15 +391,16 @@ int	main(int argc, char **argv, char **envp)
 			}
 			else if (i == num_pipes)
 			{
-				close(pipes[0][WRITE]);
-				// for (int j=0; j<num_pipes; j++)
-				// {
-				// 	for (int k=0; k<2; j++)
-				// 	{
-				// 		if (!(j == num_pipes-1 && k == 0))
-				// 			close(pipes[j][k]);
-				// 	}
-				// }
+				// close(pipes[0][WRITE]);
+
+				for (int j=0; j<num_pipes; j++)
+				{
+					for (int k=0; k<2; k++)
+					{
+						if (!(j == num_pipes-1 && k == 0))
+							close(pipes[j][k]);
+					}
+				}
 
 
 				int fd_out = open(argv[argc -1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -406,18 +408,20 @@ int	main(int argc, char **argv, char **envp)
 				dup2(pipes[num_pipes -1][READ], STDIN);
 				split_exec(argv[argc - 2], envp);
 			}
-			// else					//중간 파이프
-			// {
-			// 	for (int j=0; j<num_pipes; j++)
-			// 	{
-			// 		for (int k=0; k<2; j++)
-			// 		{
-			// 			if (!((j == i-1 && k == 0) || (j == i && k == 1)))
-			// 				close(pipes[j][k]);
-			// 		}
-			// 	}
-			// 	dup2()
-			// }
+			else					//중간 파이프
+			{
+				for (int j=0; j<num_pipes; j++)
+				{
+					for (int k=0; k<2; k++)
+					{
+						if (!((j == i-1 && k == 0) || (j == i && k == 1)))
+							close(pipes[j][k]);
+					}
+				}
+				dup2(pipes[i][1], STDOUT);
+				dup2(pipes[i-1][0], STDIN);
+				split_exec(argv[3], envp);
+			}
 		}
 	}
 	for(int i=0; i<num_pipes; i++)
