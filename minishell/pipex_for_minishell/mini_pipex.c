@@ -14,6 +14,36 @@
 
 
 
+
+
+void	first_process(t_info *info)
+{
+	int	j;
+	int	k;
+	int	fd_in;
+
+	j = 0;
+	while (j < info->num_pipe)
+	{
+		k = 0;
+		while (k < 2)
+		{
+			if (!(j == 0 && k == 1))
+				close(pipes[j][k]);
+			k++;
+		}
+		j++;
+	}
+	if (info->redir_flag.infile == TRUE)
+	{
+	fd_in = open(argv[1], O_RDONLY);
+	dup2(fd_in, STDIN);
+	}
+	dup2(pipes[0][WRITE], STDOUT);
+	split_exec(argv[2], envp);
+}
+
+
 void	fork_process(t_info *info)
 {
 	int		i;
@@ -26,38 +56,15 @@ void	fork_process(t_info *info)
 			exit(1);
 		else if (pid == 0)
 		{
-			if (i == 0)
-				first_process(----);
-			else if (i == info->num_pipe)
-				last_process(----);
+			if (info->idx == 0)
+				first_process(info);
+			else if (info->idx == info->num_pipe)
+				last_process(info);
 			else
-				middle_process(----);
+				middle_process(info);
 		}
 		i++;
 	}
-
-
-
-	// int		i;
-	// pid_t	pid;
-
-	// i = 0;
-	// while (i < num_process)
-	// {
-	// 	pid = fork();
-	// 	if (pid < 0)
-	// 		exit(1);
-	// 	else if (pid == 0)
-	// 	{
-	// 		if (i == 0)
-	// 			first_process(num_pipe, pipes, argv, envp);
-	// 		else if (i == num_pipe)
-	// 			last_process(num_pipe, pipes, argv, envp);
-	// 		else
-	// 			middle_process(num_pipe, pipes, argv, envp, i);
-	// 	}
-	// 	i++;
-	// }
 }
 
 
