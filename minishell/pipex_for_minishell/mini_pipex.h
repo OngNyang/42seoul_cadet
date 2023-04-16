@@ -44,7 +44,8 @@ typedef struct	s_info
 	int					num_pipe;
 	int					num_process;
 	int					**pipes;
-	int					idx;
+	int					idx_prcs;
+	int					idx_arg;
 	char				**arg;
 	char				**envp;
 }				t_info;
@@ -60,6 +61,8 @@ int	**create_pipes(int num_pipe);
 int	ft_strcmp(const char *s1, const char *s2);
 void	init_redir_flag(t_redir_flag *flag);
 void	init_info(t_info *info, char **arg_s, char **envp_orig);
+void	first_process(t_info *info);
+void	fork_process(t_info *info);
 
 
 

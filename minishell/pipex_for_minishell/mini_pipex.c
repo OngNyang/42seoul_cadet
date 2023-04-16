@@ -14,6 +14,18 @@
 
 
 
+void	exec(char *cmd_with_option, char **envp)
+{
+	char	*cmd_with_path;
+	char	**cmd_args;
+
+	cmd_args = ft_split(cmd_with_option, ' ');
+	cmd_with_path = find_command_path(cmd_args[0], envp);
+	if (execve(cmd_with_path, cmd_args, envp) == -1)
+	{
+		ft_p_error("Error: failure in execve()");
+	}
+}
 
 
 void	first_process(t_info *info)
@@ -29,41 +41,99 @@ void	first_process(t_info *info)
 		while (k < 2)
 		{
 			if (!(j == 0 && k == 1))
-				close(pipes[j][k]);
+				close(info->pipes[j][k]);
 			k++;
 		}
 		j++;
 	}
-	if (info->redir_flag.infile == TRUE)
-	{
-	fd_in = open(argv[1], O_RDONLY);
-	dup2(fd_in, STDIN);
-	}
-	dup2(pipes[0][WRITE], STDOUT);
-	split_exec(argv[2], envp);
+	// fd_in = open(argv[1], O_RDONLY);
+	// dup2(fd_in, STDIN);
+	dup2(info->pipes[0][WRITE], STDOUT);
+	exec(argv[2], envp);
 }
 
 
+void	redir_infile(----)
+{
+
+}
+
+void	redir_outfile(----)
+{
+
+}
+
+t_bool	check_redir_keyword(char *str)
+{
+	if (ft_strcmp(str, "|") == 0)
+		return (TRUE);
+	if (ft_strcmp(str, "<") == 0)
+		return (TRUE);
+	if (ft_strcmp(str, ">") == 0)
+		return (TRUE);
+	if (ft_strcmp(str, "<<") == 0)
+		return (TRUE);
+	if (ft_strcmp(str, ">>") == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 void	fork_process(t_info *info)
 {
-	int		i;
-	pid_t	pid;
+	// int		i;
+	// pid_t	pid;
 
-	while (i < info->num_process)
+	// while (i < info->num_process)
+	// {
+	// 	pid = fork();
+	// 	if (pid < 0)
+	// 		exit(1);
+	// 	else if (pid == 0)
+	// 	{
+	// 		if (info->idx_prcs == 0)
+	// 			first_process(info);
+	// 		else if (info->idx_prcs == info->num_pipe)
+	// 			last_process(info);
+	// 		else
+	// 			middle_process(info);
+	// 	}
+	// 	i++;
+	// }
+	pid_t	pid;
+	int		i;
+
+
+	while (info->arg[info->idx_arg])
 	{
-		pid = fork();
-		if (pid < 0)
-			exit(1);
-		else if (pid == 0)
+		// if (ft_strcmp(info->arg[i], "<") == 0)
+		// {
+		// 	redir_infile(----);
+		// 	i++;
+		// }
+		// if (ft_strcmp(info->arg[i], ">") == 0)
+		// {
+		// 	redir_outfile(----);
+		// 	i++;
+		// }
+		if (check_redir_keyword(info->arg[i]) == TRUE)
 		{
-			if (info->idx == 0)
-				first_process(info);
-			else if (info->idx == info->num_pipe)
-				last_process(info);
-			else
-				middle_process(info);
+			adfasdfadf_____do_something()
 		}
-		i++;
+		else	//명령어인경우
+		{
+			pid = fork();
+			if (pid < 0)
+				exit(1);
+			else if (pid == 0)
+			{				//idx_prcs, idx_arg	 둘다 전진 시켜야 함.
+				if (info->idx_prcs == 0)
+					fisrst_process(info);
+				else if (info->idx_prcs == info->num_pipe)
+					last_process(info);
+				else
+					middle_process(info)
+			}
+		}
 	}
 }
 
@@ -79,15 +149,19 @@ int	main(int argc, char **argv, char **envp)
 	init_info(&info, arg_split, envp);
 	// if (info.num_pipe == 0)
 		//파이프 없으면, 자식 프로세스 하나 생성해서 실행.
+
+	//프로세스가 2개 이상일때.
 	fork_process(&info);
 
-	
+
+
+
 }
 
 /*
 test t_info
 
-printf("%d %d %d\n", info.num_pipe, info.num_process, info.idx);
+	printf("%d %d %d %d\n", info.num_pipe, info.num_process, info.idx_prcs, info.idx_arg);
 	for (int i=0; info.arg[i]; i++)
 	{
 		printf("%s\n", info.arg[i]);
@@ -142,7 +216,7 @@ printf("%d %d %d\n", info.num_pipe, info.num_process, info.idx);
 
 // 	pipes = create_pipes(num_pipe);
 
-// 	int	idx = 0;
+// 	int	idx_prcs = 0;
 
 
 

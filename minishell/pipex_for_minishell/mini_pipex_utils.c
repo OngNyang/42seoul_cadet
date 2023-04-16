@@ -62,9 +62,10 @@ void	init_info(t_info *info, char **arg_s, char **envp_orig)
 			info->redir_flag.here_doc = TRUE;
 		i++;
 	}
-	info->num_process = info->num_pipe - 1;
+	info->num_process = info->num_pipe + 1;
 	info->arg = arg_s;
-	info->idx = 0;
+	info->idx_prcs = 0;
+	info->idx_arg = 0;
 	info->pipes = create_pipes(info->num_pipe);
 	info->envp = envp_orig;
 }
