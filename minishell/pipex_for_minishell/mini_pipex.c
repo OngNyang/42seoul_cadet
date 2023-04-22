@@ -126,7 +126,8 @@ void	fork_process(t_info *info)
 				exit(1);
 			else if (pid == 0)
 			{				//idx_prcs, idx_arg	 둘다 전진 시켜야 함.
-				if (info->idx_prcs == 0)
+				if (info->idx_prcs == 0).
+				
 					fisrst_process(info);
 				else if (info->idx_prcs == info->num_pipe)
 					last_process(info);

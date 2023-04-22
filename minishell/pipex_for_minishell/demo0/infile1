@@ -1,0 +1,14 @@
+ls -al >infile0 >infile1 >infile2
+
+node
+	cmd : ls, -al, NULL
+	outfile : infile0, infile1, infile2, NULL;
+
+	int	fd_out;
+	while (node->outfile[i])
+	{
+		fd_out = open(O_CREAT, O_TRUNC)
+		dup2(fd_out, STDOUT_FILENO);
+		i++;
+	}
+	// dup2(node->outfile[i-1], STDOUT_FILENO);
