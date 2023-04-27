@@ -678,8 +678,8 @@ int	main(int argc, char **argv, char **envp)
 	// char	*argum = "sleep 7 | sleep 10 | sleep 5";
 	// char	*argum = "< infile0 grep r > outfile0 > outfile1";
 	// char	*argum = "< infile0 < infile1 grep r";
-	char	*argum = "<< end grep a | grep 1";
-	// char	*argum = "ls -al | grep 35 | grep a";
+	// char	*argum = "<< end grep a | grep 1";
+	char	*argum = "ls -al | grep 35 | grep a";
 	// char	*argum = "< infile0 grep r";
 	// char	*argum = "cat | ls";
 	// char	*argum = "echo a | exit 88";
@@ -724,16 +724,16 @@ int	main(int argc, char **argv, char **envp)
 	node = deque->front;
 //----------------------------------------------------
 
-	while (node)
-	{
-		for (int i=0; node->order_redir[i]; i++)
-		{
-			if (ft_strcmp(node->order_redir[i], "<<") == 0)
-				node->file_redir[i]
-		}
+	// while (node)
+	// {
+	// 	for (int i=0; node->order_redir[i]; i++)
+	// 	{
+	// 		if (ft_strcmp(node->order_redir[i], "<<") == 0)
+	// 			node->file_redir[i]
+	// 	}
 
-		node = node->next;
-	}
+	// 	node = node->next;
+	// }
 
 	node = deque->front;
 	pid_t	pid;
