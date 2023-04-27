@@ -3,6 +3,8 @@
 # include <stdio.h>
 # include <sys/wait.h>
 #include <stdlib.h>
+#include <readline/readline.h>
+# include <readline/history.h>
 
 typedef enum e_bool
 {
@@ -650,208 +652,40 @@ t_deque	*parsing_pipe(char **arg)
 }
 
 
-// int main()
-// {
-// // //----------------------------------------------------
-// 	char	*argum = "< infile0 grep 1 < infile1";
-// 	char	**arg_split = ft_split(argum, ' ');
-// // //----------------------------------------------------
-	
-// 	char **new_arg = append_str(arg_split, "success");
-// 	for (int i=0; new_arg[i]; i++)
-// 	{
-// 		printf("%s\n", new_arg[i]);
-// 	}
-
-// }
-
-
-
-
-int	main(int argc, char **argv, char **envp)
+void	ft_here_doc(char *terminator)
 {
-//----------------------------------------------------
-	// char	*argum = "< infile0 grep 1 < infile1 > outfile0 < infile2 > outfile1 | < infile3 ls -a -l > outfile";
-	// char	*argum = "< infile0 grep 1 | grep a | wc -l";
-	// char	*argum = "< infile11";
-	// char	*argum = "< infile0 grep r | grep 2 | grep c > outfile0 >> outfile1";
-	// char	*argum = "sleep 100 | sleep 200 | sleep 300";
-	// char	*argum = "sleep 7 | sleep 10 | sleep 5";
-	// char	*argum = "< infile0 grep r > outfile0 > outfile1";
-	// char	*argum = "< infile0 < infile1 grep r";
-	// char	*argum = "<< end grep a | grep 1";
-	// char	*argum = "ls -al | grep 35 | grep a";
-	char	*argum = "< infile0 grep r";
-	// char	*argum = "cat | ls";
-	// char	*argum = "echo a | exit 88";
-	// char	*argum = "cat | cat | cat";
-
-	char	**arg_split = ft_split(argum, ' ');
-//----------------------------------------------------
-	// for (int i=0; arg_split[i]; i++)
-	// {
-	// 	printf("%d : %s \n", i, arg_split[i]);
-	// }
-	// printf("\n\n");
-//----------------------------------------------------
-	t_deque	*deque = parsing_pipe(arg_split);
-//----------------------------------------------------
-	t_info	information;
-
-	information.num_pipe = deque_size(deque) - 1;
-	information.pipes = create_pipes(information.num_pipe);
-//----------------------------------------------------
-	t_node	*node = deque->front;
-//----------------------------------------------------
-	int	idx = 0;
-	while (node)
-	{
-		printf("    pipe : %d\n", idx++);
-		printf("    pipe idx : %d\n", node->idx);
-		if (node->cmd)
-			for (int i=0; node->cmd[i]; i++)
-				printf("cmd : %s \n", node->cmd[i]);
-		if (node->order_redir)
-			for (int i=0; node->order_redir[i]; i++)
-				printf("order_redir : %s \n", node->order_redir[i]);
-		if (node->file_redir)
-			for (int i=0; node->file_redir[i]; i++)
-				printf("file_redir : %s \n", node->file_redir[i]);
-
-		node = node->next;
-	}
-	printf("---------------\n---------------\n");
-	usleep(200);
-	node = deque->front;
-//----------------------------------------------------
-
-	// while (node)
-	// {
-	// 	for (int i=0; node->order_redir[i]; i++)
-	// 	{
-	// 		if (ft_strcmp(node->order_redir[i], "<<") == 0)
-	// 			node->file_redir[i]
-	// 	}
-
-	// 	node = node->next;
-	// }
-
-	node = deque->front;
+	char	*str;
 	pid_t	pid;
-	int		fd_in;
-	int		fd_out;
+	int		here_fd;
 
-	while (node)
+	here_fd = open("./.here_doc", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	pid = fork();
+	if (pid < 0)
+		exit(1);
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid < 0)
-			ft_p_error("Error: fork()");
-		else if (pid == 0)
+		while (1)
 		{
-
-			if (node->prev)	//이전에 파이프가 있다.
+			str = readline("> ");
+			if (!str || ft_strcmp(terminator, str) == 0)
 			{
-				// close(node->pipe_fd[WRITE]);
-				// dup2(node->pipe_fd[READ], STDIN_FILENO);
-				dup2(information.pipes[node->idx - 1][READ], STDIN_FILENO);
+				if (str)
+					free(str);
 			}
-			
-			if (node->next)	//이후에 파이프가 있다.
-			{
-				// pipe(node->next->pipe_fd);
-				// close(node->next->pipe_fd[READ]);
-				// dup2(node->next->pipe_fd[WRITE], STDOUT_FILENO);
-				dup2(information.pipes[node->idx][WRITE], STDOUT_FILENO);
-			}
-			
-			if (node->order_redir)
-			{
-				for (int i=0; node->order_redir[i]; i++)
-				{
-					if (ft_strcmp(node->order_redir[i], "<") == 0)
-					{
-						fd_in = open(node->file_redir[i], O_RDONLY);
-						if (fd_in < 0)
-						{
-							perror("open");
-							exit(1);
-						}
-						dup2(fd_in, STDIN_FILENO);
-						close(fd_in);
-					}
-					if (ft_strcmp(node->order_redir[i], ">") == 0)
-					{
-						fd_out =  open(node->file_redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-						if (fd_out < 0)
-						{
-							perror("open");
-							exit(1);
-						}
-						dup2(fd_out, STDOUT_FILENO);
-						close(fd_out);
-					}
-					if (ft_strcmp(node->order_redir[i], ">>") == 0)
-					{
-						fd_out =  open(node->file_redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-						if (fd_out < 0)
-						{
-							perror("open");
-							exit(1);
-						}
-						dup2(fd_out, STDOUT_FILENO);
-						close(fd_out);
-					}
-				}
-			}
-
-			// if (node->infile)
-			// {
-			// 	for (int i=0; node->infile[i]; i++)
-			// 	{
-			// 		fd_in = open(node->infile[i], O_RDONLY);
-			// 		dup2(fd_in, STDIN_FILENO);
-			// 	}
-			// }
-			// if (node->outfile_ow)
-			// {
-			// 	for (int i=0; node->outfile_ow[i]; i++)
-			// 	{
-			// 		fd_out =  open(node->outfile_ow[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			// 		dup2(fd_out, STDOUT_FILENO);
-			// 	}
-			// }
-			// if (node->outfile_apd)
-			// {
-
-			// }
-
-			// usleep(1000 * 1000);
-
-			if (node->cmd)
-			{
-				exec(node->cmd, envp);
-				// char *cmd_with_path = find_command_path(node->cmd[0], envp);
-				// if (execve(cmd_with_path, node->cmd, envp) == -1)
-				// 	exit(1);
-			}
-			exit(0);
-		}
-		else
-		{
-			// printf("wating for %d/ %d\n",pid, node->idx);
-			// waitpid(pid, NULL, 0);
-			// printf("wait end %d\n", pid);
-			// node = node->next;
-			if (node->prev)
-            	close(information.pipes[node->idx - 1][READ]);
-            if (node->next)
-        		close(information.pipes[node->idx][WRITE]);
-            // printf("wating for %d/ %d\n",pid, node->idx);
-            // waitpid(pid, NULL, 0);
-            // printf("wait end %d\n", pid);
-            node = node->next;
+			write(here_fd, str, ft_strlen(str));
+			write(here_fd, "\n", 1);
+			free(str);
 		}
 	}
-	for (int i=0; i<information.num_pipe + 1; i++)
-		wait(NULL);
+	wait(NULL);
+}
+
+
+int main(void)
+{
+	char	*argum = "end finish heredoc";
+	char	**arg_split = ft_split(argum, ' ');
+
+
+
 }
