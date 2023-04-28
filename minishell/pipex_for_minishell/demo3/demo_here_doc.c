@@ -91,6 +91,83 @@ char	**append_str(char **arg, char *str);
 char	**tokenize(char **envp);
 char	*free_and_return(char **token_env_path, char *buffer);
 
+static int	get_size(long long num)
+{
+	int	i;
+
+	i = 0;
+	while (num != 0)
+	{
+		num = num / 10;
+		i++;
+	}
+	return (i);
+}
+
+
+static char	*fill_mem(char *res, int n)
+{
+	long long	num;
+	int			i;
+	int			size;
+
+	i = 0;
+	num = (long long)n;
+	if (num < 0)
+	{
+		num *= -1;
+		res[i] = '-';
+		i++;
+	}
+	size = get_size(num);
+	res[i + size] = '\0';
+	while (num != 0)
+	{
+		res[i + size - 1] = num % 10 + '0';
+		size--;
+		num = num / 10;
+	}
+	return (res);
+}
+
+
+static char	*fill_zero(char *res)
+{
+	res = (char *)malloc(sizeof(char) * 2);
+	if (!res)
+		return (0);
+	res[0] = '0';
+	res[1] = '\0';
+	return (res);
+}
+
+char	*ft_itoa(int n)
+{
+	long long	num;
+	char		*res;
+
+	res = NULL;
+	if (n == 0)
+	{
+		res = fill_zero(res);
+		return (res);
+	}
+	num = (long long)n;
+	if (num < 0)
+	{
+		num *= -1;
+		res = (char *)malloc(sizeof(char) * (get_size(num) + 2));
+	}
+	else
+		res = (char *)malloc(sizeof(char) * (get_size(num) + 1));
+	if (!res)
+		return (0);
+	res = fill_mem(res, n);
+	return (res);
+}
+
+
+
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -652,13 +729,13 @@ t_deque	*parsing_pipe(char **arg)
 }
 
 
-void	ft_here_doc(char *terminator)
+void	ft_here_doc(char *terminator, char *filename)
 {
 	char	*str;
 	pid_t	pid;
 	int		here_fd;
 
-	here_fd = open("./.here_doc", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	here_fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	pid = fork();
 	if (pid < 0)
 		exit(1);
@@ -671,6 +748,7 @@ void	ft_here_doc(char *terminator)
 			{
 				if (str)
 					free(str);
+				exit(0);
 			}
 			write(here_fd, str, ft_strlen(str));
 			write(here_fd, "\n", 1);
@@ -685,7 +763,29 @@ int main(void)
 {
 	char	*argum = "end finish heredoc";
 	char	**arg_split = ft_split(argum, ' ');
+	int		size_heredoc = 0;
+	char	**filename_here_doc;
 
+	while (arg_split[size_heredoc])
+		size_heredoc++;
+	filename_here_doc = malloc(sizeof(char*) * (size_heredoc + 1));
+	filename_here_doc[size_heredoc] = NULL;
 
+	int i = 0;
+	while (i < size_heredoc)
+	{
+		filename_here_doc[i] = ft_strjoin("./.here_doc", ft_itoa(i));
+		// printf("%s\n", filename_here_doc[i]);
+		i++;
+	}
 
+	for (int i=0; arg_split[i]; i++)
+	{
+		ft_here_doc(arg_split[i], filename_here_doc[i]);
+	}
+	usleep(1000 * 10000);
+	for (int i=0; arg_split[i]; i++)
+	{
+		unlink(filename_here_doc[i]);
+	}
 }

@@ -3,6 +3,9 @@
 # include <stdio.h>
 # include <sys/wait.h>
 #include <stdlib.h>
+#include <readline/readline.h>
+# include <readline/history.h>
+
 
 typedef enum e_bool
 {
@@ -65,7 +68,9 @@ typedef struct	s_node
 //------------------------------------------------------------------
 	char			**order_redir;
 	char			**file_redir;
-	// char			**here_doc;
+	char			**finlename_heredoc;
+	// int				*node_fd_heredoc;
+	int				num_heredoc;
 //------------------------------------------------------------------
 	// char			**infile;
 	// char			**outfile_ow;
@@ -73,6 +78,14 @@ typedef struct	s_node
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
+
+typedef struct	s_heredoc
+{
+	char	**terminators;
+	char	**filename_temp;
+	int		size_heredoc;
+	int		*fd_heredoc;
+}				t_heredoc;
 
 int		**create_pipes(int num_pipe);
 int		ft_strcmp(const char *s1, const char *s2);
@@ -88,6 +101,84 @@ void	fork_process(t_info *info);
 char	**append_str(char **arg, char *str);
 char	**tokenize(char **envp);
 char	*free_and_return(char **token_env_path, char *buffer);
+
+
+
+static int	get_size(long long num)
+{
+	int	i;
+
+	i = 0;
+	while (num != 0)
+	{
+		num = num / 10;
+		i++;
+	}
+	return (i);
+}
+
+
+static char	*fill_mem(char *res, int n)
+{
+	long long	num;
+	int			i;
+	int			size;
+
+	i = 0;
+	num = (long long)n;
+	if (num < 0)
+	{
+		num *= -1;
+		res[i] = '-';
+		i++;
+	}
+	size = get_size(num);
+	res[i + size] = '\0';
+	while (num != 0)
+	{
+		res[i + size - 1] = num % 10 + '0';
+		size--;
+		num = num / 10;
+	}
+	return (res);
+}
+
+
+static char	*fill_zero(char *res)
+{
+	res = (char *)malloc(sizeof(char) * 2);
+	if (!res)
+		return (0);
+	res[0] = '0';
+	res[1] = '\0';
+	return (res);
+}
+
+char	*ft_itoa(int n)
+{
+	long long	num;
+	char		*res;
+
+	res = NULL;
+	if (n == 0)
+	{
+		res = fill_zero(res);
+		return (res);
+	}
+	num = (long long)n;
+	if (num < 0)
+	{
+		num *= -1;
+		res = (char *)malloc(sizeof(char) * (get_size(num) + 2));
+	}
+	else
+		res = (char *)malloc(sizeof(char) * (get_size(num) + 1));
+	if (!res)
+		return (0);
+	res = fill_mem(res, n);
+	return (res);
+}
+
 
 
 void	ft_putstr_fd(char *s, int fd)
@@ -625,6 +716,7 @@ t_deque	*parsing_pipe(char **arg)
 		{
 			node->file_redir = append_str(node->file_redir, arg[i + 1]);
 			node->order_redir = append_str(node->order_redir, "<<");
+
 			i += 2;
 		}
 		else if (ft_strcmp(arg[i], ">>") == 0)
@@ -650,21 +742,36 @@ t_deque	*parsing_pipe(char **arg)
 }
 
 
-// int main()
-// {
-// // //----------------------------------------------------
-// 	char	*argum = "< infile0 grep 1 < infile1";
-// 	char	**arg_split = ft_split(argum, ' ');
-// // //----------------------------------------------------
-	
-// 	char **new_arg = append_str(arg_split, "success");
-// 	for (int i=0; new_arg[i]; i++)
-// 	{
-// 		printf("%s\n", new_arg[i]);
-// 	}
+// void	ft_here_doc(char *terminator, char *filename)
+int	ft_here_doc(t_heredoc *hdoc, int idx)
+{
+	char	*str;
+	pid_t	pid;
+	int		here_fd;
 
-// }
-
+	here_fd = open(hdoc->filename_temp[idx], O_RDWR | O_CREAT | O_TRUNC, 0666);
+	pid = fork();
+	if (pid < 0)
+		exit(1);
+	if (pid == 0)
+	{
+		while (1)
+		{
+			str = readline("> ");
+			if (!str || ft_strcmp(hdoc->terminators[idx], str) == 0)
+			{
+				if (str)
+					free(str);
+				exit(0);
+			}
+			write(here_fd, str, ft_strlen(str));
+			write(here_fd, "\n", 1);
+			free(str);
+		}
+	}
+	wait(NULL);
+	return (here_fd);
+}
 
 
 
@@ -679,9 +786,9 @@ int	main(int argc, char **argv, char **envp)
 	// char	*argum = "sleep 7 | sleep 10 | sleep 5";
 	// char	*argum = "< infile0 grep r > outfile0 > outfile1";
 	// char	*argum = "< infile0 < infile1 grep r";
-	// char	*argum = "<< end grep a | grep 1";
+	char	*argum = "<< end0 grep a | grep 1";
 	// char	*argum = "ls -al | grep 35 | grep a";
-	char	*argum = "< infile0 grep r";
+	// char	*argum = "< infile0 grep r";
 	// char	*argum = "cat | ls";
 	// char	*argum = "echo a | exit 88";
 	// char	*argum = "cat | cat | cat";
@@ -703,7 +810,92 @@ int	main(int argc, char **argv, char **envp)
 //----------------------------------------------------
 	t_node	*node = deque->front;
 //----------------------------------------------------
+	// int	idx = 0;
+	// while (node)
+	// {
+	// 	printf("    pipe : %d\n", idx++);
+	// 	printf("    pipe idx : %d\n", node->idx);
+	// 	if (node->cmd)
+	// 		for (int i=0; node->cmd[i]; i++)
+	// 			printf("cmd : %s \n", node->cmd[i]);
+	// 	if (node->order_redir)
+	// 		for (int i=0; node->order_redir[i]; i++)
+	// 			printf("order_redir : %s \n", node->order_redir[i]);
+	// 	if (node->file_redir)
+	// 		for (int i=0; node->file_redir[i]; i++)
+	// 			printf("file_redir : %s \n", node->file_redir[i]);
+
+	// 	node = node->next;
+	// }
+	// printf("---------------\n---------------\n");
+	// usleep(200);
+	// node = deque->front;
+//----------------------------------------------------
+	
+	t_heredoc hdoc;
+	init_2d_arr(&(hdoc.filename_temp));
+	init_2d_arr(&(hdoc.terminators));
+	hdoc.size_heredoc = 0;
+	for (int i=0; arg_split[i]; i++)
+	{
+		if (ft_strcmp(arg_split[i], "<<") == 0)
+		{
+			hdoc.terminators = append_str(hdoc.terminators, arg_split[i+1]);
+			hdoc.filename_temp = append_str(hdoc.filename_temp, ft_strjoin("./.here_doc", ft_itoa(hdoc.size_heredoc)));
+			hdoc.size_heredoc++;
+		}
+	}
+	hdoc.fd_heredoc = malloc(sizeof(int) * hdoc.size_heredoc);
+	for (int i=0; i<hdoc.size_heredoc; i++)
+	{
+		hdoc.fd_heredoc[i] = ft_here_doc(&hdoc, i);
+	}
+
+	//node->num_heredoc 계산
+	node = deque->front;
+	node->num_heredoc = 0;
+	while (node)
+	{
+		for (int i=0; node->order_redir[i]; i++)
+		{
+			if (ft_strcmp(node->order_redir[i], "<<") == 0)
+				node->num_heredoc++;
+		}
+		node = node->next;
+	}
+
+	//filename_heredoc 분배
+	init_2d_arr(&(node->finlename_heredoc));
+	node = deque->front;
+	int	idx_hd = 0;
+	while (node)
+	{
+		for (int i=0; i<node->num_heredoc; i++)
+		{
+			node->finlename_heredoc = append_str(node->finlename_heredoc, hdoc.filename_temp[idx_hd++]);
+		}
+		node = node->next;
+	}
+
+	//fd_heredoc 분배
+	// node = deque->front;
+	// int	idx_hd = 0;
+	// while (node)
+	// {
+	// 	node->node_fd_heredoc = malloc(sizeof(int) * node->num_heredoc);
+	// 	for (int i=0; i<node->num_heredoc; i++)
+	// 	{
+	// 		node->node_fd_heredoc[i] = hdoc.fd_heredoc[idx_hd++];
+	// 	}
+	// 	node = node->next;
+	// }
+
+
+
+
+//----------------------------------------------------
 	int	idx = 0;
+	node = deque->front;
 	while (node)
 	{
 		printf("    pipe : %d\n", idx++);
@@ -717,7 +909,10 @@ int	main(int argc, char **argv, char **envp)
 		if (node->file_redir)
 			for (int i=0; node->file_redir[i]; i++)
 				printf("file_redir : %s \n", node->file_redir[i]);
-
+		printf("num_heredoc : %d \n", node->num_heredoc);
+		if (node->finlename_heredoc)
+			for (int i=0; node->finlename_heredoc[i]; i++)
+				printf("filename_heredoc : %s \n", node->finlename_heredoc[i]);
 		node = node->next;
 	}
 	printf("---------------\n---------------\n");
@@ -725,133 +920,131 @@ int	main(int argc, char **argv, char **envp)
 	node = deque->front;
 //----------------------------------------------------
 
+
+
+
+	// node = deque->front;
+	// pid_t	pid;
+	// int		fd_in;
+	// int		fd_out;
+
 	// while (node)
 	// {
-	// 	for (int i=0; node->order_redir[i]; i++)
+	// 	pid = fork();
+	// 	if (pid < 0)
+	// 		ft_p_error("Error: fork()");
+	// 	else if (pid == 0)
 	// 	{
-	// 		if (ft_strcmp(node->order_redir[i], "<<") == 0)
-	// 			node->file_redir[i]
+
+	// 		if (node->prev)	//이전에 파이프가 있다.
+	// 		{
+	// 			// close(node->pipe_fd[WRITE]);
+	// 			// dup2(node->pipe_fd[READ], STDIN_FILENO);
+	// 			dup2(information.pipes[node->idx - 1][READ], STDIN_FILENO);
+	// 		}
+			
+	// 		if (node->next)	//이후에 파이프가 있다.
+	// 		{
+	// 			// pipe(node->next->pipe_fd);
+	// 			// close(node->next->pipe_fd[READ]);
+	// 			// dup2(node->next->pipe_fd[WRITE], STDOUT_FILENO);
+	// 			dup2(information.pipes[node->idx][WRITE], STDOUT_FILENO);
+	// 		}
+			
+	// 		if (node->order_redir)
+	// 		{
+	// 			int	idx_hd_in_node = 0;
+	// 			for (int i=0; node->order_redir[i]; i++)
+	// 			{
+	// 				if (ft_strcmp(node->order_redir[i], "<") == 0)
+	// 				{
+	// 					fd_in = open(node->file_redir[i], O_RDONLY);
+	// 					if (fd_in < 0)
+	// 					{
+	// 						perror("open");
+	// 						exit(1);
+	// 					}
+	// 					dup2(fd_in, STDIN_FILENO);
+	// 					close(fd_in);
+	// 				}
+	// 				if (ft_strcmp(node->order_redir[i], ">") == 0)
+	// 				{
+	// 					fd_out =  open(node->file_redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	// 					if (fd_out < 0)
+	// 					{
+	// 						perror("open");
+	// 						exit(1);
+	// 					}
+	// 					dup2(fd_out, STDOUT_FILENO);
+	// 					close(fd_out);
+	// 				}
+	// 				if (ft_strcmp(node->order_redir[i], ">>") == 0)
+	// 				{
+	// 					fd_out =  open(node->file_redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	// 					if (fd_out < 0)
+	// 					{
+	// 						perror("open");
+	// 						exit(1);
+	// 					}
+	// 					dup2(fd_out, STDOUT_FILENO);
+	// 					close(fd_out);
+	// 				}
+	// 				if (ft_strcmp(node->order_redir[i], "<<") == 0)
+	// 				{
+	// 					dup2(node->node_fd_heredoc[idx_hd_in_node], STDIN_FILENO);
+	// 					close(node->node_fd_heredoc[idx_hd_in_node++]);
+	// 				}
+	// 			}
+	// 		}
+
+	// 		// if (node->infile)
+	// 		// {
+	// 		// 	for (int i=0; node->infile[i]; i++)
+	// 		// 	{
+	// 		// 		fd_in = open(node->infile[i], O_RDONLY);
+	// 		// 		dup2(fd_in, STDIN_FILENO);
+	// 		// 	}
+	// 		// }
+	// 		// if (node->outfile_ow)
+	// 		// {
+	// 		// 	for (int i=0; node->outfile_ow[i]; i++)
+	// 		// 	{
+	// 		// 		fd_out =  open(node->outfile_ow[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	// 		// 		dup2(fd_out, STDOUT_FILENO);
+	// 		// 	}
+	// 		// }
+	// 		// if (node->outfile_apd)
+	// 		// {
+
+	// 		// }
+
+	// 		// usleep(1000 * 1000);
+
+	// 		if (node->cmd)
+	// 		{
+	// 			exec(node->cmd, envp);
+	// 			// char *cmd_with_path = find_command_path(node->cmd[0], envp);
+	// 			// if (execve(cmd_with_path, node->cmd, envp) == -1)
+	// 			// 	exit(1);
+	// 		}
+	// 		exit(0);
 	// 	}
-
-	// 	node = node->next;
+	// 	else
+	// 	{
+	// 		// printf("wating for %d/ %d\n",pid, node->idx);
+	// 		// waitpid(pid, NULL, 0);
+	// 		// printf("wait end %d\n", pid);
+	// 		// node = node->next;
+	// 		if (node->prev)
+    //         	close(information.pipes[node->idx - 1][READ]);
+    //         if (node->next)
+    //     		close(information.pipes[node->idx][WRITE]);
+    //         // printf("wating for %d/ %d\n",pid, node->idx);
+    //         // waitpid(pid, NULL, 0);
+    //         // printf("wait end %d\n", pid);
+    //         node = node->next;
+	// 	}
 	// }
-
-	node = deque->front;
-	pid_t	pid;
-	int		fd_in;
-	int		fd_out;
-
-	while (node)
-	{
-		pid = fork();
-		if (pid < 0)
-			ft_p_error("Error: fork()");
-		else if (pid == 0)
-		{
-
-			if (node->prev)	//이전에 파이프가 있다.
-			{
-				// close(node->pipe_fd[WRITE]);
-				// dup2(node->pipe_fd[READ], STDIN_FILENO);
-				dup2(information.pipes[node->idx - 1][READ], STDIN_FILENO);
-			}
-			
-			if (node->next)	//이후에 파이프가 있다.
-			{
-				// pipe(node->next->pipe_fd);
-				// close(node->next->pipe_fd[READ]);
-				// dup2(node->next->pipe_fd[WRITE], STDOUT_FILENO);
-				dup2(information.pipes[node->idx][WRITE], STDOUT_FILENO);
-			}
-			
-			if (node->order_redir)
-			{
-				for (int i=0; node->order_redir[i]; i++)
-				{
-					if (ft_strcmp(node->order_redir[i], "<") == 0)
-					{
-						fd_in = open(node->file_redir[i], O_RDONLY);
-						if (fd_in < 0)
-						{
-							perror("open");
-							exit(1);
-						}
-						dup2(fd_in, STDIN_FILENO);
-						close(fd_in);
-					}
-					if (ft_strcmp(node->order_redir[i], ">") == 0)
-					{
-						fd_out =  open(node->file_redir[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-						if (fd_out < 0)
-						{
-							perror("open");
-							exit(1);
-						}
-						dup2(fd_out, STDOUT_FILENO);
-						close(fd_out);
-					}
-					if (ft_strcmp(node->order_redir[i], ">>") == 0)
-					{
-						fd_out =  open(node->file_redir[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-						if (fd_out < 0)
-						{
-							perror("open");
-							exit(1);
-						}
-						dup2(fd_out, STDOUT_FILENO);
-						close(fd_out);
-					}
-				}
-			}
-
-			// if (node->infile)
-			// {
-			// 	for (int i=0; node->infile[i]; i++)
-			// 	{
-			// 		fd_in = open(node->infile[i], O_RDONLY);
-			// 		dup2(fd_in, STDIN_FILENO);
-			// 	}
-			// }
-			// if (node->outfile_ow)
-			// {
-			// 	for (int i=0; node->outfile_ow[i]; i++)
-			// 	{
-			// 		fd_out =  open(node->outfile_ow[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			// 		dup2(fd_out, STDOUT_FILENO);
-			// 	}
-			// }
-			// if (node->outfile_apd)
-			// {
-
-			// }
-
-			// usleep(1000 * 1000);
-
-			if (node->cmd)
-			{
-				exec(node->cmd, envp);
-				// char *cmd_with_path = find_command_path(node->cmd[0], envp);
-				// if (execve(cmd_with_path, node->cmd, envp) == -1)
-				// 	exit(1);
-			}
-			exit(0);
-		}
-		else
-		{
-			// printf("wating for %d/ %d\n",pid, node->idx);
-			// waitpid(pid, NULL, 0);
-			// printf("wait end %d\n", pid);
-			// node = node->next;
-			if (node->prev)
-            	close(information.pipes[node->idx - 1][READ]);
-            if (node->next)
-        		close(information.pipes[node->idx][WRITE]);
-            // printf("wating for %d/ %d\n",pid, node->idx);
-            // waitpid(pid, NULL, 0);
-            // printf("wait end %d\n", pid);
-            node = node->next;
-		}
-	}
-	for (int i=0; i<information.num_pipe + 1; i++)
-		wait(NULL);
+	// for (int i=0; i<information.num_pipe + 1; i++)
+	// 	wait(NULL);
 }
