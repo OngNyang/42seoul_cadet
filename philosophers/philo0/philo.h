@@ -3,6 +3,7 @@
 
 # include <pthread.h>
 # include <stdlib.h>
+#include <sys/_pthread/_pthread_mutex_t.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <stdio.h>
@@ -67,6 +68,7 @@ typedef struct s_simul
 	// pthread_mutex_t	write;			//????
 	pthread_mutex_t	mutex_print;
 
+	pthread_mutex_t	mutex_flag_dead;
 	// t_philo			*philo;			//array of philo
 	t_philo	*arr_philo;
 }				t_simul;

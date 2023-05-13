@@ -81,12 +81,9 @@ int	ft_atoi(const char *nptr)
 }
 
 //------------------------------------------------
-
-
-
-
-
-
+/*
+초기화
+*/
 t_bool	init_simul(t_simul *simul, int argc, char **argv)
 {
 	int	i;
@@ -108,6 +105,11 @@ t_bool	init_simul(t_simul *simul, int argc, char **argv)
 	return (TRUE);
 }
 
+
+//------------------------------------------------------------------------
+/*
+utils
+*/
 long long	get_time(void)
 {
 	struct timeval	tv;
@@ -116,6 +118,47 @@ long long	get_time(void)
 	gettimeofday(&tv, NULL);
 	time_as_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	return (time_as_ms);
+}
+
+void	pthread_usleep(t_simul *simul, long long time)
+{
+	long long	end_time;
+	long long 	now;
+
+	now = get_time();
+	end_time = now + time;
+	while (now <= end_time)
+	{
+		if (simul->flag_dead == TRUE)
+			break ;
+		usleep(10);
+		now = get_time();
+	}
+}
+
+void	mutex_printf(t_simul *simul, char *str, int id)
+{
+	if (simul->flag_dead == TRUE)
+		return ;
+	pthread_mutex_lock(&(simul->mutex_print));
+	printf("%lld %d %s\n", get_time() - simul->time_of_launch, id, str);
+	pthread_mutex_unlock(&(simul->mutex_print));
+}
+
+//------------------------------------------------------------------------
+/*
+simul
+*/
+
+t_bool	take_fork_eat(t_philo *philo)
+{
+	pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
+	mutex_printf(philo->simul, "has taken fork", philo->id);
+	pthread_mutex_lock(&(philo->simul->arr_forks[philo->r_fork]));
+	mutex_printf(philo->simul, "has taken fork", philo->id);
+	mutex_printf(philo->simul, "is eating", philo->id);
+	philo->time_meal = get_time();
+	philo->num_meal++;
 }
 
 void	*pthread_func(void	*arg)
@@ -127,11 +170,15 @@ void	*pthread_func(void	*arg)
 		usleep(1000);
 	while (philo->simul->flag_dead == FALSE)
 	{
-		if (take_for_eat(philo))
+		if (take_fork_eat(philo))
 			break ;
 		mutex_printf(philo->simul, "is sleeping", philo->id);
+		pthread_usleep(philo->simul, philo->simul->time_to_sleep);
+		mutex_printf(philo->simul, "is thinking", philo->id);
 	}
+	return (NULL);
 }
+
 
 void	start_simul(t_simul *simul)
 {
@@ -142,10 +189,13 @@ void	start_simul(t_simul *simul)
 	while (i < simul->num_of_philo)
 	{
 		simul->arr_philo[i].time_meal = simul->time_of_launch;
-		pthread_create(&(simul->arr_philo[i].tid), NULL, pthread_func, (void*)&(simul->arr_philo[i]));
+		pthread_create(&(simul->arr_philo[i].tid), NULL, pthread_func, (void *)&(simul->arr_philo[i]));
 		i++;
 	}
+	check_eat_death(simul);
 }
+
+//------------------------------------------------------------------------
 
 int	main(int argc, char **argv)
 {
