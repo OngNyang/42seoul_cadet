@@ -207,6 +207,23 @@ t_bool	init_simul(t_simul *simul, int argc, char **argv)
 //---------------------------------------------
 
 
+void	pthread_usleep(t_simul *simul, long long time)
+{
+	long long	end_time;
+	long long	now;
+
+	now = get_time();
+	end_time = now + time;
+	while (now <= end_time)
+	{
+		if(simul->flag_dead == TRUE)
+			break ;
+		usleep(10);
+		now = get_time();
+	}
+}
+
+
 t_bool	take_fork_eat(t_philo *philo)
 {
 		pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
@@ -217,7 +234,8 @@ t_bool	take_fork_eat(t_philo *philo)
 		mutex_printf(philo->simul, "is eating", philo->id);
 		philo->time_meal = get_time();
 		philo->num_meal++;
-		usleep(philo->simul->time_to_eat * 1000);
+		// usleep(philo->simul->time_to_eat * 1000);
+		pthread_usleep(philo->simul, philo->simul->time_to_eat);
 
 		pthread_mutex_unlock(&(philo->simul->arr_forks[philo->l_fork]));
 		// mutex_printf(philo->simul, "put down left fork", philo->id);
@@ -228,6 +246,7 @@ t_bool	take_fork_eat(t_philo *philo)
 		return (FALSE);
 
 }
+
 
 
 void	*pthread_func(void	*arg)
@@ -242,7 +261,8 @@ void	*pthread_func(void	*arg)
 		if (take_fork_eat(philo))
 			break ;
 		mutex_printf(philo->simul, "is sleeping", philo->id);
-		usleep(philo->simul->time_to_sleep * 1000);
+		// usleep(philo->simul->time_to_sleep * 1000);
+		pthread_usleep(philo->simul, philo->simul->time_to_sleep);
 		mutex_printf(philo->simul, "is thinking", philo->id);
 	}
 
@@ -266,6 +286,7 @@ void	check_eat_death(t_simul *simul)
 			{
 				mutex_printf(simul, "died", i + 1);
 				simul->flag_dead = TRUE;
+				//뮤텍스 추가
 			}
 			i++;
 		}
@@ -322,33 +343,33 @@ int	main(int argc, char **argv)
 		return (ft_p_error("Error: init_simul()"));
 
 	//----------test_code----------
-	printf("num_of_philo : %d\n", simul.num_of_philo);
-	printf("time_to_die : %d\n", simul.time_to_die);
-	printf("time_to_eat : %d\n", simul.time_to_eat);
-	printf("time_to_sleep : %d\n", simul.time_to_sleep);
-	printf("num_must_eat : %d\n", simul.num_must_eat);
-	printf("flag_dead : %d\n", simul.flag_dead);
-	printf("flag_finish : %d\n", simul.flag_finish);
-	printf("time_of_launch : %lld\n", simul.time_of_launch);
-	printf("arr_forks : %p\n", simul.arr_forks);
-	for (int i=0; i<simul.num_of_philo; i++)
-	{
-		printf("arr_forks[%d] : %p\n", i, &(simul.arr_forks[i]));
-	}
-	printf("mutex_print : %p\n", &(simul.mutex_print));
-	for (int i=0; i<simul.num_of_philo; i++)
-	{
-		printf("arr_philo[%d] : %p\n", i, &(simul.arr_philo[i]));
-		printf("    id : %d\n", simul.arr_philo[i].id);
-		printf("    l_fork : %d\n", simul.arr_philo[i].l_fork);
-		printf("    r_fork : %d\n", simul.arr_philo[i].r_fork);
-		printf("    time_meal : %lld\n", simul.arr_philo[i].time_meal);
-		printf("    num_meal : %d\n", simul.arr_philo[i].num_meal);
-		printf("    simul : %p\n", simul.arr_philo[i].simul);
-		printf("    tid : %p\n", &(simul.arr_philo[i].tid));
-	}
-	printf("\n\n\n");
-	usleep(100);
+	// printf("num_of_philo : %d\n", simul.num_of_philo);
+	// printf("time_to_die : %d\n", simul.time_to_die);
+	// printf("time_to_eat : %d\n", simul.time_to_eat);
+	// printf("time_to_sleep : %d\n", simul.time_to_sleep);
+	// printf("num_must_eat : %d\n", simul.num_must_eat);
+	// printf("flag_dead : %d\n", simul.flag_dead);
+	// printf("flag_finish : %d\n", simul.flag_finish);
+	// printf("time_of_launch : %lld\n", simul.time_of_launch);
+	// printf("arr_forks : %p\n", simul.arr_forks);
+	// for (int i=0; i<simul.num_of_philo; i++)
+	// {
+	// 	printf("arr_forks[%d] : %p\n", i, &(simul.arr_forks[i]));
+	// }
+	// printf("mutex_print : %p\n", &(simul.mutex_print));
+	// for (int i=0; i<simul.num_of_philo; i++)
+	// {
+	// 	printf("arr_philo[%d] : %p\n", i, &(simul.arr_philo[i]));
+	// 	printf("    id : %d\n", simul.arr_philo[i].id);
+	// 	printf("    l_fork : %d\n", simul.arr_philo[i].l_fork);
+	// 	printf("    r_fork : %d\n", simul.arr_philo[i].r_fork);
+	// 	printf("    time_meal : %lld\n", simul.arr_philo[i].time_meal);
+	// 	printf("    num_meal : %d\n", simul.arr_philo[i].num_meal);
+	// 	printf("    simul : %p\n", simul.arr_philo[i].simul);
+	// 	printf("    tid : %p\n", &(simul.arr_philo[i].tid));
+	// }
+	// printf("\n\n\n");
+	// usleep(100);
 	//------------------------------
 	start_simul(&simul);
 	join_philo(&simul);
