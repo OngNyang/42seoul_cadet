@@ -328,6 +328,8 @@ void	*pthread_func(void	*arg)
 /*
 using pthread_create()
 */
+
+
 void	start_simul(t_simul *simul)
 {
 	int	i;

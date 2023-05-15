@@ -81,130 +81,46 @@ int	ft_atoi(const char *nptr)
 }
 
 //------------------------------------------------
-/*
-초기화
-*/
+
 t_bool	init_simul(t_simul *simul, int argc, char **argv)
 {
-	int	i;
-
 	simul->num_of_philo = ft_atoi(argv[NUM_OF_PHILO]);
-	i = 0;
-	while (i < simul->num_of_philo)
-	{
-		simul->arr_philo[i].id = i + 1;
-		simul->arr_philo[i].l_fork = i;
-		simul->arr_philo[i].r_fork = i + 1;
-		if (i == simul->num_of_philo - 1)
-			simul->arr_philo[i].r_fork = 0;
-		simul->arr_philo[i].time_meal = 0;
-		simul->arr_philo[i].num_meal = 0;
-		simul->arr_philo[i].simul = simul;
-		i++;
-	}
+	simul->time_to_die = ft_atoi(argv[TIME_TO_DIE]);
+	simul->time_to_eat = ft_atoi(argv[TIME_TO_EAT]);
+	simul->time_to_sleep = ft_atoi(argv[TIME_TO_SLEEP]);
+	if (argc == 5)
+		simul->num_must_eat = 0;
+	else if (argc == 6)
+		simul->num_must_eat = ft_atoi(argv[NUM_MUST_EAT]);
+	simul->flag_dead = FALSE;
+	simul->flag_finish = FALSE;
+	simul->time_of_launch = 0;
+	if (check_argv(simul, argc) == FALSE)
+		return (FALSE);
+	if (init_arr_forks(simul) == FALSE)
+		return (FALSE);
+	if (pthread_mutex_init(&(simul->fork_in_use), NULL) != 0)
+		return (FALSE);
+	if (pthread_mutex_init(&(simul->mutex_print), NULL) != 0)
+		return (FALSE);
+	if (pthread_mutex_init(&(simul->mutex_flag_dead), NULL) != 0)
+		return (FALSE);
+	if (init_arr_philo(simul) == FALSE)
+		return (FALSE);
 	return (TRUE);
 }
 
 
-//------------------------------------------------------------------------
-/*
-utils
-*/
-long long	get_time(void)
-{
-	struct timeval	tv;
-	long long		time_as_ms;
 
-	gettimeofday(&tv, NULL);
-	time_as_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (time_as_ms);
-}
-
-void	pthread_usleep(t_simul *simul, long long time)
-{
-	long long	end_time;
-	long long 	now;
-
-	now = get_time();
-	end_time = now + time;
-	while (now <= end_time)
-	{
-		if (simul->flag_dead == TRUE)
-			break ;
-		usleep(10);
-		now = get_time();
-	}
-}
-
-void	mutex_printf(t_simul *simul, char *str, int id)
-{
-	if (simul->flag_dead == TRUE)
-		return ;
-	pthread_mutex_lock(&(simul->mutex_print));
-	printf("%lld %d %s\n", get_time() - simul->time_of_launch, id, str);
-	pthread_mutex_unlock(&(simul->mutex_print));
-}
-
-//------------------------------------------------------------------------
-/*
-simul
-*/
-
-t_bool	take_fork_eat(t_philo *philo)
-{
-	pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
-	mutex_printf(philo->simul, "has taken fork", philo->id);
-	pthread_mutex_lock(&(philo->simul->arr_forks[philo->r_fork]));
-	mutex_printf(philo->simul, "has taken fork", philo->id);
-	mutex_printf(philo->simul, "is eating", philo->id);
-	philo->time_meal = get_time();
-	philo->num_meal++;
-}
-
-void	*pthread_func(void	*arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	if (philo->id % 2 == 1)
-		usleep(1000);
-	while (philo->simul->flag_dead == FALSE)
-	{
-		if (take_fork_eat(philo))
-			break ;
-		mutex_printf(philo->simul, "is sleeping", philo->id);
-		pthread_usleep(philo->simul, philo->simul->time_to_sleep);
-		mutex_printf(philo->simul, "is thinking", philo->id);
-	}
-	return (NULL);
-}
-
-
-void	start_simul(t_simul *simul)
-{
-	int	i;
-
-	simul->time_of_launch = get_time();
-	i = 0;
-	while (i < simul->num_of_philo)
-	{
-		simul->arr_philo[i].time_meal = simul->time_of_launch;
-		pthread_create(&(simul->arr_philo[i].tid), NULL, pthread_func, (void *)&(simul->arr_philo[i]));
-		i++;
-	}
-	check_eat_death(simul);
-}
-
-//------------------------------------------------------------------------
 
 int	main(int argc, char **argv)
 {
 	t_simul	simul;
 
-	if (!(argc == 5 || argc == 6))
-		return (ft_p_error("Error: wrong argument\n"));
-	if (init_simul(&simul, argc, argv) == FALSE)
-		return (ft_p_error("Error: init_simul()\n"));
-	start_simul(&simul);
+	if (!(argc == 5 || argc ==6))
+		return (ft_p_error("Error: wrong argument"));
 	
+	if (init_simul(&simul, argc, argv) == FALSE)
+		return (ft_p_error("Error: init_simul()"));
+
 }
