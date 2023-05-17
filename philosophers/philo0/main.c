@@ -104,10 +104,10 @@ long long	get_time(void)
 //---------------------------------------------
 void	mutex_printf(t_simul *simul, char *str, int id)
 {
-	pthread_mutex_lock(&(simul->mutex_flag_dead));
+	// pthread_mutex_lock(&(simul->mutex_flag_dead));
 	if (simul->flag_dead == TRUE)
 		return ;
-	pthread_mutex_unlock(&(simul->mutex_flag_dead));
+	// pthread_mutex_unlock(&(simul->mutex_flag_dead));
 	pthread_mutex_lock(&(simul->mutex_print));
 	printf("%lld %d %s\n", get_time() - simul->time_of_launch, id, str);
 	pthread_mutex_unlock(&(simul->mutex_print));
@@ -202,8 +202,8 @@ t_bool	init_simul(t_simul *simul, int argc, char **argv)
 		return (FALSE);
 	if (pthread_mutex_init(&(simul->mutex_print), NULL) != 0)
 		return (FALSE);
-	if (pthread_mutex_init(&(simul->mutex_flag_dead), NULL) != 0)
-		return (FALSE);
+	// if (pthread_mutex_init(&(simul->mutex_flag_dead), NULL) != 0)
+	// 	return (FALSE);
 	if (init_arr_philo(simul) == FALSE)
 		return (FALSE);
 	return (TRUE);
@@ -220,13 +220,13 @@ void	pthread_usleep(t_simul *simul, long long time)
 	end_time = now + time;
 	while (now <= end_time)
 	{
-		pthread_mutex_lock(&(simul->mutex_flag_dead));
+		// pthread_mutex_lock(&(simul->mutex_flag_dead));
 		if(simul->flag_dead == TRUE)
 		{
-			pthread_mutex_unlock(&(simul->mutex_flag_dead));
+			// pthread_mutex_unlock(&(simul->mutex_flag_dead));
 			break ;
 		}
-		pthread_mutex_unlock(&(simul->mutex_flag_dead));
+		// pthread_mutex_unlock(&(simul->mutex_flag_dead));
 		usleep(10);
 		now = get_time();
 	}
@@ -242,9 +242,9 @@ t_bool	take_fork_eat(t_philo *philo)
 		
 		if (get_time() - philo->time_meal >= philo->simul->time_to_die)
 		{
-			pthread_mutex_lock(&(philo->simul->mutex_flag_dead));
+			// pthread_mutex_lock(&(philo->simul->mutex_flag_dead));
 			philo->simul->flag_dead = TRUE;
-			pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
+			// pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
 
 		}
 
@@ -275,13 +275,13 @@ void	*pthread_func(void	*arg)
 	// while (philo->simul->flag_dead == FALSE)
 	while(1)
 	{
-		pthread_mutex_lock(&(philo->simul->mutex_flag_dead));
+		// pthread_mutex_lock(&(philo->simul->mutex_flag_dead));
 		if (philo->simul->flag_dead != FALSE)
 		{
-			pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
+			// pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
 			break ;
 		}
-		pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
+		// pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
 		if (take_fork_eat(philo))
 			break ;
 		mutex_printf(philo->simul, "is sleeping", philo->id);
@@ -296,33 +296,33 @@ void	*pthread_func(void	*arg)
 /*
 무한 루프 돌면서 계속 죽은 철학자 검사.
 */
-// void	check_eat_death(t_simul *simul)
-// {
-// 	int	i;
-// 	int	j;
+void	check_eat_death(t_simul *simul)
+{
+	int	i;
+	int	j;
 
-// 	while (simul->flag_finish == FALSE)
-// 	{
-// 		i = 0;
-// 		while ((i < simul->num_of_philo) && (simul->flag_dead == FALSE))
-// 		{
-// 			if ((get_time() - simul->arr_philo[i].time_meal) > simul->time_to_die)
-// 			{
-// 				mutex_printf(simul, "died", i + 1);
-// 				simul->flag_dead = TRUE;
-// 				//뮤텍스 추가
-// 			}
-// 			i++;
-// 		}
-// 		if (simul->flag_dead)
-// 			break ;
-// 		j = 0;
-// 		while (simul->num_must_eat != 0 && j < simul->num_of_philo && simul->arr_philo[j].num_meal >= simul->num_must_eat)
-// 			j++;
-// 		if (j == simul->num_of_philo)
-// 			simul->flag_finish = TRUE;
-// 	}
-// }
+	while (simul->flag_finish == FALSE)
+	{
+		i = 0;
+		while ((i < simul->num_of_philo) && (simul->flag_dead == FALSE))
+		{
+			if ((get_time() - simul->arr_philo[i].time_meal) > simul->time_to_die)
+			{
+				mutex_printf(simul, "died", i + 1);
+				simul->flag_dead = TRUE;
+				//뮤텍스 추가
+			}
+			i++;
+		}
+		if (simul->flag_dead)
+			break ;
+		j = 0;
+		while (simul->num_must_eat != 0 && j < simul->num_of_philo && simul->arr_philo[j].num_meal >= simul->num_must_eat)
+			j++;
+		if (j == simul->num_of_philo)
+			simul->flag_finish = TRUE;
+	}
+}
 
 
 /*
@@ -342,7 +342,7 @@ void	start_simul(t_simul *simul)
 		pthread_create(&(simul->arr_philo[i].tid), NULL, pthread_func, (void *)&(simul->arr_philo[i]));
 		i++;
 	}
-	// check_eat_death(simul);
+	check_eat_death(simul);
 }
 
 void	join_philo(t_simul *simul)
