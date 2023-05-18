@@ -103,8 +103,6 @@ t_bool	init_simul(t_simul *simul, int argc, char **argv)
 		return (FALSE);
 	if (pthread_mutex_init(&(simul->mutex_print), NULL) != 0)
 		return (FALSE);
-	if (pthread_mutex_init(&(simul->mutex_flag_dead), NULL) != 0)
-		return (FALSE);
 	if (init_arr_philo(simul) == FALSE)
 		return (FALSE);
 	return (TRUE);

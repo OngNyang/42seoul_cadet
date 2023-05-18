@@ -1,4 +1,3 @@
-
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/_pthread/_pthread_mutex_t.h>
@@ -46,8 +45,8 @@ typedef struct	s_simul
 	long long	time_launch;
 	t_philo	*arr_philo; 
 	pthread_mutex_t *arr_forks;
-	pthread_mutex_t	mutex_fork;
 	pthread_mutex_t	mutex_print;
+	pthread_mutex_t	mutex_flag_dead;
 }				t_simul;
 
 //--------------------------------------------------------
@@ -149,10 +148,11 @@ long long	get_time(void)
 void	mutex_printf(t_simul *simul, char *str, int id)
 {
 	pthread_mutex_lock(&(simul->mutex_print));
+	pthread_mutex_lock(&(simul->mutex_flag_dead));
 	if (simul->flag_dead == TRUE)
 		return ;
-	else
-		printf("%lld %d %s\n", get_time() - simul->time_launch, id, str);
+	pthread_mutex_unlock(&(simul->mutex_flag_dead));
+	printf("%lld %d %s\n", get_time() - simul->time_launch, id, str);
 	pthread_mutex_unlock(&(simul->mutex_print));
 }
 
@@ -160,10 +160,14 @@ void	pthread_usleep(t_simul *simul, long long time)
 {
 	long long	end_time;
 	long long	now;
+	t_bool		temp_flag;
 
 	now = get_time();
 	end_time = now + time;
-	while ((simul->flag_dead == FALSE) && now <= end_time)
+	pthread_mutex_lock(&(simul->mutex_flag_dead));
+	temp_flag = simul->flag_dead;
+	pthread_mutex_unlock(&(simul->mutex_flag_dead));
+	while ((temp_flag == FALSE) && now <= end_time)
 	{
 		usleep(10);
 		now = get_time();
@@ -185,7 +189,8 @@ void	pthread_usleep(t_simul *simul, long long time)
 
 void	*pthread_func(void *arg)
 {
-	t_philo	 *philo;
+	t_philo	*philo;
+	t_bool	temp_flag;
 
 	philo = (t_philo *)arg;
 //교착 상태 방지
@@ -194,7 +199,10 @@ void	*pthread_func(void *arg)
 	while (1)
 	{
 //한명이라도 죽으면 종료
-		if (philo->simul->flag_dead == TRUE)
+		pthread_mutex_lock(&(philo->simul->mutex_flag_dead));
+		temp_flag = philo->simul->flag_dead;
+		pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
+		if (temp_flag == TRUE)
 			break ;
 //포크 잡기
 		pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
@@ -270,7 +278,7 @@ int	main(int argc, char **argv)
 			return (ft_p_error("Error: pthread_mutex_init\n"));
 	}
 //mutex 나머지들
-	if (pthread_mutex_init(&(simul->mutex_fork), NULL) != 0)
+	if (pthread_mutex_init(&(simul->mutex_flag_dead), NULL) != 0)
 		return (ft_p_error("Error: pthread_mutex_init\n"));
 	if (pthread_mutex_init(&(simul->mutex_print), NULL)!= 0)
 		return (ft_p_error("Error: pthread_mutex_init\n"));
@@ -284,16 +292,22 @@ int	main(int argc, char **argv)
 	}
 //죽음, 종료 플래그 확인
 	int	flag_cnt;
+	t_bool	temp_flag;
 	while (1)
 	{
-		if (simul->flag_dead == TRUE || simul->flag_finish == TRUE)
+		pthread_mutex_lock(&(simul->mutex_flag_dead));
+		temp_flag = simul->flag_dead;
+		pthread_mutex_unlock(&(simul->mutex_flag_dead));
+		if (temp_flag == TRUE || simul->flag_finish == TRUE)
 			break ;
 		flag_cnt = 0;
 		for (int i=0; i<simul->num_philo; i++)
 		{
 			if (get_time() - simul->arr_philo[i].time_last_meal >= simul->time_die)
 			{
+				pthread_mutex_lock(&(simul->mutex_flag_dead));
 				simul->flag_dead = TRUE;
+				pthread_mutex_unlock(&(simul->mutex_flag_dead));
 				mutex_printf(simul, "died", simul->arr_philo[i].id);
 					break ;
 			}
@@ -319,7 +333,7 @@ int	main(int argc, char **argv)
 		pthread_mutex_destroy(&(simul->arr_forks[i]));
 	}
 	pthread_mutex_destroy(&(simul->mutex_print));
-	pthread_mutex_destroy(&(simul->mutex_fork));
+	pthread_mutex_destroy(&(simul->mutex_flag_dead));
 //free
 	free(simul->arr_forks);
 	free(simul->arr_philo);
