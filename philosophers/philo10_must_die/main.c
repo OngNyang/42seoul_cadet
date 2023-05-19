@@ -153,7 +153,11 @@ void	mutex_printf(t_simul *simul, char *str, int id)
 	pthread_mutex_lock(&(simul->mutex_print));
 	pthread_mutex_lock(&(simul->mutex_flag_dead));
 	if (simul->flag_dead == TRUE)
+	{
+		pthread_mutex_unlock(&(simul->mutex_flag_dead));
+		pthread_mutex_unlock(&(simul->mutex_print));
 		return ;
+	}
 	pthread_mutex_unlock(&(simul->mutex_flag_dead));
 	printf("%lld %d %s\n", get_time() - simul->time_launch, id, str);
 	pthread_mutex_unlock(&(simul->mutex_print));
@@ -188,299 +192,58 @@ void	pthread_usleep(t_simul *simul, long long time)
 
 */
 
-
-void	slow_start(t_philo *philo)
-{
-	if (philo->id % 2 == 1)
-		usleep(100);
-}
-
-t_bool	check_flag(t_simul *simul)
-{
-	pthread_mutex_lock(&(simul->mutex_flag_dead));
-	if (simul->flag_dead == TRUE)
-	{
-		pthread_mutex_unlock(&(simul->mutex_flag_dead));
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&(simul->mutex_flag_dead));
-	pthread_mutex_lock(&(simul->mutex_flag_finish));
-	if (simul->flag_finish == TRUE)
-	{
-		pthread_mutex_unlock(&(simul->mutex_flag_finish));
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&(simul->mutex_flag_finish));
-	return (FALSE);
-}
-
-void	grab_fork(t_philo *philo)
-{
-	pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
-	mutex_printf(philo->simul, "has taken fork", philo->id);
-	pthread_mutex_lock(&(philo->simul->arr_forks[philo->r_fork]));
-	mutex_printf(philo->simul, "has taken fork", philo->id);
-}
-
-void	dining(t_philo *philo)
-{
-	mutex_printf(philo->simul, "is eating", philo->id);
-	pthread_mutex_lock(&(philo->simul->mutex_time_meal));
-	philo->time_last_meal = get_time();
-	pthread_mutex_unlock(&(philo->simul->mutex_time_meal));
-	pthread_mutex_lock(&(philo->simul->mutex_num_meal));
-	philo->num_meal++;
-	pthread_mutex_unlock(&(philo->simul->mutex_num_meal));
-	pthread_usleep(philo->simul, philo->simul->time_eat);
-}
-
-void	put_down_fork(t_philo *philo)
-{
-	pthread_mutex_unlock(&(philo->simul->arr_forks[philo->l_fork]));
-	pthread_mutex_unlock(&(philo->simul->arr_forks[philo->r_fork]));
-}
-
-t_bool	check_flag_fin(t_philo *philo)
-{
-	pthread_mutex_lock(&(philo->simul->mutex_flag_finish));
-	if (philo->simul->flag_finish == TRUE)
-	{
-		pthread_mutex_unlock(&(philo->simul->mutex_flag_finish));
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&(philo->simul->mutex_flag_finish));
-	return (FALSE);
-}
-
-void	sleeping(t_philo *philo)
-{
-	mutex_printf(philo->simul, "is sleeping", philo->id);
-	pthread_usleep(philo->simul, philo->simul->time_sleep);
-	mutex_printf(philo->simul, "is thinking", philo->id);
-}
-
 void	*pthread_func(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 //교착 상태 방지
-	slow_start(philo);
+	if (philo->id % 2 == 1)
+		usleep(100);
 	while (1)
 	{
 //한명이라도 죽으면 종료
-		if (check_flag(philo->simul) == TRUE)
+		pthread_mutex_lock(&(philo->simul->mutex_flag_dead));
+		if (philo->simul->flag_dead == TRUE)
+		{
+			pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
 			break ;
+		}
+		pthread_mutex_unlock(&(philo->simul->mutex_flag_dead));
 //포크 잡기
-		grab_fork(philo);
+		pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
+		mutex_printf(philo->simul, "has taken fork", philo->id);
+		pthread_mutex_lock(&(philo->simul->arr_forks[philo->r_fork]));
+		mutex_printf(philo->simul, "has taken fork", philo->id);
 //먹기
-		dining(philo);
+		mutex_printf(philo->simul, "is eating", philo->id);
+		pthread_mutex_lock(&(philo->simul->mutex_time_meal));
+		philo->time_last_meal = get_time();
+		pthread_mutex_unlock(&(philo->simul->mutex_time_meal));
+		pthread_mutex_lock(&(philo->simul->mutex_num_meal));
+		philo->num_meal++;
+		pthread_mutex_unlock(&(philo->simul->mutex_num_meal));
+		pthread_usleep(philo->simul, philo->simul->time_eat);
 //포크 내려놓기
-		put_down_fork(philo);
+		pthread_mutex_unlock(&(philo->simul->arr_forks[philo->l_fork]));
+		pthread_mutex_unlock(&(philo->simul->arr_forks[philo->r_fork]));
 //전체 할당량 끝났는지 체크
-		if (check_flag_fin(philo) == TRUE)
+		pthread_mutex_lock(&(philo->simul->mutex_flag_finish));
+		if (philo->simul->flag_finish == TRUE)
+		{
+			pthread_mutex_unlock(&(philo->simul->mutex_flag_finish));
 			break ;
+		}
+		pthread_mutex_unlock(&(philo->simul->mutex_flag_finish));
 //자기
-		sleeping(philo);
+		mutex_printf(philo->simul, "is sleeping", philo->id);
+		pthread_usleep(philo->simul, philo->simul->time_sleep);
+		mutex_printf(philo->simul, "is thinking", philo->id);
 	}
 	return (NULL);
 }
 
-void	take_argv_to_simul(int argc, char **argv, t_simul *simul)
-{
-	simul->num_philo = ft_atoi(argv[NUM_OF_PHILO]);
-	simul->time_die = ft_atoi(argv[TIME_TO_DIE]);
-	simul->time_eat = ft_atoi(argv[TIME_TO_EAT]);
-	simul->time_sleep = ft_atoi(argv[TIME_TO_SLEEP]);
-	if (argc == 5)
-		simul->num_must_eat = 0;
-	else if (argc == 6)
-		simul->num_must_eat = ft_atoi(argv[NUM_MUST_EAT]);
-}
 
-t_bool	check_argv(t_simul *simul, int argc)
-{
-	if (simul->num_philo < 1)
-		return (FALSE);
-	if (simul->num_must_eat == 0 && argc == 6)
-		return (FALSE);
-	return (TRUE);
-}
-
-void	init_simul(t_simul *simul)
-{
-	simul->flag_dead = FALSE;
-	simul->flag_finish = FALSE;
-	simul->time_launch = 0;
-}
-
-void	init_philo(t_simul *simul)
-{
-	int	i;
-
-	simul->arr_philo = (t_philo *)malloc(sizeof(t_philo) * simul->num_philo);
-	i = 0;
-	while (i < simul->num_philo)
-	{
-		simul->arr_philo[i].id = i + 1;
-		simul->arr_philo[i].l_fork = i;
-		simul->arr_philo[i].r_fork = i + 1;
-		if (i == simul->num_philo - 1)
-			simul->arr_philo[i].r_fork = 0;
-		simul->arr_philo[i].time_last_meal = 0;
-		simul->arr_philo[i].num_meal = 0;
-		simul->arr_philo[i].simul = simul;
-		i++;
-	}
-}
-
-t_bool	init_mutex_forks(t_simul *simul)
-{
-	int	i;
-
-	simul->arr_forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * simul->num_philo);
-	i = 0;
-	while (i < simul->num_philo)
-	{
-		if (pthread_mutex_init(&(simul->arr_forks[i]), NULL) != 0)
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
-
-t_bool	init_mutex_others(t_simul *simul)
-{
-	if (pthread_mutex_init(&(simul->mutex_flag_dead), NULL) != 0)
-		return (FALSE);
-	if (pthread_mutex_init(&(simul->mutex_flag_finish), NULL) != 0)
-		return (FALSE);
-	if (pthread_mutex_init(&(simul->mutex_print), NULL) != 0)
-		return (FALSE);
-	if (pthread_mutex_init(&(simul->mutex_time_meal), NULL) != 0)
-		return (FALSE);
-	if (pthread_mutex_init(&(simul->mutex_num_meal), NULL) != 0)
-		return (FALSE);
-	return (TRUE);
-}
-
-t_bool	create_thread(t_simul *simul)
-{
-	int	i;
-
-	simul->time_launch = get_time();
-	i = 0;
-	while (i < simul->num_philo)
-	{
-		pthread_mutex_lock(&(simul->mutex_time_meal));
-		simul->arr_philo[i].time_last_meal = simul->time_launch;
-		pthread_mutex_unlock(&(simul->mutex_time_meal));
-		if (pthread_create(&(simul->arr_philo[i].tid), NULL, pthread_func, (void *)&(simul->arr_philo[i])))
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
-
-
-
-t_bool	check_death(t_simul *simul, int i)
-{
-	long long time_diff;
-
-	pthread_mutex_lock(&(simul->mutex_time_meal));
-	time_diff = get_time() - simul->arr_philo[i].time_last_meal;
-	pthread_mutex_unlock(&(simul->mutex_time_meal));
-	if (time_diff >= simul->time_die)
-	{
-		pthread_mutex_lock(&(simul->mutex_flag_dead));
-		simul->flag_dead = TRUE;
-		pthread_mutex_unlock(&(simul->mutex_flag_dead));
-		mutex_printf(simul, "died", simul->arr_philo[i].id);
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-void	cnt_fin(t_simul *simul, int i, int *flag_cnt)
-{
-	pthread_mutex_lock(&(simul->mutex_num_meal));
-	if (simul->arr_philo[i].num_meal >= simul->num_must_eat)
-		(*flag_cnt)++;
-	pthread_mutex_unlock(&(simul->mutex_num_meal));
-}
-
-t_bool	check_fin(t_simul *simul, int flag_cnt)
-{
-	if ((flag_cnt == simul->num_philo) && (simul->num_must_eat != 0))
-	{
-		pthread_mutex_lock(&(simul->mutex_flag_finish));
-		simul->flag_finish = TRUE;
-		pthread_mutex_unlock(&(simul->mutex_flag_finish));
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-void	monitoring(t_simul *simul)
-{
-	int			flag_cnt;
-	long long	time_diff;
-	int			temp_num_meal;
-	int			i;
-
-	while (1)
-	{
-		if (check_flag(simul) == TRUE)
-			break ;
-		flag_cnt = 0;
-		i = 0;
-		while (i < simul->num_philo)
-		{
-			check_death(simul, i);
-			cnt_fin(simul, i, &flag_cnt);
-			i++;
-		}
-		if (check_fin(simul, flag_cnt) == TRUE)
-			break ;
-	}
-}
-
-void	terminate_thread(t_simul *simul)
-{
-	int	i;
-
-	i = 0;
-	while (i < simul->num_philo)
-	{
-		pthread_join(simul->arr_philo[i].tid, NULL);
-		i++;
-	}
-}
-
-void	terminate_mutex(t_simul *simul)
-{
-	int	i;
-
-	i = 0;
-	while (i < simul->num_philo)
-	{
-		pthread_mutex_destroy(&(simul->arr_forks[i]));
-		i++;
-	}
-	pthread_mutex_destroy(&(simul->mutex_print));
-	pthread_mutex_destroy(&(simul->mutex_flag_dead));
-	pthread_mutex_destroy(&(simul->mutex_flag_finish));
-	pthread_mutex_destroy(&(simul->mutex_num_meal));
-	pthread_mutex_destroy(&(simul->mutex_time_meal));
-}
-
-void free_all(t_simul *simul)
-{
-	free(simul->arr_forks);
-	free(simul->arr_philo);
-	free(simul);
-}
 
 int	main(int argc, char **argv)
 {
@@ -491,31 +254,134 @@ int	main(int argc, char **argv)
 	if (!(argc == 5 || argc == 6))
 		return (ft_p_error("Error: wrong argument\n"));
 //argv 저장
-	take_argv_to_simul(argc, argv, simul);
+	simul->num_philo = ft_atoi(argv[NUM_OF_PHILO]);
+	simul->time_die = ft_atoi(argv[TIME_TO_DIE]);
+	simul->time_eat = ft_atoi(argv[TIME_TO_EAT]);
+	simul->time_sleep = ft_atoi(argv[TIME_TO_SLEEP]);
+	if (argc == 5)
+		simul->num_must_eat = 0;
+	else if (argc == 6)
+		simul->num_must_eat = ft_atoi(argv[NUM_MUST_EAT]);
 //argv 값 검증
-	if ((check_argv(simul, argc)) == FALSE)
+	if (simul->num_philo < 1)
+		return (ft_p_error("Error: wrong argument\n"));
+	if (simul->num_must_eat == 0 && argc == 6)
 		return (ft_p_error("Error: wrong argument\n"));
 //구조체 나머지 초기화.
-	init_simul(simul);
+	simul->flag_dead = FALSE;
+	simul->flag_finish = FALSE;
+	simul->time_launch = 0;
 //philo 생성
+	simul->arr_philo = (t_philo *)malloc(sizeof(t_philo) * simul->num_philo);
 //philo 초기화
-	init_philo(simul);
+	for (int i=0; i<simul->num_philo; i++)
+	{
+		simul->arr_philo[i].id = i + 1;
+		simul->arr_philo[i].l_fork = i;
+		simul->arr_philo[i].r_fork = i + 1;
+		if (i == simul->num_philo - 1)
+			simul->arr_philo[i].r_fork = 0;
+		simul->arr_philo[i].time_last_meal = 0;
+		simul->arr_philo[i].num_meal = 0;
+		simul->arr_philo[i].simul = simul;
+	}
 //mutex 포크
-	if (init_mutex_forks(simul) == FALSE)
+	simul->arr_forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * simul->num_philo);
+	for (int i=0; i<simul->num_philo; i++)
+	{
+		if (pthread_mutex_init(&(simul->arr_forks[i]), NULL) != 0)
 			return (ft_p_error("Error: pthread_mutex_init\n"));
+	}
 //mutex 나머지들
-	if (init_mutex_others(simul) == FALSE)
+	if (pthread_mutex_init(&(simul->mutex_flag_dead), NULL) != 0)
+		return (ft_p_error("Error: pthread_mutex_init\n"));
+	if (pthread_mutex_init(&(simul->mutex_flag_finish), NULL) != 0)
+		return (ft_p_error("Error: pthread_mutex_init\n"));
+	if (pthread_mutex_init(&(simul->mutex_print), NULL)!= 0)
+		return (ft_p_error("Error: pthread_mutex_init\n"));
+	if (pthread_mutex_init(&(simul->mutex_time_meal), NULL)!= 0)
+		return (ft_p_error("Error: pthread_mutex_init\n"));
+	if (pthread_mutex_init(&(simul->mutex_num_meal), NULL)!= 0)
 		return (ft_p_error("Error: pthread_mutex_init\n"));
 //시작 시간 넣어주고, 스레드 창조
-	if (create_thread(simul) == FALSE)
+	simul->time_launch = get_time();
+	for (int i=0; i<simul->num_philo; i++)
+	{
+		pthread_mutex_lock(&(simul->mutex_time_meal));
+		simul->arr_philo[i].time_last_meal = simul->time_launch;
+		pthread_mutex_unlock(&(simul->mutex_time_meal));
+		if (pthread_create(&(simul->arr_philo[i].tid), NULL, pthread_func, (void *)&(simul->arr_philo[i])))
 			return (ft_p_error("Error: pthread_create\n"));
+	}
 //죽음, 종료 플래그 확인
-	monitoring(simul);
+	int	flag_cnt;
+	// t_bool	temp_flag;
+	long long	time_diff;
+	int	temp_num_meal;
+	while (1)
+	{
+		pthread_mutex_lock(&(simul->mutex_flag_dead));
+		if (simul->flag_dead == TRUE)
+		{
+			pthread_mutex_unlock(&(simul->mutex_flag_dead));
+			break ;
+		}
+		pthread_mutex_unlock(&(simul->mutex_flag_dead));
+		pthread_mutex_lock(&(simul->mutex_flag_finish));
+		if (simul->flag_finish == TRUE)
+		{
+			pthread_mutex_unlock(&(simul->mutex_flag_finish));
+			break ;
+		}
+		pthread_mutex_unlock(&(simul->mutex_flag_finish));
+		flag_cnt = 0;
+		for (int i=0; i<simul->num_philo; i++)
+		{
+			pthread_mutex_lock(&(simul->mutex_time_meal));
+			time_diff = get_time() - simul->arr_philo[i].time_last_meal;
+			pthread_mutex_unlock(&(simul->mutex_time_meal));
+			if (time_diff >= simul->time_die)
+			{
+				pthread_mutex_lock(&(simul->mutex_flag_dead));
+				simul->flag_dead = TRUE;
+				pthread_mutex_unlock(&(simul->mutex_flag_dead));
+				mutex_printf(simul, "died", simul->arr_philo[i].id);
+				break ;
+			}
+			pthread_mutex_lock(&(simul->mutex_num_meal));
+			if (simul->arr_philo[i].num_meal >= simul->num_must_eat)
+			{
+				flag_cnt++;
+			}
+			pthread_mutex_unlock(&(simul->mutex_num_meal));
+		}
+		if ((flag_cnt == simul->num_philo) && (simul->num_must_eat != 0))
+		{
+			pthread_mutex_lock(&(simul->mutex_flag_finish));
+			simul->flag_finish = TRUE;
+			pthread_mutex_unlock(&(simul->mutex_flag_finish));
+			break ;
+		}
+	}
+
 //thread 종료
-	terminate_thread(simul);
+	for (int i=0; i<simul->num_philo; i++)
+	{
+		pthread_join(simul->arr_philo[i].tid, NULL);
+	}
 //mutex 종료
-	terminate_mutex(simul);
+	for (int i=0; i<simul->num_philo; i++)
+	{
+		pthread_mutex_destroy(&(simul->arr_forks[i]));
+	}
+	pthread_mutex_destroy(&(simul->mutex_print));
+	pthread_mutex_destroy(&(simul->mutex_flag_dead));
+	pthread_mutex_destroy(&(simul->mutex_flag_finish));
+	pthread_mutex_destroy(&(simul->mutex_num_meal));
+	pthread_mutex_destroy(&(simul->mutex_time_meal));
 //free
-	free_all(simul);
+	free(simul->arr_forks);
+	free(simul->arr_philo);
+	free(simul);
 	return (0);
 }
