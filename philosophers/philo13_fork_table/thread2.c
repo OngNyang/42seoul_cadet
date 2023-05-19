@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:37:32 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/05/19 22:24:04 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/05/20 00:43:01 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 void	grab_fork(t_philo *philo)
 {
-	pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
-	mutex_printf(philo->simul, "has taken a fork", philo->id);
-	pthread_mutex_lock(&(philo->simul->arr_forks[philo->r_fork]));
-	mutex_printf(philo->simul, "has taken a fork", philo->id);
+	pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork].mutex_status));
+	if (philo->simul->arr_forks[philo->l_fork].status == 0)
+	{
+		pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork].mutex_fork));
+		mutex_printf(philo->simul, "has taken a fork", philo->id);
+		philo->simul->arr_forks[philo->l_fork].status = 1;
+	}
+	pthread_mutex_unlock(&(philo->simul->arr_forks[philo->l_fork].mutex_status));
+
+	// pthread_mutex_lock(&(philo->simul->arr_forks[philo->l_fork]));
+	// mutex_printf(philo->simul, "has taken a fork", philo->id);
+	// pthread_mutex_lock(&(philo->simul->arr_forks[philo->r_fork]));
+	// mutex_printf(philo->simul, "has taken a fork", philo->id);
 }
 
 void	dining(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:33:12 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/05/19 22:35:33 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/05/20 00:28:58 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	*pthread_func(void *arg)
 		grab_fork(philo);
 		dining(philo);
 		put_down_fork(philo);
-		// if (check_flag_fin(philo) == TRUE)
 		if (check_flag(philo->simul) == TRUE)
 			break ;
 		sleeping(philo);

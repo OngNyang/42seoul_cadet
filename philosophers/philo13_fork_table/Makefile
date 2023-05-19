@@ -6,7 +6,7 @@
 #    By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/19 12:45:04 by hyejeong          #+#    #+#              #
-#    Updated: 2023/05/19 23:05:10 by hyejeong         ###   ########.fr        #
+#    Updated: 2023/05/19 22:59:47 by hyejeong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS	=	atoi.c\
 
 OBJS	= $(SRCS:%.c=%.o)
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 
 all		: $(NAME)
 

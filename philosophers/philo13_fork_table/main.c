@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:23:41 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/05/19 20:45:54 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/05/19 23:48:17 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*case_one_func(void *arg)
 	time_launch = get_time();
 	now = get_time();
 	end_time = time_launch + simul->time_die;
-	printf("0 1 has taken a fork\n");
+	printf("0 1 has taken fork\n");
 	while (now <= end_time)
 	{
 		usleep(10);

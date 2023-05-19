@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:33:12 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/05/19 17:31:19 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:50:32 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	slow_start(t_philo *philo)
 {
 	if (philo->id % 2 == 1)
-		usleep(100);
+		usleep(1000);
 }
 
 void	*pthread_func(void *arg)
