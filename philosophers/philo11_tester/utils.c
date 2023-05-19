@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:25:44 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/05/19 15:52:44 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:03:43 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	mutex_printf(t_simul *simul, char *str, int id)
 	printf("%lld %d %s\n", get_time() - simul->time_launch, id, str);
 	pthread_mutex_unlock(&(simul->mutex_print));
 }
+
+
 
 void	pthread_usleep(t_simul *simul, long long time)
 {

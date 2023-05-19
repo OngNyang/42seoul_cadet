@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:37:32 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/05/19 17:44:01 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:21:37 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,6 @@ void	put_down_fork(t_philo *philo)
 	pthread_mutex_unlock(&(philo->simul->mutex_num_meal));
 }
 
-t_bool	check_flag_fin(t_philo *philo)
-{
-	pthread_mutex_lock(&(philo->simul->mutex_flag_finish));
-	if (philo->simul->flag_finish == TRUE)
-	{
-		pthread_mutex_unlock(&(philo->simul->mutex_flag_finish));
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&(philo->simul->mutex_flag_finish));
-	return (FALSE);
-}
 
 void	sleeping(t_philo *philo)
 {

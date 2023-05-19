@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:25:44 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/05/19 18:02:47 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:13:18 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,34 @@ long long	get_time(void)
 	return (time_as_millisec);
 }
 
+// void	mutex_printf(t_simul *simul, char *str, int id)
+// {
+// 	pthread_mutex_lock(&(simul->mutex_print));
+// 	pthread_mutex_lock(&(simul->mutex_flag_dead));
+// 	if (simul->flag_dead == TRUE)
+// 	{
+// 		pthread_mutex_unlock(&(simul->mutex_flag_dead));
+// 		pthread_mutex_unlock(&(simul->mutex_print));
+// 		return ;
+// 	}
+// 	pthread_mutex_unlock(&(simul->mutex_flag_dead));
+// 	printf("%lld %d %s\n", get_time() - simul->time_launch, id, str);
+// 	pthread_mutex_unlock(&(simul->mutex_print));
+// }
+
 void	mutex_printf(t_simul *simul, char *str, int id)
 {
+	t_bool	temp_flag;
+
+	pthread_mutex_lock(&(simul->mutex_flag_finish));
+	temp_flag = simul->flag_finish;
+	pthread_mutex_unlock(&(simul->mutex_flag_finish));
 	pthread_mutex_lock(&(simul->mutex_print));
-	pthread_mutex_lock(&(simul->mutex_flag_dead));
-	if (simul->flag_dead == TRUE)
+	if (temp_flag == TRUE)
 	{
-		pthread_mutex_unlock(&(simul->mutex_flag_dead));
 		pthread_mutex_unlock(&(simul->mutex_print));
 		return ;
 	}
-	pthread_mutex_unlock(&(simul->mutex_flag_dead));
 	printf("%lld %d %s\n", get_time() - simul->time_launch, id, str);
 	pthread_mutex_unlock(&(simul->mutex_print));
 }
@@ -51,25 +68,25 @@ void	pthread_usleep(t_simul *simul, long long time)
 
 	now = get_time();
 	end_time = now + time;
-	pthread_mutex_lock(&(simul->mutex_flag_dead));
-	temp_flag = simul->flag_dead;
-	pthread_mutex_unlock(&(simul->mutex_flag_dead));
+	pthread_mutex_lock(&(simul->mutex_flag_finish));
+	temp_flag = simul->flag_finish;
+	pthread_mutex_unlock(&(simul->mutex_flag_finish));
 	while ((temp_flag == FALSE) && now <= end_time)
 	{
-		usleep(10);
+		usleep(100);
 		now = get_time();
 	}
 }
 
 t_bool	check_flag(t_simul *simul)
 {
-	pthread_mutex_lock(&(simul->mutex_flag_dead));
-	if (simul->flag_dead == TRUE)
-	{
-		pthread_mutex_unlock(&(simul->mutex_flag_dead));
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&(simul->mutex_flag_dead));
+	// pthread_mutex_lock(&(simul->mutex_flag_dead));
+	// if (simul->flag_dead == TRUE)
+	// {
+	// 	pthread_mutex_unlock(&(simul->mutex_flag_dead));
+	// 	return (TRUE);
+	// }
+	// pthread_mutex_unlock(&(simul->mutex_flag_dead));
 	pthread_mutex_lock(&(simul->mutex_flag_finish));
 	if (simul->flag_finish == TRUE)
 	{
