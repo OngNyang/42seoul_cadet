@@ -1,13 +1,15 @@
 #include "main.hpp"
 
-void	print_simple_ver(PhoneBook *phonebook)
+void	print_simple_ver(PhoneBook *phonebook, int idx)
 {
+	if (idx >= 8)
+		idx = 8;
 	std::cout << "\033[32m";
 	std::cout << "index     " << "|";
 	std::cout << "first name" << "|";
 	std::cout << "last name " << "|";
 	std::cout << "nick name " << std::endl;
-	for (int i=0; i<8; i++)
+	for (int i=0; i < idx; i++)
 	{
 		std::cout << i << "         " << "|";
 		print_ten((*phonebook).getter_fn(i));
@@ -73,7 +75,7 @@ int	main(void)
 		}
 		else if (cmd == "SEARCH")
 		{
-			print_simple_ver(&phonebook);
+			print_simple_ver(&phonebook, i);
 			std::cout << "> ";
 			std::string	choice;
 			std::getline(std::cin, choice);
