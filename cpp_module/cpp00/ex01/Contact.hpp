@@ -1,7 +1,13 @@
 #ifndef CONTACT_HPP
 # define CONTACT_HPP
 
-# include "main.hpp"
+#ifndef MAIN_HPP
+# define MAIN_HPP
+
+# include <iostream>
+# include <iomanip>
+
+#endif
 
 class Contact
 {

@@ -1,7 +1,8 @@
 NAME	=	phonebook
 SRCS	=	main.cpp\
 			Contact.cpp\
-			PhoneBook.cpp
+			PhoneBook.cpp\
+			utils.cpp
 
 OBJS	= $(SRCS:%.cpp=%.o)
 CC		= c++
