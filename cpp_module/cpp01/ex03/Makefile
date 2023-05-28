@@ -1,5 +1,9 @@
-NAME	=	brain
-SRCS	=	main.cpp
+NAME	=	violence
+SRCS	=	main.cpp\
+			Weapon.cpp\
+			HumanA.cpp\
+			HumanB.cpp
+
 
 OBJS	= $(SRCS:%.cpp=%.o)
 CC		= c++
