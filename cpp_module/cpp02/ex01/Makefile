@@ -1,6 +1,5 @@
-NAME	=	orthodox
-SRCS	=	main.cpp\
-			Fixed.cpp
+NAME	=	fixed
+SRCS	=	main.cpp
 
 OBJS	= $(SRCS:%.cpp=%.o)
 CC		= c++

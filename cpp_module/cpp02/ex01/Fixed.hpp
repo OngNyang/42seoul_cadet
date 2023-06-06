@@ -11,10 +11,14 @@ class	Fixed
 	public:
 			Fixed(void);
 			Fixed(const Fixed& obj);
+			Fixed(const int n);
+			Fixed(const float f);
 			~Fixed(void);
 			Fixed&	operator=(const Fixed& obj);
 			int		getRawBits(void) const;
 			void	setRawBits(int const raw);
+			float	toFloat(void) const;
+			int		toInt(void) const;
 
 };
 
