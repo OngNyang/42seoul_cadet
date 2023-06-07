@@ -11,7 +11,8 @@ void	print_simple_ver(PhoneBook *phonebook, int idx)
 	std::cout << "nick name " << std::endl;
 	for (int i=0; i < idx; i++)
 	{
-		std::cout << i << "         " << "|";
+		// std::cout << "         " << i << "|";
+		std::cout << std::setw(10) << std::right << i << "|";
 		print_ten((*phonebook).getter_fn(i));
 		std::cout << "|";
 		print_ten((*phonebook).getter_ln(i));
@@ -48,9 +49,9 @@ int	main(void)
 	int			i = 0;
 
 	std::cout << "\033[32m";
-	std::cout << " -----------" << std::endl;
-	std::cout << "| PhoneBook |" << std::endl;
-	std::cout << " -----------" << std::endl;
+	std::cout << "      -----------" << std::endl;
+	std::cout << "     | PhoneBook |" << std::endl;
+	std::cout << "      -----------" << std::endl;
 	std::cout << "available : ADD, SEARCH, EXIT" << std::endl;
 	std::cout << "\033[0m";
 	while (1)

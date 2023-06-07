@@ -12,6 +12,4 @@ std::string	get_info(std::string str);
 void		print_ten(std::string str);
 bool		check_choice(std::string str);
 
-
-
 #endif
