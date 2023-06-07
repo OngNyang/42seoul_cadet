@@ -21,14 +21,31 @@ class	Fixed
 
 			Fixed&	operator=(const Fixed& obj);
 
+//comparison operators
 			bool	operator>(const Fixed& obj) const;
 			bool	operator<(const Fixed& obj) const;
 			bool	operator>=(const Fixed& obj) const;
 			bool	operator<=(const Fixed& obj) const;
 			bool	operator==(const Fixed& obj) const;
 			bool	operator!=(const Fixed& obj) const;
-			Fixed	Fixed::operator+(const Fixed& obj) const;
-			
+
+//arithmetic operators
+			Fixed	operator+(const Fixed& obj) const;
+			Fixed	operator-(const Fixed& obj) const;
+			Fixed	operator*(const Fixed& obj) const;
+			Fixed	operator/(const Fixed& obj) const;
+
+//increment/decrement operators
+			Fixed&	operator++(void);
+			Fixed	operator++(int);
+			Fixed&	operator--(void);
+			Fixed	operator--(int);
+
+//static member function
+			static Fixed&		min(Fixed& a, Fixed& b);
+			static const Fixed&	min(const Fixed& a, const Fixed& b);
+			static Fixed&		max(Fixed& a, Fixed& b);
+			static const Fixed&	max(const Fixed& a, const Fixed& b);
 };
 
 #endif
