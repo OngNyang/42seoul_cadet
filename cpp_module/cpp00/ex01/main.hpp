@@ -10,6 +10,8 @@
 bool		all_white_space(std::string str);
 std::string	get_info(std::string str);
 void		print_ten(std::string str);
-bool		check_choice(std::string str);
+// bool		check_choice(std::string str);
+int	string_to_int(const std::string& str);
+
 
 #endif

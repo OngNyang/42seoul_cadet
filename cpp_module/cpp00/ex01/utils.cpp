@@ -60,23 +60,41 @@ void	print_ten(std::string str)
 	}
 }
 
-
-bool check_choice(std::string str)
+int	string_to_int(const std::string& str)
 {
-	int choice = -1;
-
-	if (str.length() == 1)
+	if (str.length() != 1)
+		return (-1);
+	else
 	{
-		try
-		{
-			choice = std::stoi(str);
-		}
-		catch(...)
-		{
-			return (false);
-		}
-		if (0 <= choice && choice <= 7)
-			return (true);
+		if (!('0' <= str[0] && str[0] <= '7'))
+			return (-1);
+		else
+			return (str[0] - '0');
 	}
-	return false;
 }
+
+// bool check_choice(std::string str)
+// {
+// 	// int choice = -1;
+
+// 	// if (str.length() == 1)
+// 	// {
+// 	// 	try
+// 	// 	{
+// 	// 		choice = std::stoi(str);
+// 	// 	}
+// 	// 	catch(...)
+// 	// 	{
+// 	// 		return (false);
+// 	// 	}
+// 	// 	if (0 <= choice && choice <= 7)
+// 	// 		return (true);
+// 	// }
+// 	// return false;
+// 	int	choice = string_to_int(str);
+
+// 	if (choice == -1)
+// 		return (false);
+// 	else
+
+// }

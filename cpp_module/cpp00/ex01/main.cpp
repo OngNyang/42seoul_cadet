@@ -1,5 +1,6 @@
 #include "main.hpp"
 
+
 void	print_simple_ver(PhoneBook *phonebook, int idx)
 {
 	if (idx >= 8)
@@ -24,9 +25,9 @@ void	print_simple_ver(PhoneBook *phonebook, int idx)
 	std::cout << "\033[0m";
 }
 
-void	print_specific_ver(PhoneBook *phonebook, std::string choice)
+void	print_specific_ver(PhoneBook *phonebook, int choice_n)
 {
-	int	choice_n = stoi(choice);
+	// int	choice_n = stoi(choice);
 	
 	std::cout << "\033[32m";
 	std::cout << "first name     : ";
@@ -82,8 +83,11 @@ int	main(void)
 			std::getline(std::cin, choice);
 			if (std::cin.eof())
 				exit(1);
-			if (check_choice(choice) == true)
-				print_specific_ver(&phonebook, choice);
+			// if (check_choice(choice) == true)
+			// 	print_specific_ver(&phonebook, choice);
+			int num = string_to_int(choice);
+			if (num != -1)
+				print_specific_ver(&phonebook, num);
 			else
 				std::cout << "\033[32m" << "help: inappropriate choice" << std::endl << "\033[0m";
 		}
