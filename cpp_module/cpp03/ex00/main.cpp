@@ -8,7 +8,7 @@ class	ClapTrap
 			int			energy_points;
 			int			attack_damage;
 	public:
-			// ClapTrap(void);
+			ClapTrap(void);
 			ClapTrap(std::string name);
 			ClapTrap(const ClapTrap& obj);
 			~ClapTrap(void);
@@ -17,6 +17,15 @@ class	ClapTrap
 			void	takeDamage(unsigned int amount);
 			void	beRepaired(unsigned int amount);
 };
+
+ClapTrap::ClapTrap(void)
+{
+	this->name = "unknown";
+	this->hit_points = 10;
+	this->energy_points = 10;
+	this->attack_damage = 0;
+	std::cout << name << " ClapTrap is constructed." << std::endl;
+}
 
 ClapTrap::ClapTrap(std::string name)
 {
@@ -54,6 +63,10 @@ ClapTrap&	ClapTrap::operator=(const ClapTrap& obj)
 	return (*this);
 }
 
+void	ClapTrap::attack(const std::string& target)
+{
+	
+}
 
 
 int main(void)
