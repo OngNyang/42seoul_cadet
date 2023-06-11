@@ -35,21 +35,6 @@ std::string	get_info(std::string str)
 
 void	print_ten(std::string str)
 {
-	// if (str.length() >= 10)
-	// {
-	// 	for (int i=0; i<9; i++)
-	// 	{
-	// 		std::cout << str[i];
-	// 	}
-	// 	std::cout << ".";
-	// }
-	// else
-	// {
-	// 	std::cout << str;
-	// 	for (unsigned long i=0; i<(10 - str.length()); i++)
-	// 		std::cout << " ";
-	// }
-
 	if (str.length() >= 10)
 	{
 		std::cout << std::setw(10) << std::right << (str.substr(0, 9) + ".");
@@ -72,29 +57,3 @@ int	string_to_int(const std::string& str)
 			return (str[0] - '0');
 	}
 }
-
-// bool check_choice(std::string str)
-// {
-// 	// int choice = -1;
-
-// 	// if (str.length() == 1)
-// 	// {
-// 	// 	try
-// 	// 	{
-// 	// 		choice = std::stoi(str);
-// 	// 	}
-// 	// 	catch(...)
-// 	// 	{
-// 	// 		return (false);
-// 	// 	}
-// 	// 	if (0 <= choice && choice <= 7)
-// 	// 		return (true);
-// 	// }
-// 	// return false;
-// 	int	choice = string_to_int(str);
-
-// 	if (choice == -1)
-// 		return (false);
-// 	else
-
-// }

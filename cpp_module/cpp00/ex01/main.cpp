@@ -12,7 +12,6 @@ void	print_simple_ver(PhoneBook *phonebook, int idx)
 	std::cout << "nick name " << std::endl;
 	for (int i=0; i < idx; i++)
 	{
-		// std::cout << "         " << i << "|";
 		std::cout << std::setw(10) << std::right << i << "|";
 		print_ten((*phonebook).getter_fn(i));
 		std::cout << "|";
@@ -27,8 +26,6 @@ void	print_simple_ver(PhoneBook *phonebook, int idx)
 
 void	print_specific_ver(PhoneBook *phonebook, int choice_n)
 {
-	// int	choice_n = stoi(choice);
-	
 	std::cout << "\033[32m";
 	std::cout << "first name     : ";
 	std::cout << (*phonebook).getter_fn(choice_n) << std::endl;
@@ -83,8 +80,6 @@ int	main(void)
 			std::getline(std::cin, choice);
 			if (std::cin.eof())
 				exit(1);
-			// if (check_choice(choice) == true)
-			// 	print_specific_ver(&phonebook, choice);
 			int num = string_to_int(choice);
 			if (num != -1)
 				print_specific_ver(&phonebook, num);
