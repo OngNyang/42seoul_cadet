@@ -31,6 +31,7 @@ class	Dog :public Animal
 			void	makeSound(void);
 };
 
+//Animal class implement
 Animal::Animal(void)
 {
 	this->type = "Animal";
@@ -61,29 +62,129 @@ Animal&	Animal::operator=(const Animal& obj)
 	else
 	{
 		this->type = obj.type;
-		std::cout << "Copy assignment "
+		std::cout << this->type << " Animal class is copy-assigned." << std::endl;
 		return (*this);
 	}
 }
 
 Animal::~Animal(void)
 {
-
+	std::cout << this->type << " Animal class is destructed." << std::endl;
 }
 
-
-
-int	main(void)
+//Cat class implement
+Cat::Cat(void)
 {
-	const Animal*	meta = new Animal();
-	const Animal*	j = new Dog();
-	const Animal*	i = new Cat();
-
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound();
-	j->makeSound();
-	meta->makeSound();
-
-	return (0);
+	this->type = "Cat";
+	std::cout << this->type << " Cat class is constructed by default." << std::endl;
 }
+
+Cat::Cat(const Cat& obj)
+{
+	if (this == &obj)
+	{
+		std::cout << "Copy constructor for itself. refused." << std::endl;
+		return ;
+	}
+	else
+	{
+		this->type = obj.type;
+		std::cout << this->type << " Cat class is copy-constructed." << std::endl;
+	}
+}
+
+Cat&	Cat::operator=(const Cat& obj)
+{
+	if (this == &obj)
+	{
+		std::cout << "Copy assignment for itself. refused." << std::endl;
+		return (*this);
+	}
+	else
+	{
+		this->type = obj.type;
+		std::cout << this->type << " Cat class is copy-assigned." << std::endl;
+		return (*this);
+	}
+}
+
+Cat::~Cat(void)
+{
+	std::cout << this->type << " Cat class is destructed." << std::endl;
+}
+
+void	Cat::makeSound(void)
+{
+	std::cout << "Meow~" << std::endl;
+}
+
+//Dog class implement
+Dog::Dog(void)
+{
+	this->type = "Dog";
+	std::cout << this->type << " Dog class is constructed by default." << std::endl;
+}
+
+Dog::Dog(const Dog& obj)
+{
+	if (this == &obj)
+	{
+		std::cout << "Copy constructor for itself. refused." << std::endl;
+		return ;
+	}
+	else
+	{
+		this->type = obj.type;
+		std::cout << this->type << " Dog class is copy-constructed." << std::endl;
+	}
+}
+
+Dog&	Dog::operator=(const Dog& obj)
+{
+	if (this == &obj)
+	{
+		std::cout << "Copy assignment for itself. refused." << std::endl;
+		return (*this);
+	}
+	else
+	{
+		this->type = obj.type;
+		std::cout << this->type << " Dog class is copy-assigned." << std::endl;
+		return (*this);
+	}
+}
+
+Dog::~Dog(void)
+{
+	std::cout << this->type << " Dog class is destructed." << std::endl;
+}
+
+void	Dog::makeSound()
+{
+	std::cout << "Bark!" << std::endl;
+}
+
+
+int main(void)
+{
+	Cat*	i = new Cat();
+
+	i->makeSound();
+	delete i;
+}
+
+
+// int	main(void)
+// {
+// 	const Animal*	meta = new Animal();
+// 	const Animal*	j = new Dog();
+// 	const Animal*	i = new Cat();
+
+// 	std::cout << j->getType() << " " << std::endl;
+// 	std::cout << i->getType() << " " << std::endl;
+// 	i->makeSound();
+// 	j->makeSound();
+// 	meta->makeSound();
+
+// 	return (0);
+// }
