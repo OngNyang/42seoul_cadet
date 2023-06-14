@@ -1,5 +1,10 @@
 #include "Zombie.hpp"
 
+Zombie::Zombie(void)
+{
+	name = "default";
+}
+
 Zombie::Zombie(std::string str)
 {
 	name = str;

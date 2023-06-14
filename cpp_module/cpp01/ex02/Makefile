@@ -1,4 +1,4 @@
-NAME	=	brain
+NAME	=	hi_this_is_brain
 SRCS	=	main.cpp
 
 OBJS	= $(SRCS:%.cpp=%.o)

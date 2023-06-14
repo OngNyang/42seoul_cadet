@@ -9,5 +9,6 @@ int	main(void)
 	{
 		zombie_horde[i].announce();
 	}
+	
 	delete [] zombie_horde;
 }
