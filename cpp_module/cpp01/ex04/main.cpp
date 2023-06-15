@@ -26,14 +26,14 @@ int	main(int argc, char **argv)
 	std::string	s1 = argv[2];
 	std::string	s2 = argv[3];
 
-	std::ifstream inputFile(filename);
+	std::ifstream	inputFile(filename);
 	if (!inputFile)
 	{
 		std::cout << "Error: opening input file" << std::endl;
 		return (1);
 	}
 
-	std::ofstream outputFile(filename + ".replace");
+	std::ofstream	outputFile(filename + ".replace");
 	if (!outputFile)
 	{
 		std::cout << "Error: creating output file" << std::endl;
