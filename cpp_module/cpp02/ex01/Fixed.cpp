@@ -53,20 +53,24 @@ Fixed& Fixed::operator=(const Fixed& obj)
 
 int		Fixed::getRawBits(void) const
 {
+	std::cout << "getRawBits called." << std::endl;
 	return (this->fixed_point_num_val);
 }
 
 void	Fixed::setRawBits(int const raw)
 {
+	std::cout << "setRawBits called." << std::endl;
 	this->fixed_point_num_val = raw;
 }
 
 float	Fixed::toFloat(void) const
 {
+	std::cout << "toFloat called." << std::endl;
 	return ((static_cast<float>(this->fixed_point_num_val)) / (1 << this->num_fractional_bits));
 }
 
 int		Fixed::toInt(void) const
 {
+	std::cout << "toInt called." << std::endl;
 	return (this->fixed_point_num_val >> this->num_fractional_bits);
 }
