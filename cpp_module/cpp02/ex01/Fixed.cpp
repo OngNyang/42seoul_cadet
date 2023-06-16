@@ -8,8 +8,16 @@ Fixed::Fixed(void)
 
 Fixed::Fixed(const Fixed& obj)
 {
-	std::cout << "Copy constructor called" << std::endl;
-	this->fixed_point_num_val = obj.getRawBits();
+	if (this == &obj)
+	{
+		std::cout << "Copy constructor for itself. refused." << std::endl;
+		return ;
+	}
+	else
+	{
+		std::cout << "Copy constructor called" << std::endl;
+		this->fixed_point_num_val = obj.getRawBits();
+	}
 }
 
 Fixed::Fixed(const int n)
@@ -31,9 +39,13 @@ Fixed::~Fixed(void)
 
 Fixed& Fixed::operator=(const Fixed& obj)
 {
-	std::cout << "Copy assignment operator called" << std::endl;
-	if (this != &obj)
+	if (this == &obj)
 	{
+		std::cout << "Copy assignment for itself. refused." << std::endl;
+	}
+	else
+	{
+		std::cout << "Copy assignment operator called" << std::endl;
 		this->fixed_point_num_val = obj.getRawBits();
 	}
 	return (*this);
