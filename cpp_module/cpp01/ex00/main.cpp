@@ -1,10 +1,10 @@
 #include "Zombie.hpp"
 
-// Zombie*	ret_zombie(void)
+// Zombie	ret_zombie(void)
 // {
 // 	Zombie	zom("hj");
 
-// 	return (&zom);
+// 	return (zom);
 // }
 
 int	main(void)
@@ -15,5 +15,5 @@ int	main(void)
 
 	randomChump("stack zombie");
 
-	// ret_zombie();
+	// Zombie	z = ret_zombie();
 }
