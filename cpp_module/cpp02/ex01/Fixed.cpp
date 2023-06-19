@@ -22,14 +22,24 @@ Fixed::Fixed(const Fixed& obj)
 
 Fixed::Fixed(const int n)
 {
+	// int	sign_bit = n & (1U << 31);
+
 	std::cout << "Int constructor called" << std::endl;
 	this->fixed_point_num_val = n << this->num_fractional_bits;
+	// this->fixed_point_num_val = (this->fixed_point_num_val & ~(1U << 31)) | sign_bit;
 }
 
 Fixed::Fixed(const float f)
 {
+	// int	sign_bit;
+	// if (f >= 0)
+	// 	sign_bit = 0 * (1U << 31);
+	// else
+	// 	sign_bit = 1 * (1U << 31);
+
 	std::cout << "Float constructor called" << std::endl;
 	this->fixed_point_num_val = roundf(f * (1 << this ->num_fractional_bits));
+	// this->fixed_point_num_val = (this->fixed_point_num_val & ~(1U << 31)) | sign_bit;
 }
 
 Fixed::~Fixed(void)
