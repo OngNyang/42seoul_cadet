@@ -4,16 +4,16 @@ SRCS	=	main.cpp\
 			ScavTrap.cpp
 
 OBJS	= $(SRCS:%.cpp=%.o)
-CC		= c++
-CFLAGS	= -Wall -Wextra -Werror -std=c++98
+CXX		= c++
+CXXFLAGS	= -Wall -Wextra -Werror -std=c++98
 
 all		: $(NAME)
 
 $(NAME)	:	$(OBJS)
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+			$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
 %.o		:	%.cpp
-		$(CC) $(CFLAGS) -c $^ -I./ -o $@
+		$(CXX) $(CXXFLAGS) -c $^ -I./ -o $@
 
 clean	:
 		rm -f $(OBJS)

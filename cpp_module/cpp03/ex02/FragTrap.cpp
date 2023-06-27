@@ -25,27 +25,48 @@ FragTrap::~FragTrap(void)
 
 FragTrap::FragTrap(const FragTrap& obj)
 {
-	this->name = obj.name;
-	this->hit_points = obj.hit_points;
-	this->energy_points = obj.energy_points;
-	this->attack_damage = obj.attack_damage;
-	std::cout << name << " FragTrap is copy-constructed." << std::endl;
+	if (this ==  &obj)
+	{
+		std::cout << "copy constructor for itself. refused." << std::endl;
+		return ;
+	}
+	else
+	{
+		this->name = obj.name;
+		this->hit_points = obj.hit_points;
+		this->energy_points = obj.energy_points;
+		this->attack_damage = obj.attack_damage;
+		std::cout << name << " FragTrap is copy-constructed." << std::endl;
+	}
 }
 
 FragTrap&	FragTrap::operator=(const FragTrap &obj)
 {
-	if (this != &obj)
+	if (this == &obj)
+	{
+		std::cout << "copy assignment for itself. refused." << std::endl;
+		return (*this);
+	}
+	else
 	{
 		this->name = obj.name;
+		this->hit_points = obj.hit_points;
+		this->energy_points = obj.energy_points;
+		this->attack_damage = obj.attack_damage;
+		std::cout << obj.name << " FragTrap is copy-assigned." << std::endl;
+		return (*this);
 	}
-	this->hit_points = obj.hit_points;
-	this->energy_points = obj.energy_points;
-	this->attack_damage = obj.attack_damage;
-	std::cout << obj.name << " FragTrap is copy-assigned." << std::endl;
-	return (*this);
 }
 
 void	FragTrap::highFivesGuys(void)
 {
-	std::cout << "FragTrap " << this->name << " wants to high fives." << std::endl;
+	if (this->energy_points == 0 || this->hit_points == 0)
+	{
+		std::cout << "there's no point left." << std::endl;
+		return ;
+	}
+	else
+	{
+		std::cout << "FragTrap " << this->name << " wants to high fives." << std::endl;
+	}
 }

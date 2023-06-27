@@ -25,24 +25,37 @@ ClapTrap::~ClapTrap(void)
 
 ClapTrap::ClapTrap(const ClapTrap& obj)
 {
-	this->name = obj.name;
-	this->hit_points = obj.hit_points;
-	this->energy_points = obj.energy_points;
-	this->attack_damage = obj.attack_damage;
-	std::cout << name << " ClapTrap is copy-constructed." << std::endl;
+	if (this ==  &obj)
+	{
+		std::cout << "copy constructor for itself. refused." << std::endl;
+		return ;
+	}
+	else
+	{
+		this->name = obj.name;
+		this->hit_points = obj.hit_points;
+		this->energy_points = obj.energy_points;
+		this->attack_damage = obj.attack_damage;
+		std::cout << name << " ClapTrap is copy-constructed." << std::endl;
+	}
 }
 
 ClapTrap&	ClapTrap::operator=(const ClapTrap& obj)
 {
-	if (this != &obj)
+	if (this == &obj)
+	{
+		std::cout << "copy assignment for itself. refused." << std::endl;
+		return (*this);
+	}
+	else
 	{
 		this->name = obj.name;
+		this->hit_points = obj.hit_points;
+		this->energy_points = obj.energy_points;
+		this->attack_damage = obj.attack_damage;
+		std::cout << obj.name << " ClapTrap is copy-assigned." << std::endl;
+		return (*this);
 	}
-	this->hit_points = obj.hit_points;
-	this->energy_points = obj.energy_points;
-	this->attack_damage = obj.attack_damage;
-	std::cout << obj.name << " ClapTrap is copy-assigned." << std::endl;
-	return (*this);
 }
 
 void	ClapTrap::attack(const std::string& target)
@@ -70,7 +83,7 @@ void	ClapTrap::beRepaired(unsigned int amount)
 	{
 		this->energy_points--;
 		this->hit_points = this->hit_points + amount;
-		std::cout << "ClapTrap " << this->name << " repairs itself. Now it has " << this->hit_points << "hit points" << std::endl;
+		std::cout << "ClapTrap " << this->name << " repairs itself. Now it has " << this->hit_points << "hit points." << std::endl;
 	}
 }
 

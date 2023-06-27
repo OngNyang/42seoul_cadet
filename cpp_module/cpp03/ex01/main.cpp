@@ -6,6 +6,7 @@ int main(void)
 	ScavTrap	b("beta");
 
 	std::cout << std::endl;
+
 	a.attack("beta");
 	b.takeDamage(a.getter_dmg());
 	std::cout << std::endl;
@@ -19,5 +20,8 @@ int main(void)
 	std::cout << std::endl;
 	a.attack("beta");
 	b.takeDamage(a.getter_dmg());
+	std::cout << std::endl;
+
+	a.guardGate();
 	std::cout << std::endl;
 }

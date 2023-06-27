@@ -168,7 +168,6 @@ void	Dog::makeSound()
 int main(void)
 {
 	Cat*	i = new Cat();
-
 	i->makeSound();
 	delete i;
 }
