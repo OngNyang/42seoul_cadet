@@ -1,5 +1,7 @@
 NAME	=	polymorphism
-SRCS	=	main.cpp
+SRCS	=	main.cpp\
+			Dog.cpp\
+			Cat.cpp
 
 OBJS	= $(SRCS:%.cpp=%.o)
 CC		= c++
