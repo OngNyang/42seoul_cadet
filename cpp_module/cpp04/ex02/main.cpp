@@ -1,13 +1,12 @@
+#include "Animal.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
 
 int main()
 {
-	// const Animal* j = new Dog();
-	// const Animal* i = new Cat();
-
-	// delete j;//should not create a leak delete i;
-	// ...
+//abstract class can not be instantiated.
+	// Animal	ani;
+	// Animal	*ani = new Animal();
 
 	int num_arr = 2;
 	std::cout << "there are " << num_arr << " animals." << std::endl;
