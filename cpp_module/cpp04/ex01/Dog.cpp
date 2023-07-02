@@ -3,6 +3,7 @@
 //Dog class implement
 Dog::Dog(void)
 {
+	this->brain = new Brain();
 	this->type = "Dog";
 	std::cout << this->type << " Dog class is constructed by default." << std::endl;
 }
@@ -16,6 +17,7 @@ Dog::Dog(const Dog& obj)
 	}
 	else
 	{
+		this->brain = new Brain(*(obj.brain));
 		this->type = obj.type;
 		std::cout << this->type << " Dog class is copy-constructed." << std::endl;
 	}
@@ -30,6 +32,17 @@ Dog&	Dog::operator=(const Dog& obj)
 	}
 	else
 	{
+		for (int i=0; i<100; i++)
+		{
+			try
+			{
+				this->brain->setIdeas(obj.brain->getIdeas(i), i);
+			}
+			catch (const std::out_of_range& e)
+			{
+				std::cout << "Invalid index:" << e.what() << std::endl;
+			}
+		}
 		this->type = obj.type;
 		std::cout << this->type << " Dog class is copy-assigned." << std::endl;
 		return (*this);
@@ -38,6 +51,7 @@ Dog&	Dog::operator=(const Dog& obj)
 
 Dog::~Dog(void)
 {
+	delete this->brain;
 	std::cout << this->type << " Dog class is destructed." << std::endl;
 }
 

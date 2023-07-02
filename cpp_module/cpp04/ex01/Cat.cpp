@@ -3,6 +3,7 @@
 //Cat class implement
 Cat::Cat(void)
 {
+	this->brain = new Brain();
 	this->type = "Cat";
 	std::cout << this->type << " Cat class is constructed by default." << std::endl;
 }
@@ -16,6 +17,7 @@ Cat::Cat(const Cat& obj)
 	}
 	else
 	{
+		this->brain = new Brain(*(obj.brain));
 		this->type = obj.type;
 		std::cout << this->type << " Cat class is copy-constructed." << std::endl;
 	}
@@ -30,6 +32,17 @@ Cat&	Cat::operator=(const Cat& obj)
 	}
 	else
 	{
+		for (int i=0; i<100; i++)
+		{
+			try
+			{
+				this->brain->setIdeas(obj.brain->getIdeas(i), i);
+			}
+			catch (const std::out_of_range& e)
+			{
+				std::cout << "Invalid index:" << e.what() << std::endl;
+			}
+		}
 		this->type = obj.type;
 		std::cout << this->type << " Cat class is copy-assigned." << std::endl;
 		return (*this);
@@ -38,6 +51,7 @@ Cat&	Cat::operator=(const Cat& obj)
 
 Cat::~Cat(void)
 {
+	delete this->brain;
 	std::cout << this->type << " Cat class is destructed." << std::endl;
 }
 
