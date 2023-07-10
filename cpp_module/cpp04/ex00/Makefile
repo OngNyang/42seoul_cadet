@@ -1,4 +1,4 @@
-NAME	=	i_dont_want_to_set_the_world_on_fire
+NAME	=	polymorphism
 SRCS	=	main.cpp\
 			Dog.cpp\
 			Cat.cpp\
