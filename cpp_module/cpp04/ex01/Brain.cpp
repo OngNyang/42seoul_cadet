@@ -1,4 +1,5 @@
 #include "Brain.hpp"
+#include <cstddef>
 
 Brain::Brain(void)
 {
@@ -51,8 +52,11 @@ std::string	Brain::getIdeas(int idx)
 		return (this->ideas[idx]);
 	}
 	else
-		throw std::out_of_range("Invalid index");
-	
+	{
+		std::cout << "Invalid index" << std::endl;
+		return ("");
+	}
+		// throw std::out_of_range("Invalid index");
 }
 
 void	Brain::setIdeas(std::string str, int idx)
@@ -63,5 +67,6 @@ void	Brain::setIdeas(std::string str, int idx)
 		std::cout << "no." << idx << " idea is set as ("<< str << ")." << std::endl;
 	}
 	else
-		throw std::out_of_range("Invalid index");
+		std::cout << "Invalid index" << std::endl;
+		// throw std::out_of_range("Invalid index");
 }

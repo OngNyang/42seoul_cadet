@@ -33,16 +33,7 @@ Cat&	Cat::operator=(const Cat& obj)
 	else
 	{
 		for (int i=0; i<100; i++)
-		{
-			try
-			{
-				this->brain->setIdeas(obj.brain->getIdeas(i), i);
-			}
-			catch (const std::out_of_range& e)
-			{
-				std::cout << "Invalid index:" << e.what() << std::endl;
-			}
-		}
+			this->brain->setIdeas(obj.brain->getIdeas(i), i);
 		this->type = obj.type;
 		std::cout << this->type << " Cat class is copy-assigned." << std::endl;
 		return (*this);
