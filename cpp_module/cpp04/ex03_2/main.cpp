@@ -1,5 +1,5 @@
-#include "AMateria.hpp"
-#include "ICharacter.hpp"
+// #include "AMateria.hpp"
+// #include "ICharacter.hpp"
 
 // int	main(void)
 // {
@@ -27,7 +27,9 @@
 // 	return (0);
 // }
 
+#include "Ice.hpp"
+
 int	main(void)
 {
-	
+	Ice i;
 }

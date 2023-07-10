@@ -1,6 +1,7 @@
 NAME	=	interface
 SRCS	=	main.cpp\
-			AMateria.cpp
+			AMateria.cpp\
+			Ice.cpp
 
 OBJS	= $(SRCS:%.cpp=%.o)
 CXX		= c++
