@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 18:38:58 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/02/28 04:58:40 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/03/07 11:30:31 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,32 @@ void	check_map_wall(t_game *game)
 	i_heightght = 0;
 	while (i_heightght < game->height)
 	{
-		if(game->map[i_heightght][0] != '1')
+		if (game->map[i_heightght][0] != '1')
 			p_error("inappropriate wall.\n");
-		if(game->map[i_heightght][game->width - 1] != '1')
+		if (game->map[i_heightght][game->width - 1] != '1')
 			p_error("inappropriate wall.\n");
 		i_heightght++;
+	}
+}
+
+void	check_map_char(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < game->height)
+	{
+		j = 0;
+		while (j < game->width)
+		{
+			if (game->map[i][j] != '0' && game->map[i][j] != '1' \
+			&& game->map[i][j] != 'C' && game->map[i][j] != 'P' \
+			&& game->map[i][j] != 'E')
+				p_error("Wrong character\n");
+			j++;
+		}
+		i++;
 	}
 }
 
@@ -83,21 +104,4 @@ void	check_map_components(t_game *game)
 	}
 	if ((num_exit != 1) || (num_player != 1) || (game->total_coll < 1))
 		p_error("wrong components.\n");
-}
-
-void	check_map_char(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < game->height)
-	{
-		j = 0;
-		while (j < game->width)
-		{
-			if (game->map[i][j] != '0' && game->map[i][j] != '1' && game->map[i][j] != 'E' && game->map[i][j] != 'C' && game->map[i][j] != 'P')
-				p_error("wrong character.\n");
-		}
-	}
 }

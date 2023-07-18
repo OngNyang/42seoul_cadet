@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/03 15:37:22 by hyejeong          #+#    #+#             */
+/*   Updated: 2023/03/03 15:39:00 by hyejeong         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 t_vector	current_position(t_game *game)
@@ -55,10 +67,12 @@ void	move_player(t_game *game, int key_code)
 {
 	t_vector	vect;
 	t_vector	new_vect;
-	
+
 	vect = current_position(game);
 	new_vect = new_position(vect, key_code);
-	if ((game->map[new_vect.i][new_vect.j] == '1') || ((game->map[new_vect.i][new_vect.j] == 'E') && (game->total_coll != game->num_coll)))
+	if ((game->map[new_vect.i][new_vect.j] == '1') \
+	|| ((game->map[new_vect.i][new_vect.j] == 'E') \
+	&& (game->total_coll != game->num_coll)))
 		return ;
 	if (game->map[new_vect.i][new_vect.j] == 'C')
 		game->num_coll++;
@@ -86,4 +100,3 @@ int	hook_key_press(int key_code, t_game *game)
 		esc_game(game);
 	return (0);
 }
-

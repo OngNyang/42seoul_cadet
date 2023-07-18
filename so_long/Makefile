@@ -1,4 +1,16 @@
-NAME		= so_long.out
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/03/03 15:49:13 by hyejeong          #+#    #+#              #
+#    Updated: 2023/03/06 13:37:34 by hyejeong         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME		= so_long
 
 LIBFT		= libft
 LIBFT_LIB	= libft.a
@@ -11,20 +23,21 @@ SRCS		= main.c \
 			  image.c \
 			  init.c \
 			  map_check.c \
+			  map_valid_path.c \
 			  map.c \
 			  move.c
 			  
 
 OBJS 		= $(SRCS:%.c=%.o)
 
-CC			= gcc
+CC			= gcc -g
 CFLAGS		= -Wall -Wextra -Werror
 
 all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
 			make all -C $(LIBFT)/
-			$(CC) -fsanitize=address -o $(NAME) $(OBJS) -Llibft -lft $(MLX_DIR)
+			$(CC) -o $(NAME) $(OBJS) -Llibft -lft $(MLX_DIR)
 
 %.o			:	%.c
 			$(CC) $(CFLAGS) -c $^ -I./ -o $@

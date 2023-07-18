@@ -6,7 +6,7 @@
 /*   By: hyejeong <hyejeong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:12:53 by hyejeong          #+#    #+#             */
-/*   Updated: 2023/02/28 04:59:59 by hyejeong         ###   ########.fr       */
+/*   Updated: 2023/03/06 15:32:33 by hyejeong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@
 # define KEY_W			13
 # define KEY_ESC		53
 
-typedef struct	s_vector
+typedef struct s_vector
 {
 	int	i;
-	int j;
+	int	j;
 }				t_vector;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*player;
 	void	*collectible;
@@ -44,7 +44,7 @@ typedef struct	s_img
 	void	*wall;
 }				t_img;
 
-typedef struct	s_game
+typedef struct s_game
 {
 	void	*mlx;
 	void	*win;
@@ -57,49 +57,37 @@ typedef struct	s_game
 	char	**map;
 }				t_game;
 
-/*
-errors.c
-*/
-int		esc_game(t_game *game);
-void	print_error(char *message, t_game *game);
-void	p_error(char *message);
+int			esc_game(t_game *game);
+void		print_error(char *message, t_game *game);
+void		p_error(char *message);
 
-/*
-init.c
-*/
-void	init_map(t_game *game, char *filename);
-t_img	init_img(void *mlx);
-void	init_s_game(t_game *game);
-void	init_game(t_game *game, char *filename);
+void		render_img(t_game *game);
+void		draw_img(t_game *game, int i, int j);
 
-/*
-map.c
-*/
-int		cnt_line(char *filename);
-void	gnl_ber_to_array(char*filename, t_game *game);
+void		init_map(t_game *game, char *filename);
+t_img		init_img(void *mlx);
+void		init_s_game(t_game *game);
+void		init_game(t_game *game, char *filename);
 
-/*
-map_check.c
-*/
-void	check_map_extension(char *filename);
-void	check_map_rect(t_game *game);
-void	check_map_wall(t_game *game);
-void	check_map_components(t_game *game);
+void		check_map_extension(char *filename);
+void		check_map_rect(t_game *game);
+void		check_map_wall(t_game *game);
+void		check_map_components(t_game *game);
+void		check_map_char(t_game *game);
 
-/*
-image.c
-*/
-void	render_img(t_game *game);
-void	draw_img(t_game *game, int i, int j);
+int			valid_path(t_game *game);
+int			contrast(t_game *game, int **visited);
+void		free_visited(int **visited, t_game *game);
+void		dfs(t_game *game, int **visited, int current_i, int current_j);
+t_vector	start_pos(t_game *game);
 
-/*
-move.c
-*/
+int			cnt_line(char *filename);
+void		gnl_ber_to_array(char*filename, t_game *game);
+
 t_vector	current_position(t_game *game);
 t_vector	new_position(t_vector vect, int key_code);
 void		game_over(t_game *game);
 void		move_player(t_game *game, int key_code);
 int			hook_key_press(int key_code, t_game *game);
-
 
 #endif
